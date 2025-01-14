@@ -1,0 +1,35 @@
+.game-tracker {
+    --max-height: 4rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    background-color: var(--white);
+    width: 100%;
+    padding: var(--spacing-l);
+    border-radius: var(--spacing-m);
+    position: relative;
+}
+
+.game-tracker::after {
+    content: "";
+    width: 2px;
+    height: 100%;
+    max-height: calc(var(--max-height) - var(--spacing-l));
+    background-color: var(--light-gray);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Andra komponenters placering i game-tracker */
+.level-info {
+    position: absolute;
+    left: 50%;
+    top: calc(-1 * var(--spacing-xxxl));
+    transform: translate(-50%);
+    z-index: 2;
+}
+
+.hudinfo:last-of-type {
+    justify-self: end;
+}

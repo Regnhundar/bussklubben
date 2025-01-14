@@ -1,0 +1,28 @@
+.game-board {
+    display: grid;
+    gap: 0;
+    max-width: 31.25rem;
+    width: 100%;
+    aspect-ratio: 1;
+}
+
+.game-board__row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.game-board__row:first-of-type :first-child {
+    border-radius: 10px 0 0 0;
+}
+
+.game-board__row:first-of-type :last-child {
+    border-radius: 0 10px 0 0;
+}
+
+.game-board__row:last-of-type :first-child {
+    border-radius: 0 0 0 10px;
+}
+
+.game-board__row:last-of-type :last-child {
+    border-radius: 0 0 10px 0;
+}

@@ -1,0 +1,60 @@
+.indicator-sign {
+    --after-bg-color: transparent;
+    --after-size: .6rem;
+    --after-offset: calc(var(--after-size) / 2);
+    font-size: .85rem;
+    background-color: var(--after-bg-color);
+    padding: var(--spacing-xs) var(--spacing-s);
+    font-weight: bold;
+    width: fit-content;
+    position: relative;
+    margin: 2rem;
+}
+
+.indicator-sign::after {
+    position: absolute;
+    content: "";
+    width: var(--after-size);
+    height: var(--after-size);
+    background-color: var(--after-bg-color);
+    top: var(--after-top, unset);
+    bottom: var(--after-bottom, unset);
+    left: var(--after-left, unset);
+    right: var(--after-right, unset);
+    transform: var(--after-transform, none);
+    z-index: -1;
+}
+
+.indicator-sign--green {
+    --after-bg-color: var(--bg-primary);
+    color: var(--white);
+}
+
+.indicator-sign--yellow {
+    --after-bg-color: var(--accent1);
+    color: var(--bg-primary);
+}
+
+.indicator-sign--down {
+    --after-bottom: calc(-1 * var(--after-offset));
+    --after-left: 50%;
+    --after-transform: translateX(-50%) rotate(45deg);
+}
+
+.indicator-sign--up {
+    --after-top: calc(-1 * var(--after-offset));
+    --after-left: 50%;
+    --after-transform: translateX(-50%) rotate(45deg);
+}
+
+.indicator-sign--left {
+    --after-left: calc(-1 * var(--after-offset));
+    --after-top: 50%;
+    --after-transform: translateY(-50%) rotate(45deg);
+}
+
+.indicator-sign--right {
+    --after-right: calc(-1 * var(--after-offset));
+    --after-top: 50%;
+    --after-transform: translateY(-50%) rotate(45deg);
+}

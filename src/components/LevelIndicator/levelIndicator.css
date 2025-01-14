@@ -1,0 +1,27 @@
+.level-info {
+    display: grid;
+    place-items: center;
+}
+
+.level-info__message {
+    font-weight: 700;
+    font-size: var(--font-size-m);
+    background-color: var(--accent1);
+    color: var(--bg-primary);
+    padding: var(--spacing-m);
+    border-radius: var(--spacing-m);
+}
+
+.level-info__number {
+    display: grid;
+    place-items: center;
+    background-color: var(--bg-primary);
+    color: var(--white);
+    border-radius: 50%;
+    aspect-ratio: 1;
+    width: 2rem;
+    font-size: var(--font-size-s);
+    font-weight: 700;
+    border: 2px solid var(--white);
+    transform: translateY(calc(-1 * var(--spacing-m)));
+}
