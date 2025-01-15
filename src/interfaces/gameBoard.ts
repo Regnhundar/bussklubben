@@ -2,7 +2,7 @@ export interface GameSquare {
     isActive: boolean;
     isRevealed: boolean;
     timer: number;
-    connections: boolean[];
+    tile: RoadTile;
 }
 export interface GameBoard {
     row5: GameSquare[];
@@ -10,4 +10,8 @@ export interface GameBoard {
     row3: GameSquare[];
     row2: GameSquare[];
     row1: GameSquare[];
+}
+export interface RoadTile {
+    src: string;
+    connections: [boolean, boolean, boolean, boolean];
 }

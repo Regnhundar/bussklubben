@@ -5,8 +5,10 @@
 }
 
 .game-tile__image {
+    aspect-ratio: 1;
     width: 100%;
-    height: 100%;
-    background-color: red;
-    border: 2px solid var(--light-gray);
+    background-color: var(--light-gray);
+    outline: 2px solid var(--light-gray);
+
+    /* border: 2px solid var(--light-gray); */
 }

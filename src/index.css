@@ -46,10 +46,14 @@ body {
 }
 
 .wrapper {
-  margin: 3rem auto 0 auto;
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
   max-width: var(--max-width);
   width: 100%;
-  padding: 0 var(--spacing-s);
-  row-gap: var(--spacing-xl);
+  height: 100svh;
+  padding-inline: var(--spacing-s);
+  padding-block: var(--spacing-xl) var(--spacing-s);
+  margin: 0 auto;
+  /* outline: 2px solid red; */
 }
