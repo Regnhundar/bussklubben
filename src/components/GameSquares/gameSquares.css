@@ -5,14 +5,15 @@
     width: 100%;
     aspect-ratio: 1;
     grid-template-rows: repeat(5, minmax(0, 1fr));
-}
-
-.game-board__row {
-    display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 
-.game-board__row:first-of-type :first-child {
+/* .game-board__row {
+    display: grid;
+
+} */
+
+/* .game-board__row:first-of-type :first-child {
     border-radius: 10px 0 0 0;
 }
 
@@ -26,4 +27,4 @@
 
 .game-board__row:last-of-type :last-child {
     border-radius: 0 0 10px 0;
-}
+} */

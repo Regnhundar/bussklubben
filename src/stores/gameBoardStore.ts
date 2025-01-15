@@ -5,6 +5,7 @@ interface GameBoardStore {
     gameBoard: GameSquare[];
     setGameBoard: (newBoard: GameSquare[] | ((currentBoard: GameSquare[]) => GameSquare[])) => void;
     updateGameSquare: (index: number, updates: Partial<GameSquare>) => void;
+    tilesToSwap: number[];
 }
 
 const useGameBoardStore = create<GameBoardStore>((set) => ({
@@ -17,6 +18,7 @@ const useGameBoardStore = create<GameBoardStore>((set) => ({
         set((state) => ({
             gameBoard: state.gameBoard.map((square, i) => (i === index ? { ...square, ...updates } : square)),
         })),
+    tilesToSwap: [],
 }));
 
 export default useGameBoardStore;

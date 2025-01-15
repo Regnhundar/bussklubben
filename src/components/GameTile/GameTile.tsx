@@ -1,19 +1,27 @@
-import { useState } from 'react';
 import './GameTile.css';
 import { GameSquare } from '../../interfaces/gameBoard';
+import useGameBoardStore from '../../stores/gameBoardStore';
 
 interface Props {
     squareData: GameSquare;
-    rowKey: string;
     index: number;
 }
 
-const GameTile: React.FC<Props> = ({ squareData, rowKey, index }) => {
-    const [isFlipped, setIsFlipped] = useState(false);
+const GameTile: React.FC<Props> = ({ squareData, index }) => {
+    const { updateGameSquare, gameBoard } = useGameBoardStore();
+    let tilePositions: number[] = [];
+    const handleTileMove = () => {
+        if (tilePositions.length > 1) {
+            tilePositions = [];
+        }
+        tilePositions = [...tilePositions, index];
+
+        console.log(tilePositions);
+    };
     return squareData.isRevealed ? (
-        <img src={squareData.tile.src} className='game-tile__image' />
+        <img src={squareData.tile.src} className='game-tile__image' onClick={handleTileMove} />
     ) : (
-        <button className='game-tile' onClick={() => (squareData.isRevealed = true)}></button>
+        <button className='game-tile' onClick={() => updateGameSquare(index, { isRevealed: true })}></button>
     );
 };
 
