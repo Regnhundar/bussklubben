@@ -1,6 +1,7 @@
 import './GameTile.css';
 import { GameSquare } from '../../interfaces/gameBoard';
 import useGameBoardStore from '../../stores/gameBoardStore';
+import { useEffect } from 'react';
 
 interface Props {
     squareData: GameSquare;
@@ -8,20 +9,28 @@ interface Props {
 }
 
 const GameTile: React.FC<Props> = ({ squareData, index }) => {
-    const { updateGameSquare, gameBoard } = useGameBoardStore();
-    let tilePositions: number[] = [];
-    const handleTileMove = () => {
-        if (tilePositions.length > 1) {
-            tilePositions = [];
-        }
-        tilePositions = [...tilePositions, index];
+    const { updateGameSquare, tilesToSwap, setTilesToSwap, swapGameSquares } = useGameBoardStore();
 
-        console.log(tilePositions);
+    const handleTileMove = () => {
+        if (tilesToSwap.length > 1) {
+            setTilesToSwap();
+        }
+        setTilesToSwap(index);
     };
+
+    useEffect(() => {
+        if (tilesToSwap.length === 2) {
+            swapGameSquares(tilesToSwap[0], tilesToSwap[1]);
+        }
+    }, [tilesToSwap]);
+
     return squareData.isRevealed ? (
-        <img src={squareData.tile.src} className='game-tile__image' onClick={handleTileMove} />
+        <img data-tag={index} src={squareData.tile.src} className='game-tile__image' onClick={handleTileMove} />
     ) : (
-        <button className='game-tile' onClick={() => updateGameSquare(index, { isRevealed: true })}></button>
+        <button
+            data-tag={index}
+            className='game-tile'
+            onClick={() => updateGameSquare(index, { isRevealed: true })}></button>
     );
 };
 
