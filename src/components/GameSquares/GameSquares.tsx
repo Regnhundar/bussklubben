@@ -1,57 +1,34 @@
-import { GameBoard } from '../../interfaces/gameBoard';
+// import { gameBoard } from '../../data/gameBoard';
+import { useEffect } from 'react';
+// import { GameBoard, GameSquare } from '../../interfaces/gameBoard';
+import useGameBoardStore from '../../stores/gameBoardStore';
 import GameTile from '../GameTile/GameTile';
 import './gameSquares.css';
+import { createGameBoardArray } from '../../utils/utilityFunctions';
 
-const gameBoard: GameBoard = {
-    row5: [
-        { isActive: false, isRevealed: false, timer: 1, connections: [false, true, false, true] },
-        { isActive: false, isRevealed: false, timer: 1, connections: [false, true, false, true] },
-        { isActive: false, isRevealed: false, timer: 1, connections: [false, true, false, true] },
-        { isActive: false, isRevealed: false, timer: 1, connections: [false, true, false, true] },
-        { isActive: false, isRevealed: false, timer: 1, connections: [false, true, false, true] },
-    ],
-    row4: [
-        { isActive: false, isRevealed: false, timer: 1, connections: [false, true, false, true] },
-        { isActive: false, isRevealed: false, timer: 1, connections: [false, true, false, true] },
-        { isActive: false, isRevealed: false, timer: 1, connections: [false, true, false, true] },
-        { isActive: false, isRevealed: false, timer: 1, connections: [false, true, false, true] },
-        { isActive: false, isRevealed: false, timer: 1, connections: [false, true, false, true] },
-    ],
-    row3: [
-        { isActive: false, isRevealed: false, timer: 1, connections: [false, true, false, true] },
-        { isActive: false, isRevealed: false, timer: 1, connections: [false, true, false, true] },
-        { isActive: false, isRevealed: false, timer: 1, connections: [false, true, false, true] },
-        { isActive: false, isRevealed: false, timer: 1, connections: [false, true, false, true] },
-        { isActive: false, isRevealed: false, timer: 1, connections: [false, true, false, true] },
-    ],
-    row2: [
-        { isActive: false, isRevealed: false, timer: 1, connections: [false, true, false, true] },
-        { isActive: false, isRevealed: false, timer: 1, connections: [false, true, false, true] },
-        { isActive: false, isRevealed: false, timer: 1, connections: [false, true, false, true] },
-        { isActive: false, isRevealed: false, timer: 1, connections: [false, true, false, true] },
-        { isActive: false, isRevealed: false, timer: 1, connections: [false, true, false, true] },
-    ],
-    row1: [
-        { isActive: false, isRevealed: false, timer: 1, connections: [false, true, false, true] },
-        { isActive: false, isRevealed: false, timer: 1, connections: [false, true, false, true] },
-        { isActive: false, isRevealed: false, timer: 1, connections: [false, true, false, true] },
-        { isActive: false, isRevealed: false, timer: 1, connections: [false, true, false, true] },
-        { isActive: false, isRevealed: false, timer: 1, connections: [false, true, false, true] },
-    ],
-};
 const GameSquares: React.FC = () => {
-    console.log(Object.keys(gameBoard));
+    // console.log(Object.keys(gameBoard));
+    const { gameBoard, setGameBoard } = useGameBoardStore();
 
+    useEffect(() => {
+        const gameBoardArray = createGameBoardArray();
+        setGameBoard(gameBoardArray);
+    }, []);
     return (
         <section className='game-board'>
-            {Object.keys(gameBoard).map((rowKey) => (
-                <section key={rowKey} className='game-board__row'>
-                    {gameBoard[rowKey as keyof GameBoard].map((squareData, i) => (
-                        <GameTile key={i} squareData={squareData} />
-                    ))}
-                </section>
+            {gameBoard.map((gameSquare, i) => (
+                <GameTile key={i} squareData={gameSquare} index={i} />
             ))}
         </section>
+        // <section className='game-board'>
+        //     {Object.keys(gameBoard).map((rowKey) => (
+        //         <section key={rowKey} className={`game-board__row game-board__row--${rowKey}`}>
+        //             {gameBoard[rowKey as keyof GameBoard].map((squareData, i) => (
+        //                 <GameTile key={i} squareData={squareData} rowKey={rowKey} index={i} />
+        //             ))}
+        //         </section>
+        //     ))}
+        // </section>
     );
 };
 

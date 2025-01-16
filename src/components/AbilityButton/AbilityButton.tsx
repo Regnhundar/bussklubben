@@ -1,11 +1,15 @@
+import { Ability } from '../../interfaces/ability';
 import './abilityButton.css';
-const AbilityButton: React.FC = () => {
+interface Props {
+    ability: Ability;
+}
+const AbilityButton: React.FC<Props> = ({ ability }) => {
     return (
-        <div className='ability'>
+        <div className={`ability ability--${ability.name}`} onClick={ability.func}>
             <button className='ability__button'>
-                <img src='./images/roadTiles/vertical.svg' alt='vertikal vägbit' className='ability-button__image' />
+                <img src={ability.src} alt={ability.alt} className='ability-button__image' />
             </button>
-            <h3 className='ability-button__name'>BYT</h3>
+            <h3 className='ability-button__name'>{ability.name.toUpperCase()}</h3>
         </div>
     );
 };
