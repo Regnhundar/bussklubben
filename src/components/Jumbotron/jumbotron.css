@@ -1,4 +1,4 @@
-.game-tracker {
+.jumbotron {
     --max-height: 4rem;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -9,7 +9,7 @@
     position: relative;
 }
 
-.game-tracker::after {
+.jumbotron::after {
     content: "";
     width: 2px;
     height: 100%;
@@ -21,7 +21,7 @@
     transform: translate(-50%, -50%);
 }
 
-/* Andra komponenters placering i game-tracker */
+/* Andra komponenters placering i jumbotron */
 .level-info {
     position: absolute;
     left: 50%;
@@ -30,6 +30,6 @@
     z-index: 2;
 }
 
-.hudinfo:last-of-type {
+.jumbotron-info-field:last-of-type {
     justify-self: end;
 }

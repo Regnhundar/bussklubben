@@ -1,39 +1,42 @@
 import { create } from 'zustand';
-import { GameSquare } from '../interfaces/gameBoard';
+import { SquareData } from '../interfaces/gameBoard';
 
 interface GameBoardStore {
-    gameBoard: GameSquare[];
-    setGameBoard: (newBoard: GameSquare[] | ((currentBoard: GameSquare[]) => GameSquare[])) => void;
-    updateGameSquare: (index: number, updates: Partial<GameSquare>) => void;
-    tilesToSwap: number[];
+    gameBoardArray: SquareData[];
+    setGameBoardArray: (newBoard: SquareData[] | ((currentBoard: SquareData[]) => SquareData[])) => void;
+    updateGameSquare: (index: number, updates: Partial<SquareData>) => void;
+    squaresToSwap: number[];
+    setSquaresToSwap: (index?: number) => void;
     swapGameSquares: (index1: number, index2: number) => void;
-    setTilesToSwap: (index?: number) => void;
 }
 
 const useGameBoardStore = create<GameBoardStore>((set) => ({
-    gameBoard: [],
-    setGameBoard: (newBoard) =>
+    gameBoardArray: [],
+    setGameBoardArray: (newBoard) =>
         set((state) => ({
-            gameBoard: typeof newBoard === 'function' ? newBoard(state.gameBoard) : newBoard,
+            gameBoardArray: typeof newBoard === 'function' ? newBoard(state.gameBoardArray) : newBoard,
         })),
     updateGameSquare: (index, updates) =>
         set((state) => ({
-            gameBoard: state.gameBoard.map((square, i) => (i === index ? { ...square, ...updates } : square)),
+            gameBoardArray: state.gameBoardArray.map((square, i) => (i === index ? { ...square, ...updates } : square)),
         })),
-    tilesToSwap: [],
-    setTilesToSwap: (index) =>
+    squaresToSwap: [],
+    setSquaresToSwap: (index) =>
         set((state) => {
             if (index === undefined) {
-                return { tilesToSwap: [] };
+                return { squaresToSwap: [] };
             } else {
-                return { tilesToSwap: [...state.tilesToSwap, index] };
+                return { squaresToSwap: [...state.squaresToSwap, index] };
             }
         }),
     swapGameSquares: (index1, index2) =>
         set((state) => {
-            const newBoard = [...state.gameBoard];
-            [newBoard[index1], newBoard[index2]] = [newBoard[index2], newBoard[index1]];
-            return { gameBoard: newBoard };
+            const newGameBoardArray = [...state.gameBoardArray];
+            [newGameBoardArray[index1], newGameBoardArray[index2]] = [
+                newGameBoardArray[index2],
+                newGameBoardArray[index1],
+            ];
+            return { gameBoardArray: newGameBoardArray };
         }),
 }));
 

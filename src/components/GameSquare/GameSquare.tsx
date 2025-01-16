@@ -1,48 +1,48 @@
-import './GameTile.css';
-import { GameSquare } from '../../interfaces/gameBoard';
+import './gameSquare.css';
+import { SquareData } from '../../interfaces/gameBoard';
 import useGameBoardStore from '../../stores/gameBoardStore';
 import { useEffect, useState } from 'react';
 
 interface Props {
-    squareData: GameSquare;
+    squareData: SquareData;
     index: number;
 }
 
-const GameTile: React.FC<Props> = ({ squareData, index }) => {
-    const { updateGameSquare, tilesToSwap, setTilesToSwap, swapGameSquares } = useGameBoardStore();
+const GameSquare: React.FC<Props> = ({ squareData, index }) => {
+    const { updateGameSquare, squaresToSwap, setSquaresToSwap, swapGameSquares } = useGameBoardStore();
     const [selectedToMove, setSelectedToMove] = useState(false);
 
     //* Hanterar logik för att byta plats på spelrutor. Klickat index sparas i array.
-    //* Anropas setTilesToSwap utan 2 index positioner töms array.
+    //* Anropas setSquaresToSwap utan 2 index positioner töms array.
     //* selectedToMove används för att toggla klass i css.
     useEffect(() => {
-        if (tilesToSwap.length === 2) {
-            if (tilesToSwap[0] === tilesToSwap[1]) {
-                return setTilesToSwap();
+        if (squaresToSwap.length === 2) {
+            if (squaresToSwap[0] === squaresToSwap[1]) {
+                return setSquaresToSwap();
             }
-            swapGameSquares(tilesToSwap[0], tilesToSwap[1]);
-            setTilesToSwap();
+            swapGameSquares(squaresToSwap[0], squaresToSwap[1]);
+            setSquaresToSwap();
         }
-        if (tilesToSwap[0] === index) {
+        if (squaresToSwap[0] === index) {
             setSelectedToMove(true);
         } else {
             setSelectedToMove(false);
         }
-    }, [tilesToSwap]);
+    }, [squaresToSwap]);
 
     return squareData.isRevealed ? (
         <img
-            data-tag={index}
+            data-index={index}
             src={squareData.tile.src}
             className={`game-tile__image  ${selectedToMove ? 'game-tile__image--selected' : ''}`}
-            onClick={() => setTilesToSwap(index)}
+            onClick={() => setSquaresToSwap(index)}
         />
     ) : (
         <button
-            data-tag={index}
+            data-index={index}
             className='game-tile'
             onClick={() => updateGameSquare(index, { isRevealed: true })}></button>
     );
 };
 
-export default GameTile;
+export default GameSquare;

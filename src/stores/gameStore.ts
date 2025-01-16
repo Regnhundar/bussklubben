@@ -3,7 +3,9 @@ import { create } from 'zustand';
 interface GameStore {
     totalTime: number;
     setTotalTime: (value: number | ((prev: number) => number)) => void;
-    breakTime: number;
+    isPreparationTime: boolean;
+    setPreparationTime: (value: boolean | ((prev: boolean) => boolean)) => void;
+    preparationTime: number;
     points: number;
     setPoints: (value: number | ((prev: number) => number)) => void;
     isGameRunning: boolean;
@@ -18,7 +20,12 @@ const useGameStore = create<GameStore>((set) => ({
         set((state) => ({
             totalTime: typeof value === 'function' ? value(state.totalTime) : value,
         })),
-    breakTime: 10,
+    preparationTime: 10,
+    isPreparationTime: false,
+    setPreparationTime: (value) =>
+        set((state) => ({
+            isPreparationTime: typeof value === 'function' ? value(state.isPreparationTime) : value,
+        })),
     points: 0,
     setPoints: (value) =>
         set((state) => ({
