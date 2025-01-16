@@ -1,3 +1,4 @@
+import useGameStore from '../../stores/gameStore';
 import './jumbotronInfoField.css';
 interface Props {
     variable: number;
@@ -5,8 +6,9 @@ interface Props {
     src: string;
 }
 const JumbotronInfoField: React.FC<Props> = ({ variable, unit, src }) => {
+    const { isPreparationTime } = useGameStore();
     return (
-        <figure className='jumbotron-info-field'>
+        <figure className={`jumbotron-info-field ${isPreparationTime ? 'jumbotron-info-field--preparing' : ''}`}>
             <img className='jumbotron-info-field__icon' src={src} alt='' />
             <div className='jumbotron-info-field__wrapper'>
                 <h2 className='jumbotron-info-field__data'>{variable}</h2>

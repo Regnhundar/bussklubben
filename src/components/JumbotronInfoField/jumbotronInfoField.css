@@ -5,6 +5,11 @@
     column-gap: var(--spacing-l);
 }
 
+.jumbotron-info-field--preparing {
+    filter: grayscale(1);
+
+}
+
 .jumbotron-info-field__icon {
     grid-row: 1/-1;
     place-self: center;

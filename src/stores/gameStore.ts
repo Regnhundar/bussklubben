@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { PREPARATION_TIME, TOTAL_TIME } from '../constants';
 
 interface GameStore {
     totalTime: number;
@@ -8,6 +9,8 @@ interface GameStore {
     preparationTime: number;
     points: number;
     setPoints: (value: number | ((prev: number) => number)) => void;
+    level: number;
+    setLevel: (value: number | ((prev: number) => number)) => void;
     isGameRunning: boolean;
     setIsGameRunning: (value: boolean | ((prev: boolean) => boolean)) => void;
     isGameOver: boolean;
@@ -15,12 +18,12 @@ interface GameStore {
 }
 
 const useGameStore = create<GameStore>((set) => ({
-    totalTime: 30,
+    totalTime: TOTAL_TIME,
     setTotalTime: (value) =>
         set((state) => ({
             totalTime: typeof value === 'function' ? value(state.totalTime) : value,
         })),
-    preparationTime: 10,
+    preparationTime: PREPARATION_TIME,
     isPreparationTime: false,
     setPreparationTime: (value) =>
         set((state) => ({
@@ -30,6 +33,11 @@ const useGameStore = create<GameStore>((set) => ({
     setPoints: (value) =>
         set((state) => ({
             points: typeof value === 'function' ? value(state.points) : value,
+        })),
+    level: 1,
+    setLevel: (value) =>
+        set((state) => ({
+            level: typeof value === 'function' ? value(state.level) : value,
         })),
     isGameRunning: false,
     setIsGameRunning: (value) =>

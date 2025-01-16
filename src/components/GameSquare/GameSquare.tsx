@@ -34,13 +34,13 @@ const GameSquare: React.FC<Props> = ({ squareData, index }) => {
         <img
             data-index={index}
             src={squareData.tile.src}
-            className={`game-tile__image  ${selectedToMove ? 'game-tile__image--selected' : ''}`}
+            className={`game-square__image  ${selectedToMove ? 'game-square__image--selected' : ''}`}
             onClick={() => setSquaresToSwap(index)}
         />
     ) : (
         <button
             data-index={index}
-            className='game-tile'
+            className='game-square'
             onClick={() => updateGameSquare(index, { isRevealed: true })}></button>
     );
 };
