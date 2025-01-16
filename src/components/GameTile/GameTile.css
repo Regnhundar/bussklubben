@@ -12,3 +12,9 @@
 
     /* border: 2px solid var(--light-gray); */
 }
+
+.game-tile__image--selected {
+    border: 2px solid red;
+    background-color: var(--accent1);
+    scale: 1.2;
+}
