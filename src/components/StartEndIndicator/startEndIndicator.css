@@ -2,13 +2,16 @@
     --after-bg-color: transparent;
     --after-size: .6rem;
     --after-offset: calc(var(--after-size) / 2);
+    position: absolute;
+    z-index: 999;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     font-size: .85rem;
     background-color: var(--after-bg-color);
     padding: var(--spacing-xs) var(--spacing-s);
     font-weight: bold;
     width: fit-content;
-    position: relative;
-    margin: 2rem;
 }
 
 .indicator-sign::after {
@@ -22,7 +25,6 @@
     left: var(--after-left, unset);
     right: var(--after-right, unset);
     transform: var(--after-transform, none);
-    z-index: -1;
 }
 
 .indicator-sign--green {

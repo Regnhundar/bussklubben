@@ -4,3 +4,5 @@ export const TOTAL_TIME = 30;
 export const BONUS_TIME = 5;
 // Hur mycket tid man har på sig tills bussen åker när bana startar.
 export const PREPARATION_TIME = 10;
+// Hur lång tid bussen tar per ruta.
+export const SQUARE_TIMER = 1;

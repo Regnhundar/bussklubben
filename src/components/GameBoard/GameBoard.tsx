@@ -2,13 +2,16 @@ import { useEffect } from 'react';
 import useGameBoardStore from '../../stores/gameBoardStore';
 import GameSquare from '../GameSquare/GameSquare';
 import './gameBoard.css';
-import { createGameBoardArray } from '../../utils/utilityFunctions';
+import { createGameBoardArray, generateStartAndFinishIndex } from '../../utils/utilityFunctions';
 
 const GameBoard: React.FC = () => {
-    const { gameBoardArray, setGameBoardArray } = useGameBoardStore();
+    const { gameBoardArray, setGameBoardArray, setStartingIndex, setEndingIndex } = useGameBoardStore();
 
     useEffect(() => {
+        const startAndFinishIndex = generateStartAndFinishIndex();
         setGameBoardArray(createGameBoardArray());
+        setStartingIndex(startAndFinishIndex.start);
+        setEndingIndex(startAndFinishIndex.finish);
     }, []);
 
     return (

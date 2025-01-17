@@ -1,9 +1,14 @@
 import { create } from 'zustand';
 import { SquareData } from '../interfaces/gameBoard';
+import { approvedIndices } from '../types/type';
 
 interface GameBoardStore {
     gameBoardArray: SquareData[];
     setGameBoardArray: (newBoard: SquareData[] | ((currentBoard: SquareData[]) => SquareData[])) => void;
+    startingIndex: approvedIndices | null;
+    setStartingIndex: (index: approvedIndices | null) => void;
+    endingIndex: approvedIndices | null;
+    setEndingIndex: (index: approvedIndices | null) => void;
     updateGameSquare: (index: number, updates: Partial<SquareData>) => void;
     squaresToSwap: number[];
     setSquaresToSwap: (index?: number) => void;
@@ -16,6 +21,10 @@ const useGameBoardStore = create<GameBoardStore>((set) => ({
         set((state) => ({
             gameBoardArray: typeof newBoard === 'function' ? newBoard(state.gameBoardArray) : newBoard,
         })),
+    startingIndex: null,
+    setStartingIndex: (index) => set({ startingIndex: index }),
+    endingIndex: null,
+    setEndingIndex: (index) => set({ endingIndex: index }),
     updateGameSquare: (index, updates) =>
         set((state) => ({
             gameBoardArray: state.gameBoardArray.map((square, i) => (i === index ? { ...square, ...updates } : square)),
