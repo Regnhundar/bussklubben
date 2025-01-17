@@ -1,11 +1,16 @@
-.hudinfo {
+.jumbotron-info-field {
     display: grid;
     grid-template-columns: auto 1fr;
     grid-template-rows: repeat(2, 1fr);
     column-gap: var(--spacing-l);
 }
 
-.hudinfo__icon {
+.jumbotron-info-field--preparing {
+    filter: grayscale(1);
+
+}
+
+.jumbotron-info-field__icon {
     grid-row: 1/-1;
     place-self: center;
     background-color: var(--accent1);
@@ -16,21 +21,21 @@
     box-shadow: 0 0 0 4px var(--accent2), 1px 3px 12px 1px var(--black);
 }
 
-.hudinfo__info {
+.jumbotron-info-field__wrapper {
     grid-row: 1/-1;
     align-self: center;
 }
 
-.hudinfo__data,
-.hudinfo__unit-info {
+.jumbotron-info-field__data,
+.jumbotron-info-field__unit-info {
     color: var(--bg-primary);
 }
 
-.hudinfo__data {
+.jumbotron-info-field__data {
     font-size: var(--font-size-l);
 }
 
-.hudinfo__unit-info {
+.jumbotron-info-field__unit-info {
     font-weight: 300;
     font-size: var(--font-size-xs);
     align-self: center;
