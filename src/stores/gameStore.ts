@@ -5,7 +5,7 @@ interface GameStore {
     totalTime: number;
     setTotalTime: (value: number | ((prev: number) => number)) => void;
     isPreparationTime: boolean;
-    setPreparationTime: (value: boolean | ((prev: boolean) => boolean)) => void;
+    setIsPreparationTime: (value: boolean | ((prev: boolean) => boolean)) => void;
     preparationTime: number;
     points: number;
     setPoints: (value: number | ((prev: number) => number)) => void;
@@ -25,7 +25,7 @@ const useGameStore = create<GameStore>((set) => ({
         })),
     preparationTime: PREPARATION_TIME,
     isPreparationTime: false,
-    setPreparationTime: (value) =>
+    setIsPreparationTime: (value) =>
         set((state) => ({
             isPreparationTime: typeof value === 'function' ? value(state.isPreparationTime) : value,
         })),

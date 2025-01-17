@@ -4,9 +4,15 @@ import LevelIndicator from '../LevelIndicator/LevelIndicator';
 import './jumbotron.css';
 
 const Jumbotron: React.FC = () => {
-    const { totalTime, points, isPreparationTime, preparationTime, level } = useGameStore();
+    const { totalTime, points, isPreparationTime, setIsPreparationTime, preparationTime, level } = useGameStore();
+
+    //! OBS: TA BORT. BARA FÖR TEST!
+    const togglePrepTime = () => {
+        setIsPreparationTime((prev) => !prev);
+    };
+
     return (
-        <section className='jumbotron'>
+        <section className='jumbotron' onClick={togglePrepTime}>
             {isPreparationTime ? (
                 <LevelIndicator message='AVGÅNG OM' infoNumber={preparationTime} modifier='preparing' />
             ) : (
