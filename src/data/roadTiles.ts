@@ -11,7 +11,7 @@ export const upLeft: RoadTile = {
 };
 
 export const upRight: RoadTile = {
-    src: './images/roadTiles/upDown.svg',
+    src: './images/roadTiles/upRight.svg',
     connections: [true, true, false, false],
 };
 export const rightLeft: RoadTile = {

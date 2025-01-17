@@ -1,14 +1,14 @@
 import { create } from 'zustand';
 import { SquareData } from '../interfaces/gameBoard';
-import { approvedIndices } from '../types/type';
+import { possibleStartingIndices } from '../types/type';
 
 interface GameBoardStore {
     gameBoardArray: SquareData[];
     setGameBoardArray: (newBoard: SquareData[] | ((currentBoard: SquareData[]) => SquareData[])) => void;
-    startingIndex: approvedIndices | null;
-    setStartingIndex: (index: approvedIndices | null) => void;
-    endingIndex: approvedIndices | null;
-    setEndingIndex: (index: approvedIndices | null) => void;
+    startingIndex: possibleStartingIndices | null;
+    setStartingIndex: (index: possibleStartingIndices | null) => void;
+    endingIndex: possibleStartingIndices | null;
+    setEndingIndex: (index: possibleStartingIndices | null) => void;
     updateGameSquare: (index: number, updates: Partial<SquareData>) => void;
     squaresToSwap: number[];
     setSquaresToSwap: (index?: number) => void;

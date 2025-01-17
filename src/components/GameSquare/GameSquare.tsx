@@ -7,9 +7,11 @@ import StartEndIndicator from '../StartEndIndicator/StartEndIndicator';
 interface Props {
     squareData: SquareData;
     index: number;
+    finishIndicator: 'up' | 'down' | 'left' | 'right';
+    startingIndicator: 'up' | 'down' | 'left' | 'right';
 }
 
-const GameSquare: React.FC<Props> = ({ squareData, index }) => {
+const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, startingIndicator }) => {
     const { updateGameSquare, squaresToSwap, setSquaresToSwap, swapGameSquares, startingIndex, endingIndex } =
         useGameBoardStore();
     const [selectedToMove, setSelectedToMove] = useState(false);
@@ -54,8 +56,8 @@ const GameSquare: React.FC<Props> = ({ squareData, index }) => {
             data-index={index}
             className='game-square'
             onClick={() => updateGameSquare(index, { isRevealed: true })}>
-            {startingIndex === index && <StartEndIndicator type='start' direction='down' />}
-            {endingIndex === index && <StartEndIndicator type='finish' direction='down' />}
+            {startingIndex === index && <StartEndIndicator type='start' direction={startingIndicator} />}
+            {endingIndex === index && <StartEndIndicator type='finish' direction={finishIndicator} />}
         </button>
     );
 };

@@ -1,7 +1,7 @@
 import { SQUARE_TIMER } from '../constants';
 import { roadTiles } from '../data/roadTiles';
-import { SquareData } from '../interfaces/gameBoard';
-import { approvedIndices } from '../types/type';
+import { endPointInfo, SquareData } from '../interfaces/gameBoard';
+import { gameBoardIndices, possibleStartingIndices } from '../types/type';
 
 export function fisherYatesShuffle<T>(array: T[]): T[] {
     for (let i: number = array.length - 1; i > 0; i--) {
@@ -16,7 +16,7 @@ export function returnRandomArrayItem<T>(array: T[]): T {
 }
 
 export const createGameBoardArray = () => {
-    const gameBoardArray = [];
+    const gameBoardArray: SquareData[] = [];
     for (let i = 0; gameBoardArray.length < 25; i++) {
         const randomRoadTile = returnRandomArrayItem(roadTiles);
         const gameTile: SquareData = { isActive: false, isRevealed: false, timer: SQUARE_TIMER, tile: randomRoadTile };
@@ -25,13 +25,66 @@ export const createGameBoardArray = () => {
     return gameBoardArray;
 };
 
-export const generateStartAndFinishIndex = (): { start: approvedIndices; finish: approvedIndices } => {
-    const approvedIndices: approvedIndices[] = [0, 1, 2, 3, 4, 5, 9, 10, 14, 15, 19, 20, 21, 22, 23, 24];
-    const shuffledIndices = fisherYatesShuffle(approvedIndices);
+export const generateStartAndFinishIndex = (): { start: possibleStartingIndices; finish: possibleStartingIndices } => {
+    const possibleStartingIndices: possibleStartingIndices[] = [
+        0, 1, 2, 3, 4, 5, 9, 10, 14, 15, 19, 20, 21, 22, 23, 24,
+    ];
+    const shuffledIndices = fisherYatesShuffle(possibleStartingIndices);
 
     return { start: shuffledIndices[0], finish: shuffledIndices[1] };
 };
 
-export const checkSquareConnections = (): boolean => {
-    return true;
+export const endPoints = (index: possibleStartingIndices): endPointInfo => {
+    const endPoint: endPointInfo = { arrowDirection: 'down', successConnection: 0 };
+
+    if (index === 0) {
+        const topLeft = returnRandomArrayItem([3, 0]);
+        topLeft === 0
+            ? ((endPoint.arrowDirection = 'up'), (endPoint.successConnection = 0))
+            : ((endPoint.arrowDirection = 'left'), (endPoint.successConnection = 3));
+    }
+    if ([1, 2, 3].includes(index)) {
+        endPoint.arrowDirection = 'up';
+        endPoint.successConnection = 0;
+    }
+    if (index === 4) {
+        const topRight = returnRandomArrayItem([1, 0]);
+        topRight === 0
+            ? ((endPoint.arrowDirection = 'up'), (endPoint.successConnection = 0))
+            : ((endPoint.arrowDirection = 'right'), (endPoint.successConnection = 1));
+    }
+    if ([5, 10, 15].includes(index)) {
+        endPoint.arrowDirection = 'left';
+        endPoint.successConnection = 3;
+    }
+    if ([9, 14, 19].includes(index)) {
+        endPoint.arrowDirection = 'right';
+        endPoint.successConnection = 1;
+    }
+    if (index === 20) {
+        const bottomLeft = returnRandomArrayItem([3, 2]);
+        bottomLeft === 3
+            ? ((endPoint.arrowDirection = 'left'), (endPoint.successConnection = 3))
+            : ((endPoint.arrowDirection = 'down'), (endPoint.successConnection = 2));
+    }
+    if ([21, 22, 23].includes(index)) {
+        endPoint.arrowDirection = 'down';
+        endPoint.successConnection = 2;
+    }
+    if (index === 24) {
+        const bottomRight = returnRandomArrayItem([1, 2]);
+        bottomRight === 1
+            ? ((endPoint.arrowDirection = 'right'), (endPoint.successConnection = 1))
+            : ((endPoint.arrowDirection = 'down'), (endPoint.successConnection = 2));
+    }
+
+    return endPoint;
 };
+
+// export const checkSquareConnections = (index: gameBoardIndices, gameBoardArray: SquareData[]): boolean => {
+//     gameBoardArray[index].tile.connections;
+//     return true;
+// };
+// export const checkStartingSquare = (index: possibleStartingIndices, gameBoardArray: SquareData[]): boolean => {
+//     return true;
+// };
