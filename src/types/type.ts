@@ -1,5 +1,5 @@
-export type possibleStartingIndices = 0 | 1 | 2 | 3 | 4 | 5 | 9 | 10 | 14 | 15 | 19 | 20 | 21 | 22 | 23 | 24;
-export type gameBoardIndices =
+export type PossibleStartingIndices = 0 | 1 | 2 | 3 | 4 | 5 | 9 | 10 | 14 | 15 | 19 | 20 | 21 | 22 | 23 | 24;
+export type GameBoardIndices =
     | 0
     | 1
     | 2
@@ -25,3 +25,4 @@ export type gameBoardIndices =
     | 22
     | 23
     | 24;
+export type Connections = 0 | 1 | 2 | 3;

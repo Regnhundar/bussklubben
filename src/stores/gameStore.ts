@@ -24,7 +24,7 @@ const useGameStore = create<GameStore>((set) => ({
             totalTime: typeof value === 'function' ? value(state.totalTime) : value,
         })),
     preparationTime: PREPARATION_TIME,
-    isPreparationTime: false,
+    isPreparationTime: true,
     setIsPreparationTime: (value) =>
         set((state) => ({
             isPreparationTime: typeof value === 'function' ? value(state.isPreparationTime) : value,
@@ -39,7 +39,7 @@ const useGameStore = create<GameStore>((set) => ({
         set((state) => ({
             level: typeof value === 'function' ? value(state.level) : value,
         })),
-    isGameRunning: false,
+    isGameRunning: true,
     setIsGameRunning: (value) =>
         set((state) => ({
             isGameRunning: typeof value === 'function' ? value(state.isGameRunning) : value,

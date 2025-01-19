@@ -1,7 +1,7 @@
 import { SQUARE_TIMER } from '../constants';
 import { roadTiles } from '../data/roadTiles';
 import { endPointInfo, SquareData } from '../interfaces/gameBoard';
-import { gameBoardIndices, possibleStartingIndices } from '../types/type';
+import { GameBoardIndices, PossibleStartingIndices } from '../types/type';
 
 export function fisherYatesShuffle<T>(array: T[]): T[] {
     for (let i: number = array.length - 1; i > 0; i--) {
@@ -25,16 +25,16 @@ export const createGameBoardArray = () => {
     return gameBoardArray;
 };
 
-export const generateStartAndFinishIndex = (): { start: possibleStartingIndices; finish: possibleStartingIndices } => {
-    const possibleStartingIndices: possibleStartingIndices[] = [
+export const generateStartAndFinishIndex = (): { start: PossibleStartingIndices; finish: PossibleStartingIndices } => {
+    const PossibleStartingIndices: PossibleStartingIndices[] = [
         0, 1, 2, 3, 4, 5, 9, 10, 14, 15, 19, 20, 21, 22, 23, 24,
     ];
-    const shuffledIndices = fisherYatesShuffle(possibleStartingIndices);
+    const shuffledIndices = fisherYatesShuffle(PossibleStartingIndices);
 
     return { start: shuffledIndices[0], finish: shuffledIndices[1] };
 };
 
-export const endPoints = (index: possibleStartingIndices): endPointInfo => {
+export const endPoints = (index: PossibleStartingIndices): endPointInfo => {
     const endPoint: endPointInfo = { arrowDirection: 'down', successConnection: 0 };
 
     if (index === 0) {
@@ -81,10 +81,10 @@ export const endPoints = (index: possibleStartingIndices): endPointInfo => {
     return endPoint;
 };
 
-// export const checkSquareConnections = (index: gameBoardIndices, gameBoardArray: SquareData[]): boolean => {
+// export const checkSquareConnections = (index: GameBoardIndices, gameBoardArray: SquareData[]): boolean => {
 //     gameBoardArray[index].tile.connections;
 //     return true;
 // };
-// export const checkStartingSquare = (index: possibleStartingIndices, gameBoardArray: SquareData[]): boolean => {
+// export const checkStartingSquare = (index: PossibleStartingIndices, gameBoardArray: SquareData[]): boolean => {
 //     return true;
 // };
