@@ -58,7 +58,7 @@ const GameLoop: React.FC = () => {
                 if (isOutOfBounce) {
                     setIsGameOver(true);
                 }
-                const willArriveFrom = direction === 0 ? 2 : direction === 1 ? 3 : direction === 2 ? 0 : 1;
+                const willArriveFrom = direction === 0 ? 2 : direction === 2 ? 0 : direction === 1 ? 3 : 1;
                 const nextSquare = squareToCheck(startingIndex, direction);
 
                 setArrivalIndex(willArriveFrom);
@@ -69,9 +69,9 @@ const GameLoop: React.FC = () => {
         }
     }, [checkStartConnection]);
 
-    // Hanterar kontroll av nästa ruta.
+    // Startar timer för att kontrollera nästa ruta.
     useEffect(() => {
-        if (nextSquareToCheckIndex) {
+        if (nextSquareToCheckIndex !== null) {
             if (gameBoardArray[nextSquareToCheckIndex].isRevealed) {
                 console.log('Started timer on square:', nextSquareToCheckIndex);
 
@@ -85,8 +85,9 @@ const GameLoop: React.FC = () => {
         }
     }, [nextSquareToCheckIndex]);
 
+    // Kontrollerar om ruta är kopplad.
     useEffect(() => {
-        if (nextSquareToCheckIndex && arrivalIndex && numberOfSquaresChecked > 0) {
+        if (nextSquareToCheckIndex !== null && arrivalIndex !== null && numberOfSquaresChecked > 0) {
             const direction = determineDirection(nextSquareToCheckIndex, arrivalIndex);
             const isOutOfBounce = checkForOutOfBounce(nextSquareToCheckIndex, direction);
             if (isOutOfBounce) {
