@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import useGameStore from '../../stores/gameStore';
 import { PREPARATION_TIME, SQUARE_TIMER, TOTAL_TIME } from '../../constants';
 import useGameBoardStore from '../../stores/gameBoardStore';
+import { createGameBoardArray, generateStartAndFinishIndex } from '../../utils/utilityFunctions';
 
 const GameLoop: React.FC = () => {
     const {
@@ -10,13 +11,17 @@ const GameLoop: React.FC = () => {
         setIsGameRunning,
         isGameRunning,
         setTotalTime,
+        level,
+        setLevel,
         isPreparationTime,
         setIsPreparationTime,
     } = useGameStore();
     const {
         startingIndex,
         setStartingIndex,
+        endingIndex,
         setEndingIndex,
+        finishConnectionIndex,
         gameBoardArray,
         setGameBoardArray,
         setStartConnectionIndex,
@@ -72,9 +77,16 @@ const GameLoop: React.FC = () => {
     // Startar timer för att kontrollera nästa ruta.
     useEffect(() => {
         if (nextSquareToCheckIndex !== null) {
-            if (gameBoardArray[nextSquareToCheckIndex].isRevealed) {
+            if (
+                gameBoardArray[nextSquareToCheckIndex].isRevealed &&
+                gameBoardArray[nextSquareToCheckIndex].tile.connections.includes(true)
+            ) {
                 console.log('Started timer on square:', nextSquareToCheckIndex);
-
+                setGameBoardArray((prevBoard) => {
+                    const newBoard = [...prevBoard];
+                    newBoard[nextSquareToCheckIndex] = { ...newBoard[nextSquareToCheckIndex], isActive: true };
+                    return newBoard;
+                });
                 const squareTimer = setTimeout(() => {
                     setNumberOfSquaresChecked((prev) => prev + 1);
                 }, SQUARE_TIMER * 1000);
@@ -90,14 +102,22 @@ const GameLoop: React.FC = () => {
         if (nextSquareToCheckIndex !== null && arrivalIndex !== null && numberOfSquaresChecked > 0) {
             const direction = determineDirection(nextSquareToCheckIndex, arrivalIndex);
             const isOutOfBounce = checkForOutOfBounce(nextSquareToCheckIndex, direction);
+
             if (isOutOfBounce) {
+                console.log('OUT OF BOUNCE!');
                 return setIsGameOver(true);
             }
             const willArriveFrom = direction === 0 ? 2 : direction === 2 ? 0 : direction === 1 ? 3 : 1;
             setArrivalIndex(willArriveFrom);
             const nextSquare = squareToCheck(nextSquareToCheckIndex, direction);
-
+            const isNotAStopSign = gameBoardArray[nextSquare].tile.connections.includes(true);
             console.log('Activating square:', nextSquare);
+            if (nextSquare === endingIndex) {
+                if (isNotAStopSign && direction === finishConnectionIndex) {
+                    console.log('Ny bana bra bra');
+                    return setLevel((prev) => prev + 1);
+                }
+            }
             setNextSquareToCheckIndex(nextSquare);
         }
     }, [numberOfSquaresChecked]);
@@ -140,7 +160,17 @@ const GameLoop: React.FC = () => {
                 : currentSquare - 1; // Vänster
         return nextSquare;
     };
-
+    // Hanterar reset vid klarad bana
+    useEffect(() => {
+        if (level !== 1) {
+            const startAndFinishIndex = generateStartAndFinishIndex();
+            const gameBoard = createGameBoardArray();
+            setStartingIndex(startAndFinishIndex.start);
+            setEndingIndex(startAndFinishIndex.finish);
+            setGameBoardArray(gameBoard);
+            setIsPreparationTime(true);
+        }
+    }, [level]);
     // Hanterar reset vid game over.
     useEffect(() => {
         if (isGameOver) {
@@ -155,6 +185,7 @@ const GameLoop: React.FC = () => {
             setNumberOfSquaresChecked(0);
             setArrivalIndex(null);
             setTotalTime(TOTAL_TIME);
+            setLevel(1);
             setIsGameOver(false);
         }
     }, [isGameOver]);
