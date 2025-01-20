@@ -35,6 +35,7 @@ const GameLoop: React.FC = () => {
     // Startar timern för kontroll av första rutan.
     useEffect(() => {
         if (isPreparationTime) {
+            setCheckStartConnection(false);
             const prepTime = setTimeout(() => {
                 setCheckStartConnection(true);
             }, PREPARATION_TIME * 1000);
@@ -42,6 +43,37 @@ const GameLoop: React.FC = () => {
             return () => clearTimeout(prepTime);
         }
     }, [isPreparationTime]);
+
+    // Kontrollerar om startrutan är kopplad korrekt. Sätter game over ifall den inte är det.
+    // useEffect(() => {
+    //     if (checkStartConnection && isGameRunning && startingIndex !== null && startConnectionIndex !== null) {
+    //         console.log('Starting on square:', startingIndex);
+    //         const isStartingSquareConnected =
+    //             gameBoardArray[startingIndex].isRevealed &&
+    //             gameBoardArray[startingIndex].tile.connections[startConnectionIndex] === true;
+
+    //         if (isStartingSquareConnected) {
+    //             setIsPreparationTime(false);
+    //             setGameBoardArray((prevBoard) => {
+    //                 const newBoard = [...prevBoard];
+    //                 newBoard[startingIndex] = { ...newBoard[startingIndex], isActive: true };
+    //                 return newBoard;
+    //             });
+    //             const direction = determineDirection(startingIndex, startConnectionIndex);
+    //             const isOutOfBounds = checkForOutOfBounds(startingIndex, direction);
+    //             if (isOutOfBounds) {
+    //                 setIsGameOver(true);
+    //             }
+    //             const willArriveFrom = direction === 0 ? 2 : direction === 2 ? 0 : direction === 1 ? 3 : 1;
+    //             const nextSquare = squareToCheck(startingIndex, direction);
+
+    //             setArrivalIndex(willArriveFrom);
+    //             setNextSquareToCheckIndex(nextSquare);
+    //         } else {
+    //             setIsGameOver(true);
+    //         }
+    //     }
+    // }, [checkStartConnection]);
 
     // Kontrollerar om startrutan är kopplad korrekt. Sätter game over ifall den inte är det.
     useEffect(() => {
@@ -59,10 +91,6 @@ const GameLoop: React.FC = () => {
                     return newBoard;
                 });
                 const direction = determineDirection(startingIndex, startConnectionIndex);
-                const isOutOfBounce = checkForOutOfBounce(startingIndex, direction);
-                if (isOutOfBounce) {
-                    setIsGameOver(true);
-                }
                 const willArriveFrom = direction === 0 ? 2 : direction === 2 ? 0 : direction === 1 ? 3 : 1;
                 const nextSquare = squareToCheck(startingIndex, direction);
 
@@ -76,19 +104,25 @@ const GameLoop: React.FC = () => {
 
     // Startar timer för att kontrollera nästa ruta.
     useEffect(() => {
-        if (nextSquareToCheckIndex !== null) {
+        if (
+            nextSquareToCheckIndex !== null &&
+            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24].includes(
+                nextSquareToCheckIndex
+            )
+        ) {
             if (
                 gameBoardArray[nextSquareToCheckIndex].isRevealed &&
-                gameBoardArray[nextSquareToCheckIndex].tile.connections.includes(true)
+                gameBoardArray[nextSquareToCheckIndex].tile.connections.includes(true) // kollar om det är en stoppskylt.
             ) {
                 console.log('Started timer on square:', nextSquareToCheckIndex);
-                setGameBoardArray((prevBoard) => {
-                    const newBoard = [...prevBoard];
-                    newBoard[nextSquareToCheckIndex] = { ...newBoard[nextSquareToCheckIndex], isActive: true };
-                    return newBoard;
-                });
+
                 const squareTimer = setTimeout(() => {
                     setNumberOfSquaresChecked((prev) => prev + 1);
+                    setGameBoardArray((prevBoard) => {
+                        const newBoard = [...prevBoard];
+                        newBoard[nextSquareToCheckIndex] = { ...newBoard[nextSquareToCheckIndex], isActive: true };
+                        return newBoard;
+                    });
                 }, SQUARE_TIMER * 1000);
 
                 return () => clearTimeout(squareTimer);
@@ -101,28 +135,42 @@ const GameLoop: React.FC = () => {
     useEffect(() => {
         if (nextSquareToCheckIndex !== null && arrivalIndex !== null && numberOfSquaresChecked > 0) {
             const direction = determineDirection(nextSquareToCheckIndex, arrivalIndex);
-            const isOutOfBounce = checkForOutOfBounce(nextSquareToCheckIndex, direction);
-
-            if (isOutOfBounce) {
-                console.log('OUT OF BOUNCE!');
-                return setIsGameOver(true);
-            }
             const willArriveFrom = direction === 0 ? 2 : direction === 2 ? 0 : direction === 1 ? 3 : 1;
             setArrivalIndex(willArriveFrom);
+            const isOutOfBounds = checkForOutOfBounds(nextSquareToCheckIndex, direction);
             const nextSquare = squareToCheck(nextSquareToCheckIndex, direction);
-            const isNotAStopSign = gameBoardArray[nextSquare].tile.connections.includes(true);
+
+            if (nextSquareToCheckIndex !== endingIndex && isOutOfBounds) {
+                console.log('nextSquareToCheckIndex:', nextSquareToCheckIndex, 'endingIndex', endingIndex);
+                console.log('OUT OF BOUNDS!');
+                return setIsGameOver(true);
+            }
             console.log('Activating square:', nextSquare);
-            if (nextSquare === endingIndex) {
-                if (isNotAStopSign && direction === finishConnectionIndex) {
+            if (nextSquareToCheckIndex === endingIndex) {
+                // const isNotAStopSign = gameBoardArray[nextSquare].tile.connections.includes(true);
+                if (direction === finishConnectionIndex) {
                     console.log('Ny bana bra bra');
                     return setLevel((prev) => prev + 1);
                 }
             }
+
             setNextSquareToCheckIndex(nextSquare);
         }
     }, [numberOfSquaresChecked]);
 
-    const checkForOutOfBounce = (indexOfSquare: number, indexOfDirection: number) => {
+    useEffect(() => {
+        if (arrivalIndex !== null && nextSquareToCheckIndex !== null && nextSquareToCheckIndex !== endingIndex) {
+            const isSquareConnected =
+                gameBoardArray[nextSquareToCheckIndex].isRevealed &&
+                gameBoardArray[nextSquareToCheckIndex].tile.connections[arrivalIndex] === true;
+            if (!isSquareConnected) {
+                console.log('Not connected!');
+                return setIsGameOver(true);
+            }
+        }
+    }, [arrivalIndex]);
+
+    const checkForOutOfBounds = (indexOfSquare: number, indexOfDirection: number) => {
         const noUp = [0, 1, 2, 3, 4];
         const noRight = [4, 9, 14, 19, 24];
         const noDown = [20, 21, 22, 23, 24];
@@ -165,6 +213,8 @@ const GameLoop: React.FC = () => {
         if (level !== 1) {
             const startAndFinishIndex = generateStartAndFinishIndex();
             const gameBoard = createGameBoardArray();
+            setArrivalIndex(null);
+            setNextSquareToCheckIndex(null);
             setStartingIndex(startAndFinishIndex.start);
             setEndingIndex(startAndFinishIndex.finish);
             setGameBoardArray(gameBoard);

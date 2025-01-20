@@ -45,9 +45,9 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
                     : selectedToMove
                     ? 'game-square__image--selected'
                     : startingTile
-                    ? 'game-square__image--starting-square'
+                    ? `game-square__image--starting-square-${startingIndicator}`
                     : endingTile
-                    ? 'game-square__image--ending-square'
+                    ? `game-square__image--ending-square-${finishIndicator}`
                     : ''
             }
             `}

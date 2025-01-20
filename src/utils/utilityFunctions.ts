@@ -1,7 +1,7 @@
 import { SQUARE_TIMER } from '../constants';
 import { roadTiles } from '../data/roadTiles';
 import { endPointInfo, SquareData } from '../interfaces/gameBoard';
-import { GameBoardIndices, PossibleStartingIndices } from '../types/type';
+import { PossibleStartingIndices } from '../types/type';
 
 export function fisherYatesShuffle<T>(array: T[]): T[] {
     for (let i: number = array.length - 1; i > 0; i--) {
