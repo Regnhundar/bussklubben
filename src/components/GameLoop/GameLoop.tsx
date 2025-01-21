@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import useGameStore from '../../stores/gameStore';
-import { POINTS_PER_LEVEL, PREPARATION_TIME, SQUARE_TIMER, TOTAL_TIME } from '../../constants';
+import { BONUS_TIME, POINTS_PER_LEVEL, PREPARATION_TIME, SQUARE_TIMER, TOTAL_TIME } from '../../constants';
 import useGameBoardStore from '../../stores/gameBoardStore';
 import { createGameBoardArray, generateStartAndFinishIndex } from '../../utils/utilityFunctions';
 
@@ -10,6 +10,7 @@ const GameLoop: React.FC = () => {
         setIsGameOver,
         setIsGameRunning,
         isGameRunning,
+        totalTime,
         setTotalTime,
         level,
         setLevel,
@@ -30,6 +31,7 @@ const GameLoop: React.FC = () => {
         setGameBoardArray,
         setStartConnectionIndex,
         startConnectionIndex,
+        setSquaresToSwap,
     } = useGameBoardStore();
     const [checkStartConnection, setCheckStartConnection] = useState<boolean>(false);
     const [nextSquareToCheckIndex, setNextSquareToCheckIndex] = useState<null | number>(null);
@@ -61,6 +63,23 @@ const GameLoop: React.FC = () => {
             return () => clearTimeout(prepTimerUpdate);
         }
     }, [preparationTime, isGameRunning]);
+
+    // Uppdaterar tidsnedräkningen för speltid.
+    useEffect(() => {
+        if (totalTime === 0) {
+            console.log('SLUT PÅ TID! GAME OVER MAN!');
+            return gameOver();
+        }
+        if (!isPreparationTime && !isGameOver) {
+            const gameTimer = setTimeout(() => {
+                if (totalTime !== 0) {
+                    setTotalTime((prev) => prev - 1);
+                }
+            }, 1000);
+
+            return () => clearTimeout(gameTimer);
+        }
+    }, [preparationTime, totalTime]);
 
     // Kontrollerar om startrutan är kopplad korrekt. Sätter game over ifall den inte är det.
     // useEffect(() => {
@@ -101,8 +120,8 @@ const GameLoop: React.FC = () => {
                 gameBoardArray[startingIndex].isRevealed &&
                 gameBoardArray[startingIndex].tile.connections[startConnectionIndex] === true;
 
+            setIsPreparationTime(false);
             if (isStartingSquareConnected) {
-                setIsPreparationTime(false);
                 setGameBoardArray((prevBoard) => {
                     const newBoard = [...prevBoard];
                     newBoard[startingIndex] = { ...newBoard[startingIndex], isActive: true };
@@ -128,8 +147,10 @@ const GameLoop: React.FC = () => {
                 nextSquareToCheckIndex
             )
         ) {
+            console.log('row131 nextSquareToCheckIndex:', nextSquareToCheckIndex);
             if (
                 // ! Lös nextSquareToCheckIndex när det är icke valid index
+                nextSquareToCheckIndex >= 0 &&
                 gameBoardArray[nextSquareToCheckIndex].isRevealed &&
                 gameBoardArray[nextSquareToCheckIndex].tile.connections.includes(true) // kollar om det är en stoppskylt.
             ) {
@@ -179,7 +200,14 @@ const GameLoop: React.FC = () => {
 
     // && nextSquareToCheckIndex !== endingIndex //orsakar bugg vid ending index om det inte är korrekt kopplat?
     useEffect(() => {
-        if (arrivalIndex !== null && nextSquareToCheckIndex !== null) {
+        console.log('row184 nextSquareToCheckIndex:', nextSquareToCheckIndex);
+        if (
+            arrivalIndex !== null &&
+            nextSquareToCheckIndex !== null &&
+            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24].includes(
+                nextSquareToCheckIndex
+            )
+        ) {
             const isSquareConnected =
                 gameBoardArray[nextSquareToCheckIndex].isRevealed &&
                 gameBoardArray[nextSquareToCheckIndex].tile.connections[arrivalIndex] === true;
@@ -194,6 +222,7 @@ const GameLoop: React.FC = () => {
     useEffect(() => {
         if (level !== 1) {
             setPoints((prev) => prev + POINTS_PER_LEVEL * (level - 1));
+            setTotalTime((prev) => prev + BONUS_TIME);
             const startAndFinishIndex = generateStartAndFinishIndex();
             const gameBoard = createGameBoardArray();
             setArrivalIndex(null);
@@ -206,25 +235,25 @@ const GameLoop: React.FC = () => {
         }
     }, [level]);
     // Hanterar reset vid game over.
-    useEffect(() => {
-        if (isGameOver) {
-            console.log('GAME OVER!');
-            setIsGameRunning(false);
-            setIsPreparationTime(false);
-            setPreparationTime(PREPARATION_TIME);
-            setStartingIndex(null);
-            setEndingIndex(null);
-            setStartConnectionIndex(null);
-            setCheckStartConnection(false);
-            setNextSquareToCheckIndex(null);
-            setNumberOfSquaresChecked(0);
-            setPoints(0);
-            setArrivalIndex(null);
-            setTotalTime(TOTAL_TIME);
-            setLevel(1);
-            setIsGameOver(false);
-        }
-    }, [isGameOver]);
+    // useEffect(() => {
+    //     if (isGameOver) {
+    //         console.log('GAME OVER!');
+    //         setIsGameRunning(false);
+    //         setIsPreparationTime(false);
+    //         setPreparationTime(PREPARATION_TIME);
+    //         setStartingIndex(null);
+    //         setEndingIndex(null);
+    //         setStartConnectionIndex(null);
+    //         setCheckStartConnection(false);
+    //         setNextSquareToCheckIndex(null);
+    //         setNumberOfSquaresChecked(0);
+    //         setPoints(0);
+    //         setArrivalIndex(null);
+    //         setTotalTime(TOTAL_TIME);
+    //         setLevel(1);
+    //         setSquaresToSwap();
+    //     }
+    // }, [isGameOver]);
 
     const checkForOutOfBounds = (indexOfSquare: number, indexOfDirection: number) => {
         const noUp = [0, 1, 2, 3, 4];
@@ -269,6 +298,21 @@ const GameLoop: React.FC = () => {
         window.ClubHouseGame.setScore(points);
         setIsGameOver(true);
         window.ClubHouseGame.gameDone();
+        console.log('GAME OVER!');
+        setIsGameRunning(false);
+        setIsPreparationTime(false);
+        setPreparationTime(PREPARATION_TIME);
+        setStartingIndex(null);
+        setEndingIndex(null);
+        setStartConnectionIndex(null);
+        setCheckStartConnection(false);
+        setNextSquareToCheckIndex(null);
+        setNumberOfSquaresChecked(0);
+        setPoints(0);
+        setArrivalIndex(null);
+        setTotalTime(TOTAL_TIME);
+        setLevel(1);
+        setSquaresToSwap();
     };
 
     return null;

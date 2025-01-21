@@ -7,7 +7,9 @@ export const BONUS_TIME = 5;
 export const PREPARATION_TIME = 15;
 // Hur lång tid bussen tar per ruta.
 export const SQUARE_TIMER = 2;
-// För att se alla brickor från start ändra till true:
-export const IS_REVEALED = true;
-// Poäng man får för avklarad bana
+// Poäng man får för avklarad bana. Just nu multipliceras POINTS_PER_LEVEL med level. Så bana 2 ger 20poäng.
 export const POINTS_PER_LEVEL = 10;
+//Poäng per ruta bussen har åkt på
+export const POINTS_PER_SQUARE = 1;
+// För att se alla brickor från start ändra till true:
+export const IS_REVEALED = false;

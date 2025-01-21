@@ -3,6 +3,7 @@ import { SquareData } from '../../interfaces/gameBoard';
 import useGameBoardStore from '../../stores/gameBoardStore';
 import { useEffect, useState } from 'react';
 import StartEndIndicator from '../StartEndIndicator/StartEndIndicator';
+import useGameStore from '../../stores/gameStore';
 
 interface Props {
     squareData: SquareData;
@@ -14,6 +15,7 @@ interface Props {
 const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, startingIndicator }) => {
     const { updateGameSquare, squaresToSwap, setSquaresToSwap, swapGameSquares, startingIndex, endingIndex } =
         useGameBoardStore();
+    const { isGameOver } = useGameStore();
     const [selectedToMove, setSelectedToMove] = useState(false);
     const startingTile = index === startingIndex;
     const endingTile = index === endingIndex;
@@ -51,13 +53,13 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
                     : ''
             }
             `}
-            onClick={() => !squareData.isActive && setSquaresToSwap(index)}
+            onClick={() => !squareData.isActive && !isGameOver && setSquaresToSwap(index)}
         />
     ) : (
         <button
             data-index={index}
             className='game-square'
-            onClick={() => updateGameSquare(index, { isRevealed: true })}>
+            onClick={() => !isGameOver && updateGameSquare(index, { isRevealed: true })}>
             {startingTile && <StartEndIndicator type='start' direction={startingIndicator} />}
             {endingTile && <StartEndIndicator type='finish' direction={finishIndicator} />}
             {index}

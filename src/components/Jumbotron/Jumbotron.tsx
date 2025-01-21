@@ -1,3 +1,4 @@
+import { PREPARATION_TIME, TOTAL_TIME } from '../../constants';
 import useGameBoardStore from '../../stores/gameBoardStore';
 import useGameStore from '../../stores/gameStore';
 import { createGameBoardArray, generateStartAndFinishIndex } from '../../utils/utilityFunctions';
@@ -12,13 +13,13 @@ const Jumbotron: React.FC = () => {
         isPreparationTime,
         setIsPreparationTime,
         preparationTime,
+        setPreparationTime,
+        setTotalTime,
         level,
         setIsGameOver,
         setIsGameRunning,
     } = useGameStore();
     const { setStartingIndex, setEndingIndex, setGameBoardArray } = useGameBoardStore();
-
-    //! ******* OBS: TA BORT togglePrepTime. BARA FÖR TEST! *******
 
     const startGame = () => {
         const startAndFinishIndex = generateStartAndFinishIndex();
@@ -28,6 +29,8 @@ const Jumbotron: React.FC = () => {
         setStartingIndex(startAndFinishIndex.start);
         setEndingIndex(startAndFinishIndex.finish);
         setGameBoardArray(gameBoard);
+        setPreparationTime(PREPARATION_TIME);
+        setTotalTime(TOTAL_TIME);
         setIsPreparationTime(true);
     };
 
