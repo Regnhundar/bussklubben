@@ -37,7 +37,7 @@ const GameBoard: React.FC = () => {
             setFinishConnectionIndex(finishEndpoint.successConnection);
             setFinishArrowDirection(finishEndpoint.arrowDirection);
         }
-    }, [startingIndex]);
+    }, [startingIndex, endingIndex]);
 
     return (
         <>

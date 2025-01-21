@@ -158,8 +158,9 @@ const GameLoop: React.FC = () => {
         }
     }, [numberOfSquaresChecked]);
 
+    // && nextSquareToCheckIndex !== endingIndex //orsakar bugg vid ending index om det inte är korrekt kopplat?
     useEffect(() => {
-        if (arrivalIndex !== null && nextSquareToCheckIndex !== null && nextSquareToCheckIndex !== endingIndex) {
+        if (arrivalIndex !== null && nextSquareToCheckIndex !== null) {
             const isSquareConnected =
                 gameBoardArray[nextSquareToCheckIndex].isRevealed &&
                 gameBoardArray[nextSquareToCheckIndex].tile.connections[arrivalIndex] === true;
