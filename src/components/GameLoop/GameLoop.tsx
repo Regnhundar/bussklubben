@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import useGameStore from '../../stores/gameStore';
-import { PREPARATION_TIME, SQUARE_TIMER, TOTAL_TIME } from '../../constants';
+import { POINTS_PER_LEVEL, PREPARATION_TIME, SQUARE_TIMER, TOTAL_TIME } from '../../constants';
 import useGameBoardStore from '../../stores/gameBoardStore';
 import { createGameBoardArray, generateStartAndFinishIndex } from '../../utils/utilityFunctions';
 
@@ -13,8 +13,12 @@ const GameLoop: React.FC = () => {
         setTotalTime,
         level,
         setLevel,
+        points,
+        setPoints,
         isPreparationTime,
         setIsPreparationTime,
+        preparationTime,
+        setPreparationTime,
     } = useGameStore();
     const {
         startingIndex,
@@ -36,6 +40,7 @@ const GameLoop: React.FC = () => {
     useEffect(() => {
         if (isPreparationTime) {
             setCheckStartConnection(false);
+
             const prepTime = setTimeout(() => {
                 setCheckStartConnection(true);
             }, PREPARATION_TIME * 1000);
@@ -43,6 +48,19 @@ const GameLoop: React.FC = () => {
             return () => clearTimeout(prepTime);
         }
     }, [isPreparationTime]);
+
+    // Uppdaterar tidsnedräkningen för avgång.
+    useEffect(() => {
+        if (isPreparationTime && !isGameOver) {
+            const prepTimerUpdate = setTimeout(() => {
+                if (preparationTime !== 0) {
+                    setPreparationTime((prev) => prev - 1);
+                }
+            }, 1000);
+
+            return () => clearTimeout(prepTimerUpdate);
+        }
+    }, [preparationTime, isGameRunning]);
 
     // Kontrollerar om startrutan är kopplad korrekt. Sätter game over ifall den inte är det.
     // useEffect(() => {
@@ -97,7 +115,7 @@ const GameLoop: React.FC = () => {
                 setArrivalIndex(willArriveFrom);
                 setNextSquareToCheckIndex(nextSquare);
             } else {
-                setIsGameOver(true);
+                return gameOver();
             }
         }
     }, [checkStartConnection]);
@@ -111,6 +129,7 @@ const GameLoop: React.FC = () => {
             )
         ) {
             if (
+                // ! Lös nextSquareToCheckIndex när det är icke valid index
                 gameBoardArray[nextSquareToCheckIndex].isRevealed &&
                 gameBoardArray[nextSquareToCheckIndex].tile.connections.includes(true) // kollar om det är en stoppskylt.
             ) {
@@ -127,7 +146,7 @@ const GameLoop: React.FC = () => {
 
                 return () => clearTimeout(squareTimer);
             }
-            return setIsGameOver(true);
+            return gameOver();
         }
     }, [nextSquareToCheckIndex]);
 
@@ -143,7 +162,7 @@ const GameLoop: React.FC = () => {
             if (nextSquareToCheckIndex !== endingIndex && isOutOfBounds) {
                 console.log('nextSquareToCheckIndex:', nextSquareToCheckIndex, 'endingIndex', endingIndex);
                 console.log('OUT OF BOUNDS!');
-                return setIsGameOver(true);
+                return gameOver();
             }
             console.log('Activating square:', nextSquare);
             if (nextSquareToCheckIndex === endingIndex) {
@@ -166,10 +185,46 @@ const GameLoop: React.FC = () => {
                 gameBoardArray[nextSquareToCheckIndex].tile.connections[arrivalIndex] === true;
             if (!isSquareConnected) {
                 console.log('Not connected!');
-                return setIsGameOver(true);
+                return gameOver();
             }
         }
     }, [arrivalIndex]);
+
+    // Hanterar reset vid klarad bana
+    useEffect(() => {
+        if (level !== 1) {
+            setPoints((prev) => prev + POINTS_PER_LEVEL * (level - 1));
+            const startAndFinishIndex = generateStartAndFinishIndex();
+            const gameBoard = createGameBoardArray();
+            setArrivalIndex(null);
+            setNextSquareToCheckIndex(null);
+            setStartingIndex(startAndFinishIndex.start);
+            setEndingIndex(startAndFinishIndex.finish);
+            setGameBoardArray(gameBoard);
+            setPreparationTime(PREPARATION_TIME);
+            setIsPreparationTime(true);
+        }
+    }, [level]);
+    // Hanterar reset vid game over.
+    useEffect(() => {
+        if (isGameOver) {
+            console.log('GAME OVER!');
+            setIsGameRunning(false);
+            setIsPreparationTime(false);
+            setPreparationTime(PREPARATION_TIME);
+            setStartingIndex(null);
+            setEndingIndex(null);
+            setStartConnectionIndex(null);
+            setCheckStartConnection(false);
+            setNextSquareToCheckIndex(null);
+            setNumberOfSquaresChecked(0);
+            setPoints(0);
+            setArrivalIndex(null);
+            setTotalTime(TOTAL_TIME);
+            setLevel(1);
+            setIsGameOver(false);
+        }
+    }, [isGameOver]);
 
     const checkForOutOfBounds = (indexOfSquare: number, indexOfDirection: number) => {
         const noUp = [0, 1, 2, 3, 4];
@@ -209,37 +264,12 @@ const GameLoop: React.FC = () => {
                 : currentSquare - 1; // Vänster
         return nextSquare;
     };
-    // Hanterar reset vid klarad bana
-    useEffect(() => {
-        if (level !== 1) {
-            const startAndFinishIndex = generateStartAndFinishIndex();
-            const gameBoard = createGameBoardArray();
-            setArrivalIndex(null);
-            setNextSquareToCheckIndex(null);
-            setStartingIndex(startAndFinishIndex.start);
-            setEndingIndex(startAndFinishIndex.finish);
-            setGameBoardArray(gameBoard);
-            setIsPreparationTime(true);
-        }
-    }, [level]);
-    // Hanterar reset vid game over.
-    useEffect(() => {
-        if (isGameOver) {
-            console.log('GAME OVER!');
-            setIsGameRunning(false);
-            setIsPreparationTime(false);
-            setStartingIndex(null);
-            setEndingIndex(null);
-            setStartConnectionIndex(null);
-            setCheckStartConnection(false);
-            setNextSquareToCheckIndex(null);
-            setNumberOfSquaresChecked(0);
-            setArrivalIndex(null);
-            setTotalTime(TOTAL_TIME);
-            setLevel(1);
-            setIsGameOver(false);
-        }
-    }, [isGameOver]);
+
+    const gameOver = () => {
+        window.ClubHouseGame.setScore(points);
+        setIsGameOver(true);
+        window.ClubHouseGame.gameDone();
+    };
 
     return null;
 };

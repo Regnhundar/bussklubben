@@ -1,19 +1,38 @@
+import useGameBoardStore from '../../stores/gameBoardStore';
 import useGameStore from '../../stores/gameStore';
+import { createGameBoardArray, generateStartAndFinishIndex } from '../../utils/utilityFunctions';
 import JumbotronInfoField from '../JumbotronInfoField/JumbotronInfoField';
 import LevelIndicator from '../LevelIndicator/LevelIndicator';
 import './jumbotron.css';
 
 const Jumbotron: React.FC = () => {
-    const { totalTime, points, isPreparationTime, setIsPreparationTime, preparationTime, level } = useGameStore();
+    const {
+        totalTime,
+        points,
+        isPreparationTime,
+        setIsPreparationTime,
+        preparationTime,
+        level,
+        setIsGameOver,
+        setIsGameRunning,
+    } = useGameStore();
+    const { setStartingIndex, setEndingIndex, setGameBoardArray } = useGameBoardStore();
 
     //! ******* OBS: TA BORT togglePrepTime. BARA FÖR TEST! *******
 
-    const togglePrepTime = () => {
-        setIsPreparationTime((prev) => !prev);
+    const startGame = () => {
+        const startAndFinishIndex = generateStartAndFinishIndex();
+        const gameBoard = createGameBoardArray();
+        setIsGameRunning(true);
+        setIsGameOver(false);
+        setStartingIndex(startAndFinishIndex.start);
+        setEndingIndex(startAndFinishIndex.finish);
+        setGameBoardArray(gameBoard);
+        setIsPreparationTime(true);
     };
 
     return (
-        <section className='jumbotron' onClick={togglePrepTime}>
+        <section className='jumbotron' onClick={startGame}>
             {isPreparationTime ? (
                 <LevelIndicator message='AVGÅNG OM' infoNumber={preparationTime} modifier='preparing' />
             ) : (

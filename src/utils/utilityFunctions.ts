@@ -1,4 +1,4 @@
-import { SQUARE_TIMER } from '../constants';
+import { IS_REVEALED, SQUARE_TIMER } from '../constants';
 import { roadTiles } from '../data/roadTiles';
 import { endPointInfo, SquareData } from '../interfaces/gameBoard';
 import { PossibleStartingIndices } from '../types/type';
@@ -19,7 +19,12 @@ export const createGameBoardArray = () => {
     const gameBoardArray: SquareData[] = [];
     for (let i = 0; gameBoardArray.length < 25; i++) {
         const randomRoadTile = returnRandomArrayItem(roadTiles);
-        const gameTile: SquareData = { isActive: false, isRevealed: false, timer: SQUARE_TIMER, tile: randomRoadTile };
+        const gameTile: SquareData = {
+            isActive: false,
+            isRevealed: IS_REVEALED,
+            timer: SQUARE_TIMER,
+            tile: randomRoadTile,
+        };
         gameBoardArray.push(gameTile);
     }
     return gameBoardArray;
