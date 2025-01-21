@@ -1,4 +1,5 @@
 .game-square {
+    position: relative;
     appearance: none;
     background-color: var(--white);
     border: 2px solid var(--light-gray);
@@ -11,9 +12,46 @@
 }
 
 .game-square__image--selected {
+    z-index: 2;
     border: 2px solid red;
-    background-color: var(--accent1);
+    background-color: var(--accent2);
     scale: 1.2;
+}
+
+.game-square__image--starting-square-up {
+    box-shadow: inset 0 8px var(--accent1);
+}
+
+.game-square__image--starting-square-down {
+    box-shadow: inset 0 -8px var(--accent1);
+}
+
+.game-square__image--starting-square-left {
+    box-shadow: inset 8px 0 var(--accent1);
+}
+
+.game-square__image--starting-square-right {
+    box-shadow: inset -8px 0 var(--accent1);
+}
+
+.game-square__image--ending-square-up {
+    box-shadow: inset 0 8px hotpink;
+}
+
+.game-square__image--ending-square-down {
+    box-shadow: inset 0 -8px hotpink;
+}
+
+.game-square__image--ending-square-left {
+    box-shadow: inset 8px 0 hotpink;
+}
+
+.game-square__image--ending-square-right {
+    box-shadow: inset -8px 0 hotpink;
+}
+
+.game-square__image--is-active {
+    background-color: aqua;
 }
 
 .game-square__image[data-index="0"],

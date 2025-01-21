@@ -6,7 +6,8 @@ import './jumbotron.css';
 const Jumbotron: React.FC = () => {
     const { totalTime, points, isPreparationTime, setIsPreparationTime, preparationTime, level } = useGameStore();
 
-    //! OBS: TA BORT. BARA FÖR TEST!
+    //! ******* OBS: TA BORT togglePrepTime. BARA FÖR TEST! *******
+
     const togglePrepTime = () => {
         setIsPreparationTime((prev) => !prev);
     };

@@ -2,16 +2,21 @@ import './gameSquare.css';
 import { SquareData } from '../../interfaces/gameBoard';
 import useGameBoardStore from '../../stores/gameBoardStore';
 import { useEffect, useState } from 'react';
+import StartEndIndicator from '../StartEndIndicator/StartEndIndicator';
 
 interface Props {
     squareData: SquareData;
     index: number;
+    finishIndicator: 'up' | 'down' | 'left' | 'right';
+    startingIndicator: 'up' | 'down' | 'left' | 'right';
 }
 
-const GameSquare: React.FC<Props> = ({ squareData, index }) => {
-    const { updateGameSquare, squaresToSwap, setSquaresToSwap, swapGameSquares } = useGameBoardStore();
+const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, startingIndicator }) => {
+    const { updateGameSquare, squaresToSwap, setSquaresToSwap, swapGameSquares, startingIndex, endingIndex } =
+        useGameBoardStore();
     const [selectedToMove, setSelectedToMove] = useState(false);
-
+    const startingTile = index === startingIndex;
+    const endingTile = index === endingIndex;
     //* Hanterar logik för att byta plats på spelrutor. Klickat index sparas i array.
     //* Anropas setSquaresToSwap utan 2 index positioner töms array.
     //* selectedToMove används för att toggla klass i css.
@@ -34,14 +39,29 @@ const GameSquare: React.FC<Props> = ({ squareData, index }) => {
         <img
             data-index={index}
             src={squareData.tile.src}
-            className={`game-square__image  ${selectedToMove ? 'game-square__image--selected' : ''}`}
-            onClick={() => setSquaresToSwap(index)}
+            className={`game-square__image  ${
+                squareData.isActive
+                    ? 'game-square__image--is-active'
+                    : selectedToMove
+                    ? 'game-square__image--selected'
+                    : startingTile
+                    ? `game-square__image--starting-square-${startingIndicator}`
+                    : endingTile
+                    ? `game-square__image--ending-square-${finishIndicator}`
+                    : ''
+            }
+            `}
+            onClick={() => !squareData.isActive && setSquaresToSwap(index)}
         />
     ) : (
         <button
             data-index={index}
             className='game-square'
-            onClick={() => updateGameSquare(index, { isRevealed: true })}></button>
+            onClick={() => updateGameSquare(index, { isRevealed: true })}>
+            {startingTile && <StartEndIndicator type='start' direction={startingIndicator} />}
+            {endingTile && <StartEndIndicator type='finish' direction={finishIndicator} />}
+            {index}
+        </button>
     );
 };
 
