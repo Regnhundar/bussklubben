@@ -300,10 +300,10 @@ const GameLoop: React.FC = () => {
     };
 
     const gameOver = () => {
+        console.log('GAME OVER!');
         window.ClubHouseGame.setScore(points);
         setIsGameOver(true);
         window.ClubHouseGame.gameDone();
-        console.log('GAME OVER!');
         setIsGameRunning(false);
         setIsPreparationTime(false);
         setPreparationTime(PREPARATION_TIME);
@@ -313,10 +313,7 @@ const GameLoop: React.FC = () => {
         setCheckStartConnection(false);
         setNextSquareToCheckIndex(null);
         setNumberOfSquaresChecked(0);
-        setPoints(0);
         setArrivalIndex(null);
-        setTotalTime(TOTAL_TIME);
-        setLevel(1);
         setSquaresToSwap();
     };
 

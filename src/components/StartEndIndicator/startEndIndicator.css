@@ -41,22 +41,78 @@
     --after-bottom: calc(-1 * var(--after-offset));
     --after-left: 50%;
     --after-transform: translateX(-50%) rotate(45deg);
+    animation: down 1.5s infinite ease-in-out forwards;
 }
 
 .indicator-sign--up {
     --after-top: calc(-1 * var(--after-offset));
     --after-left: 50%;
     --after-transform: translateX(-50%) rotate(45deg);
+    animation: up 1.5s infinite ease-in-out forwards;
 }
 
 .indicator-sign--left {
     --after-left: calc(-1 * var(--after-offset));
     --after-top: 50%;
     --after-transform: translateY(-50%) rotate(45deg);
+    animation: leftAnimation 1.5s infinite ease-in-out forwards;
 }
 
 .indicator-sign--right {
     --after-right: calc(-1 * var(--after-offset));
     --after-top: 50%;
     --after-transform: translateY(-50%) rotate(45deg);
+    animation: rightAnimation 1.5s infinite ease-in-out forwards;
+}
+
+@keyframes up {
+
+    0%,
+    100% {
+        top: 50%
+    }
+
+    50% {
+        top: 30%
+    }
+
+}
+
+@keyframes down {
+
+    0%,
+    100% {
+        top: 50%
+    }
+
+    50% {
+        top: 70%
+    }
+
+}
+
+@keyframes leftAnimation {
+
+    0%,
+    100% {
+        left: 70%
+    }
+
+    50% {
+        left: 50%
+    }
+
+}
+
+@keyframes rightAnimation {
+
+    0%,
+    100% {
+        left: 30%
+    }
+
+    50% {
+        left: 50%
+    }
+
 }

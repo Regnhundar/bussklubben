@@ -2,4 +2,17 @@
     aspect-ratio: 1;
     width: 100%;
     grid-column: 1/-1;
+    display: grid;
+    place-items: center
+}
+
+.game-over__replay-button {
+    background-color: var(--accent1);
+    padding: var(--spacing-l);
+    font-family: var(--bread-font);
+    font-size: var(--font-size-l);
+    border-radius: var(--spacing-s);
+    color: var(--bg-primary);
+    font-weight: 800;
+    border: none;
 }

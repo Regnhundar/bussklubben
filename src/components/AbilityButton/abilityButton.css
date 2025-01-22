@@ -1,6 +1,7 @@
 .ability {
     width: 100%;
     max-width: 7rem;
+
 }
 
 .ability__button {
@@ -35,4 +36,5 @@
     font-size: var(--font-size-s);
     font-weight: 500;
     box-shadow: 2px 2px 8px 0 var(--black);
+    margin: 0 auto;
 }
