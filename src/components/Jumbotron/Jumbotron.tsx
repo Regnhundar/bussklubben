@@ -9,12 +9,17 @@ const Jumbotron: React.FC = () => {
     return (
         <section className='jumbotron'>
             {isPreparationTime ? (
-                <LevelIndicator message='AVGÅNG OM' infoNumber={preparationTime} modifier='preparing' />
+                <LevelIndicator
+                    message='AVGÅNG OM'
+                    infoNumber={preparationTime}
+                    modifier='preparing'
+                    type='departure'
+                />
             ) : (
-                <LevelIndicator message='HÅLLPLATS' infoNumber={level} modifier='running' />
+                <LevelIndicator message='HÅLLPLATS' infoNumber={level} modifier='running' type='bus-stop' />
             )}
-            <JumbotronInfoField variable={totalTime} unit={'SEKUNDER'} src={'./images/hour-glass.svg'} />
-            <JumbotronInfoField variable={points} unit={'POÄNG'} src={'./images/star.svg'} />
+            <JumbotronInfoField variable={totalTime} unit={'SEKUNDER'} src={'./images/hour-glass.svg'} type='timer' />
+            <JumbotronInfoField variable={points} unit={'POÄNG'} src={'./images/star.svg'} type='points' />
         </section>
     );
 };
