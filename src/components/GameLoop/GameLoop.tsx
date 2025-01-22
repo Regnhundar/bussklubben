@@ -67,7 +67,7 @@ const GameLoop: React.FC = () => {
 
     // Uppdaterar tidsnedräkningen för speltid.
     useEffect(() => {
-        if (totalTime === 0) {
+        if (totalTime === 0 && !isPreparationTime && !isGameOver) {
             console.log('SLUT PÅ TID! GAME OVER MAN!');
             return gameOver();
         }
@@ -123,17 +123,21 @@ const GameLoop: React.FC = () => {
 
             setIsPreparationTime(false);
             if (isStartingSquareConnected) {
-                setGameBoardArray((prevBoard) => {
-                    const newBoard = [...prevBoard];
-                    newBoard[startingIndex] = { ...newBoard[startingIndex], isActive: true };
-                    return newBoard;
-                });
-                const direction = determineDirection(startingIndex, startConnectionIndex);
-                const willArriveFrom = direction === 0 ? 2 : direction === 2 ? 0 : direction === 1 ? 3 : 1;
-                const nextSquare = squareToCheck(startingIndex, direction);
+                const squareTimer = setTimeout(() => {
+                    const direction = determineDirection(startingIndex, startConnectionIndex);
+                    const willArriveFrom = direction === 0 ? 2 : direction === 2 ? 0 : direction === 1 ? 3 : 1;
+                    const nextSquare = squareToCheck(startingIndex, direction);
 
-                setArrivalIndex(willArriveFrom);
-                setNextSquareToCheckIndex(nextSquare);
+                    setGameBoardArray((prevBoard) => {
+                        const newBoard = [...prevBoard];
+                        newBoard[startingIndex] = { ...newBoard[startingIndex], isActive: true };
+                        return newBoard;
+                    });
+                    setArrivalIndex(willArriveFrom);
+                    setNextSquareToCheckIndex(nextSquare);
+                }, SQUARE_TIMER * 1000);
+
+                return () => clearTimeout(squareTimer);
             } else {
                 return gameOver();
             }
@@ -192,7 +196,11 @@ const GameLoop: React.FC = () => {
                 // const isNotAStopSign = gameBoardArray[nextSquare].tile.connections.includes(true);
                 if (direction === finishConnectionIndex) {
                     console.log('Ny bana bra bra');
-                    return setLevel((prev) => prev + 1);
+                    const changeLevel = setTimeout(() => {
+                        return setLevel((prev) => prev + 1);
+                    }, 1000);
+
+                    return () => clearTimeout(changeLevel);
                 }
             }
 
