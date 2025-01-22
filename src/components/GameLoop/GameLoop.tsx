@@ -35,6 +35,7 @@ const GameLoop: React.FC = () => {
     } = useGameBoardStore();
     const [checkStartConnection, setCheckStartConnection] = useState<boolean>(false);
     const [nextSquareToCheckIndex, setNextSquareToCheckIndex] = useState<null | number>(null);
+    const [triggerArrival, setTriggerArrival] = useState<boolean>(false);
     const [arrivalIndex, setArrivalIndex] = useState<null | number>(null);
     const [numberOfSquaresChecked, setNumberOfSquaresChecked] = useState<number>(0);
 
@@ -147,7 +148,7 @@ const GameLoop: React.FC = () => {
                 nextSquareToCheckIndex
             )
         ) {
-            console.log('row131 nextSquareToCheckIndex:', nextSquareToCheckIndex);
+            console.log('row150 nextSquareToCheckIndex:', nextSquareToCheckIndex);
             if (
                 // ! Lös nextSquareToCheckIndex när det är icke valid index
                 nextSquareToCheckIndex >= 0 &&
@@ -175,17 +176,18 @@ const GameLoop: React.FC = () => {
     useEffect(() => {
         if (nextSquareToCheckIndex !== null && arrivalIndex !== null && numberOfSquaresChecked > 0) {
             const direction = determineDirection(nextSquareToCheckIndex, arrivalIndex);
+            console.log('direction', direction);
             const willArriveFrom = direction === 0 ? 2 : direction === 2 ? 0 : direction === 1 ? 3 : 1;
-            setArrivalIndex(willArriveFrom);
             const isOutOfBounds = checkForOutOfBounds(nextSquareToCheckIndex, direction);
             const nextSquare = squareToCheck(nextSquareToCheckIndex, direction);
+            console.log('willArriveFrom', willArriveFrom);
 
             if (nextSquareToCheckIndex !== endingIndex && isOutOfBounds) {
                 console.log('nextSquareToCheckIndex:', nextSquareToCheckIndex, 'endingIndex', endingIndex);
                 console.log('OUT OF BOUNDS!');
                 return gameOver();
             }
-            console.log('Activating square:', nextSquare);
+            console.log('Moving to square:', nextSquare);
             if (nextSquareToCheckIndex === endingIndex) {
                 // const isNotAStopSign = gameBoardArray[nextSquare].tile.connections.includes(true);
                 if (direction === finishConnectionIndex) {
@@ -195,18 +197,20 @@ const GameLoop: React.FC = () => {
             }
 
             setNextSquareToCheckIndex(nextSquare);
+            setArrivalIndex(willArriveFrom);
+            setTriggerArrival((prev) => !prev);
         }
     }, [numberOfSquaresChecked]);
 
     // && nextSquareToCheckIndex !== endingIndex //orsakar bugg vid ending index om det inte är korrekt kopplat?
     useEffect(() => {
-        console.log('row184 nextSquareToCheckIndex:', nextSquareToCheckIndex);
+        console.log('row203 arrivalIndex:', arrivalIndex);
         if (
             arrivalIndex !== null &&
-            nextSquareToCheckIndex !== null &&
-            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24].includes(
-                nextSquareToCheckIndex
-            )
+            nextSquareToCheckIndex !== null
+            // && [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24].includes(
+            //     nextSquareToCheckIndex
+            // )
         ) {
             const isSquareConnected =
                 gameBoardArray[nextSquareToCheckIndex].isRevealed &&
@@ -215,8 +219,9 @@ const GameLoop: React.FC = () => {
                 console.log('Not connected!');
                 return gameOver();
             }
+            console.log(nextSquareToCheckIndex, 'connected!');
         }
-    }, [arrivalIndex]);
+    }, [triggerArrival]);
 
     // Hanterar reset vid klarad bana
     useEffect(() => {

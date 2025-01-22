@@ -3,7 +3,7 @@ import useGameStore from '../../stores/gameStore';
 import { PREPARATION_TIME } from '../../constants';
 import useGameBoardStore from '../../stores/gameBoardStore';
 
-const GameLoop: React.FC = () => {
+const CreateGameBoard: React.FC = () => {
     const { isGameOver, isGameRunning, level, preparationTime, totalTime } = useGameStore();
     const { startingIndex, gameBoardArray, startConnectionIndex } = useGameBoardStore();
 
@@ -25,4 +25,4 @@ const GameLoop: React.FC = () => {
     return null;
 };
 
-export default GameLoop;
+export default CreateGameBoard;

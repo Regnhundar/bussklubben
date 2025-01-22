@@ -1,5 +1,7 @@
 import { RoadTile } from '../interfaces/gameBoard';
 
+//* [upp, höger, ned, vänster]
+
 export const upDown: RoadTile = {
     src: './images/roadTiles/upDown.svg',
     connections: [true, false, true, false],

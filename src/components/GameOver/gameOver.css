@@ -1,0 +1,5 @@
+.game-over {
+    aspect-ratio: 1;
+    width: 100%;
+    grid-column: 1/-1;
+}
