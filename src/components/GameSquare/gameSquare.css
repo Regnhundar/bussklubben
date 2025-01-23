@@ -1,6 +1,7 @@
 .game-square {
     position: relative;
     appearance: none;
+    border: none;
     background-color: var(--white);
     border: 2px solid var(--light-gray);
     color: var(--light-gray);
@@ -12,6 +13,7 @@
     aspect-ratio: 1;
     width: 100%;
     background-color: var(--light-gray);
+    border: 2px solid var(--light-gray);
 }
 
 .game-square__image--selected {
