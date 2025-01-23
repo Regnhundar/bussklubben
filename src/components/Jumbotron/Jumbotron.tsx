@@ -4,23 +4,22 @@ import LevelIndicator from '../LevelIndicator/LevelIndicator';
 import './jumbotron.css';
 
 const Jumbotron: React.FC = () => {
-    const { totalTime, points, isPreparationTime, setIsPreparationTime, preparationTime, level } = useGameStore();
-
-    //! ******* OBS: TA BORT togglePrepTime. BARA FÖR TEST! *******
-
-    const togglePrepTime = () => {
-        setIsPreparationTime((prev) => !prev);
-    };
+    const { totalTime, points, isPreparationTime, preparationTime, level } = useGameStore();
 
     return (
-        <section className='jumbotron' onClick={togglePrepTime}>
+        <section className='jumbotron'>
             {isPreparationTime ? (
-                <LevelIndicator message='AVGÅNG OM' infoNumber={preparationTime} modifier='preparing' />
+                <LevelIndicator
+                    message='AVGÅNG OM'
+                    infoNumber={preparationTime}
+                    modifier='preparing'
+                    type='departure'
+                />
             ) : (
-                <LevelIndicator message='HÅLLPLATS' infoNumber={level} modifier='running' />
+                <LevelIndicator message='HÅLLPLATS' infoNumber={level} modifier='running' type='bus-stop' />
             )}
-            <JumbotronInfoField variable={totalTime} unit={'SEKUNDER'} src={'./images/hour-glass.svg'} />
-            <JumbotronInfoField variable={points} unit={'POÄNG'} src={'./images/star.svg'} />
+            <JumbotronInfoField variable={totalTime} unit={'SEKUNDER'} src={'./images/hour-glass.svg'} type='timer' />
+            <JumbotronInfoField variable={points} unit={'POÄNG'} src={'./images/star.svg'} type='points' />
         </section>
     );
 };

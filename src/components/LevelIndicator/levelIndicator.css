@@ -1,6 +1,7 @@
 .level-info {
     display: grid;
     place-items: center;
+    transform-origin: left;
 }
 
 .level-info__message {
@@ -39,4 +40,20 @@
 
 .level-info__number--running {
     background-color: var(--bg-primary);
+}
+
+.level-info--soon-to-leave {
+    animation: leaving .5s linear 10 forwards;
+}
+
+@keyframes leaving {
+
+    0%,
+    100% {
+        scale: 1;
+    }
+
+    50% {
+        scale: 1.2;
+    }
 }

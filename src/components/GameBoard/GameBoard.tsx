@@ -3,6 +3,8 @@ import useGameBoardStore from '../../stores/gameBoardStore';
 import GameSquare from '../GameSquare/GameSquare';
 import { createGameBoardArray, endPoints, generateStartAndFinishIndex } from '../../utils/utilityFunctions';
 import './gameBoard.css';
+import GameOver from '../GameOver/GameOver';
+import useGameStore from '../../stores/gameStore';
 
 const GameBoard: React.FC = () => {
     const {
@@ -15,6 +17,7 @@ const GameBoard: React.FC = () => {
         setStartConnectionIndex,
         setFinishConnectionIndex,
     } = useGameBoardStore();
+    const { isGameOver } = useGameStore();
     const [startingArrowDirection, setStartingArrowDirection] = useState<'down' | 'up' | 'left' | 'right'>('down');
     const [finishArrowDirection, setFinishArrowDirection] = useState<'down' | 'up' | 'left' | 'right'>('down');
 
@@ -40,19 +43,34 @@ const GameBoard: React.FC = () => {
     }, [startingIndex, endingIndex]);
 
     return (
-        <>
-            <section className='game-board'>
-                {gameBoardArray.map((squareData, i) => (
-                    <GameSquare
-                        key={i}
-                        squareData={squareData}
-                        index={i}
-                        startingIndicator={startingArrowDirection}
-                        finishIndicator={finishArrowDirection}
-                    />
-                ))}
-            </section>
-        </>
+        <section className='game-board'>
+            {gameBoardArray.map((squareData, i) => (
+                <GameSquare
+                    key={i}
+                    squareData={squareData}
+                    index={i}
+                    startingIndicator={startingArrowDirection}
+                    finishIndicator={finishArrowDirection}
+                />
+            ))}
+        </section>
+        // <>
+        //     {isGameOver ? (
+        //         <GameOver />
+        //     ) : (
+        //         <section className='game-board'>
+        //             {gameBoardArray.map((squareData, i) => (
+        //                 <GameSquare
+        //                     key={i}
+        //                     squareData={squareData}
+        //                     index={i}
+        //                     startingIndicator={startingArrowDirection}
+        //                     finishIndicator={finishArrowDirection}
+        //                 />
+        //             ))}
+        //         </section>
+        //     )}
+        // </>
     );
 };
 
