@@ -42,7 +42,9 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
             data-index={index}
             src={squareData.tile.src}
             className={`game-square__image  ${
-                squareData.isActive
+                squareData.isPreviousSquare
+                    ? 'game-square__image--is-previous'
+                    : squareData.isActive
                     ? 'game-square__image--is-active'
                     : selectedToMove
                     ? 'game-square__image--selected'
@@ -52,8 +54,11 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
                     ? `game-square__image--ending-square-${finishIndicator}`
                     : ''
             }
+
             `}
-            onClick={() => !squareData.isActive && !isGameOver && setSquaresToSwap(index)}
+            onClick={() =>
+                !squareData.isPreviousSquare && !squareData.isActive && !isGameOver && setSquaresToSwap(index)
+            }
         />
     ) : (
         <button

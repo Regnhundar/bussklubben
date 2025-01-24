@@ -43,34 +43,34 @@ const GameBoard: React.FC = () => {
     }, [startingIndex, endingIndex]);
 
     return (
-        <section className='game-board'>
-            {gameBoardArray.map((squareData, i) => (
-                <GameSquare
-                    key={i}
-                    squareData={squareData}
-                    index={i}
-                    startingIndicator={startingArrowDirection}
-                    finishIndicator={finishArrowDirection}
-                />
-            ))}
-        </section>
-        // <>
-        //     {isGameOver ? (
-        //         <GameOver />
-        //     ) : (
-        //         <section className='game-board'>
-        //             {gameBoardArray.map((squareData, i) => (
-        //                 <GameSquare
-        //                     key={i}
-        //                     squareData={squareData}
-        //                     index={i}
-        //                     startingIndicator={startingArrowDirection}
-        //                     finishIndicator={finishArrowDirection}
-        //                 />
-        //             ))}
-        //         </section>
-        //     )}
-        // </>
+        // <section className='game-board'>
+        //     {gameBoardArray.map((squareData, i) => (
+        //         <GameSquare
+        //             key={i}
+        //             squareData={squareData}
+        //             index={i}
+        //             startingIndicator={startingArrowDirection}
+        //             finishIndicator={finishArrowDirection}
+        //         />
+        //     ))}
+        // </section>
+        <>
+            {isGameOver ? (
+                <GameOver />
+            ) : (
+                <section className='game-board'>
+                    {gameBoardArray.map((squareData, i) => (
+                        <GameSquare
+                            key={i}
+                            squareData={squareData}
+                            index={i}
+                            startingIndicator={startingArrowDirection}
+                            finishIndicator={finishArrowDirection}
+                        />
+                    ))}
+                </section>
+            )}
+        </>
     );
 };
 

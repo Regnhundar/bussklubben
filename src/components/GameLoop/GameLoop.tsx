@@ -1,8 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import useGameStore from '../../stores/gameStore';
-import { BONUS_TIME, POINTS_PER_LEVEL, PREPARATION_TIME, SQUARE_TIMER, TOTAL_TIME } from '../../constants';
+import {
+    BONUS_TIME,
+    POINTS_PER_LEVEL,
+    POINTS_PER_SQUARE,
+    PREPARATION_TIME,
+    SQUARE_TIMER,
+    TOTAL_TIME,
+} from '../../constants';
 import useGameBoardStore from '../../stores/gameBoardStore';
 import { createGameBoardArray, generateStartAndFinishIndex } from '../../utils/utilityFunctions';
+import { GameBoardIndices } from '../../types/type';
 
 const GameLoop: React.FC = () => {
     const {
@@ -29,7 +37,9 @@ const GameLoop: React.FC = () => {
         setGameBoardArray,
         setStartConnectionIndex,
         startConnectionIndex,
+        squaresToSwap,
         setSquaresToSwap,
+        updateGameSquare,
     } = useGameBoardStore();
     const [checkStartConnection, setCheckStartConnection] = useState<boolean>(false);
     const [nextSquareToCheckIndex, setNextSquareToCheckIndex] = useState<null | number>(null);
@@ -42,6 +52,9 @@ const GameLoop: React.FC = () => {
     const squareTimerRef = useRef<number | null>(null);
     const firstSquareTimerRef = useRef<number | null>(null);
 
+    const validGameBoardIndices = [
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
+    ];
     const clearTimers = () => {
         if (firstSquareTimerRef.current) {
             clearTimeout(firstSquareTimerRef.current);
@@ -95,7 +108,7 @@ const GameLoop: React.FC = () => {
     }, [numberOfSquaresChecked]);
 
     useEffect(() => {
-        console.log('row203 arrivalIndex:', arrivalIndex);
+        console.log('row98 arrivalIndex:', arrivalIndex);
         if (arrivalIndex !== null && nextSquareToCheckIndex !== null) {
             const isSquareConnected =
                 gameBoardArray[nextSquareToCheckIndex].isRevealed &&
@@ -105,6 +118,7 @@ const GameLoop: React.FC = () => {
                 gameOver();
                 return;
             }
+            setPoints((prev) => prev + POINTS_PER_SQUARE);
             console.log(nextSquareToCheckIndex, 'connected!');
         }
     }, [triggerArrival]);
@@ -213,7 +227,9 @@ const GameLoop: React.FC = () => {
                 gameBoardArray[startingIndex].tile.connections[startConnectionIndex] === true;
             console.log(startConnectionIndex);
             setIsPreparationTime(false);
+
             if (isStartingSquareConnected) {
+                updateGameSquare(startingIndex, { isActive: true });
                 const direction = determineDirection(startingIndex, startConnectionIndex);
                 const willArriveFrom = direction === 0 ? 2 : direction === 2 ? 0 : direction === 1 ? 3 : 1;
                 const nextSquare = squareToCheck(startingIndex, direction);
@@ -223,11 +239,7 @@ const GameLoop: React.FC = () => {
                     if (isOutOfBounds) return gameOver();
                     setArrivalIndex(willArriveFrom);
                     setNextSquareToCheckIndex(nextSquare);
-                    setGameBoardArray((prevBoard) => {
-                        const newBoard = [...prevBoard];
-                        newBoard[startingIndex] = { ...newBoard[startingIndex], isActive: true };
-                        return newBoard;
-                    });
+                    updateGameSquare(startingIndex, { isPreviousSquare: true, isActive: false });
                     setTriggerArrival((prev) => !prev);
                 }, SQUARE_TIMER * 1000);
                 return () => {
@@ -244,25 +256,42 @@ const GameLoop: React.FC = () => {
 
     // Startar timer för att kontrollera nästa ruta.
     const handleNextSquareTimer = () => {
-        if (
-            nextSquareToCheckIndex !== null &&
-            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24].includes(
-                nextSquareToCheckIndex
-            )
-        ) {
+        if (nextSquareToCheckIndex !== null && validGameBoardIndices.includes(nextSquareToCheckIndex)) {
             console.log('row150 nextSquareToCheckIndex:', nextSquareToCheckIndex);
             if (
                 nextSquareToCheckIndex >= 0 &&
                 gameBoardArray[nextSquareToCheckIndex].isRevealed &&
                 gameBoardArray[nextSquareToCheckIndex].tile.connections.includes(true) // kollar om det är en stoppskylt.
             ) {
+                updateGameSquare(nextSquareToCheckIndex, { isActive: true });
+                if (squaresToSwap.includes(nextSquareToCheckIndex)) {
+                    setSquaresToSwap();
+                }
                 squareTimerRef.current = window.setTimeout(() => {
                     setNumberOfSquaresChecked((prev) => prev + 1);
-                    setGameBoardArray((prevBoard) => {
-                        const newBoard = [...prevBoard];
-                        newBoard[nextSquareToCheckIndex] = { ...newBoard[nextSquareToCheckIndex], isActive: true };
-                        return newBoard;
-                    });
+                    updateGameSquare(nextSquareToCheckIndex, { isPreviousSquare: true, isActive: false });
+                }, SQUARE_TIMER * 1000);
+                return () => {
+                    if (squareTimerRef.current) {
+                        clearTimeout(squareTimerRef.current);
+                    }
+                };
+            }
+            gameOver();
+            return;
+        }
+    };
+
+    const squareControlTimer = (index: GameBoardIndices) => {
+        if (index !== null && validGameBoardIndices.includes(index)) {
+            if (
+                gameBoardArray[index].isRevealed &&
+                gameBoardArray[index].tile.connections.includes(true) // kollar om det är en stoppskylt.
+            ) {
+                updateGameSquare(index, { isActive: true });
+                squareTimerRef.current = window.setTimeout(() => {
+                    setNumberOfSquaresChecked((prev) => prev + 1);
+                    updateGameSquare(index, { isPreviousSquare: true, isActive: false });
                 }, SQUARE_TIMER * 1000);
                 return () => {
                     if (squareTimerRef.current) {
@@ -278,25 +307,25 @@ const GameLoop: React.FC = () => {
     const handleConnectionControl = () => {
         if (nextSquareToCheckIndex !== null && arrivalIndex !== null && numberOfSquaresChecked > 0) {
             const direction = determineDirection(nextSquareToCheckIndex, arrivalIndex);
-            console.log('direction', direction);
             const willArriveFrom = direction === 0 ? 2 : direction === 2 ? 0 : direction === 1 ? 3 : 1;
             const isOutOfBounds = checkForOutOfBounds(nextSquareToCheckIndex, direction);
             const nextSquare = squareToCheck(nextSquareToCheckIndex, direction);
             console.log('willArriveFrom', willArriveFrom);
 
-            if (nextSquareToCheckIndex !== endingIndex && isOutOfBounds) {
+            if (
+                (nextSquareToCheckIndex !== endingIndex && isOutOfBounds) ||
+                (nextSquareToCheckIndex === endingIndex && isOutOfBounds && direction !== finishConnectionIndex)
+            ) {
                 console.log('nextSquareToCheckIndex:', nextSquareToCheckIndex, 'endingIndex', endingIndex);
                 console.log('OUT OF BOUNDS!');
                 gameOver();
                 return;
             }
             console.log('Moving to square:', nextSquare);
-            if (nextSquareToCheckIndex === endingIndex) {
-                if (direction === finishConnectionIndex) {
-                    console.log('Ny bana bra bra');
-                    setLevel((prev) => prev + 1);
-                    return;
-                }
+            if (nextSquareToCheckIndex === endingIndex && direction === finishConnectionIndex) {
+                console.log('Ny bana bra bra');
+                setLevel((prev) => prev + 1);
+                return;
             }
 
             setNextSquareToCheckIndex(nextSquare);
@@ -308,7 +337,7 @@ const GameLoop: React.FC = () => {
     // Hanterar reset vid klarad bana
     const handleNextLevel = () => {
         if (level !== 1) {
-            setPoints((prev) => prev + POINTS_PER_LEVEL * (level - 1));
+            setPoints((prev) => prev + POINTS_PER_LEVEL + POINTS_PER_SQUARE);
             setTotalTime((prev) => prev + BONUS_TIME);
             setCheckStartConnection(false);
             const startAndFinishIndex = generateStartAndFinishIndex();
