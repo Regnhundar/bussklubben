@@ -1,13 +1,45 @@
+import { PREPARATION_TIME, TOTAL_TIME } from '../../constants';
+import useGameBoardStore from '../../stores/gameBoardStore';
 import useGameStore from '../../stores/gameStore';
+import { createGameBoardArray, generateStartAndFinishIndex } from '../../utils/utilityFunctions';
 import JumbotronInfoField from '../JumbotronInfoField/JumbotronInfoField';
 import LevelIndicator from '../LevelIndicator/LevelIndicator';
 import './jumbotron.css';
 
 const Jumbotron: React.FC = () => {
-    const { totalTime, points, isPreparationTime, preparationTime, level } = useGameStore();
+    const {
+        totalTime,
+        points,
+        isPreparationTime,
+        preparationTime,
+        level,
+        setIsGameRunning,
+        setIsGameOver,
+        setPreparationTime,
+        setTotalTime,
+        setIsPreparationTime,
+        setPoints,
+        setLevel,
+    } = useGameStore();
+    const { setStartingIndex, setEndingIndex, setGameBoardArray } = useGameBoardStore();
 
+    const startGame = () => {
+        const startAndFinishIndex = generateStartAndFinishIndex();
+        const gameBoard = createGameBoardArray();
+        setIsGameRunning(true);
+        setIsGameOver(false);
+        setStartingIndex(startAndFinishIndex.start);
+        setEndingIndex(startAndFinishIndex.finish);
+        setGameBoardArray(gameBoard);
+        setPreparationTime(PREPARATION_TIME);
+        setTotalTime(TOTAL_TIME);
+        setIsPreparationTime(true);
+        setTotalTime(TOTAL_TIME);
+        setPoints(0);
+        setLevel(1);
+    };
     return (
-        <section className='jumbotron'>
+        <section className='jumbotron' onClick={startGame}>
             {isPreparationTime ? (
                 <LevelIndicator
                     message='AVGÅNG OM'

@@ -211,7 +211,7 @@ const GameLoop: React.FC = () => {
             const isStartingSquareConnected =
                 gameBoardArray[startingIndex].isRevealed &&
                 gameBoardArray[startingIndex].tile.connections[startConnectionIndex] === true;
-            console.log(startConnectionIndex);
+
             setIsPreparationTime(false);
             if (isStartingSquareConnected) {
                 const direction = determineDirection(startingIndex, startConnectionIndex);
