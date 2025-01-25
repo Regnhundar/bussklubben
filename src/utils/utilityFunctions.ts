@@ -21,6 +21,7 @@ export const createGameBoardArray = () => {
         const randomRoadTile = returnRandomArrayItem(roadTiles);
         const gameTile: SquareData = {
             isActive: false,
+            isPreviousSquare: false,
             isRevealed: IS_REVEALED,
             timer: SQUARE_TIMER,
             tile: randomRoadTile,

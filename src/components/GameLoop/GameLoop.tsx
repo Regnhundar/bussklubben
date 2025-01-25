@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useGameStore from '../../stores/gameStore';
-import { BONUS_TIME, POINTS_PER_LEVEL, PREPARATION_TIME, SQUARE_TIMER, TOTAL_TIME } from '../../constants';
+import { BONUS_TIME, POINTS_PER_LEVEL, POINTS_PER_SQUARE, PREPARATION_TIME, SQUARE_TIMER } from '../../constants';
 import useGameBoardStore from '../../stores/gameBoardStore';
 import { createGameBoardArray, generateStartAndFinishIndex } from '../../utils/utilityFunctions';
+import { Connections, GameBoardIndices } from '../../types/type';
 
 const GameLoop: React.FC = () => {
     const {
@@ -10,7 +11,6 @@ const GameLoop: React.FC = () => {
         setIsGameOver,
         setIsGameRunning,
         isGameRunning,
-        totalTime,
         setTotalTime,
         level,
         setLevel,
@@ -18,255 +18,236 @@ const GameLoop: React.FC = () => {
         setPoints,
         isPreparationTime,
         setIsPreparationTime,
-        preparationTime,
         setPreparationTime,
     } = useGameStore();
     const {
-        startingIndex,
         setStartingIndex,
         endingIndex,
         setEndingIndex,
         finishConnectionIndex,
         gameBoardArray,
         setGameBoardArray,
-        setStartConnectionIndex,
-        startConnectionIndex,
+        squaresToSwap,
         setSquaresToSwap,
+        updateGameSquare,
+        nextSquareToCheckIndex,
+        setNextSquareToCheckIndex,
+        setArrivalIndex,
+        arrivalIndex,
+        startingIndex,
     } = useGameBoardStore();
-    const [checkStartConnection, setCheckStartConnection] = useState<boolean>(false);
-    const [nextSquareToCheckIndex, setNextSquareToCheckIndex] = useState<null | number>(null);
     const [triggerArrival, setTriggerArrival] = useState<boolean>(false);
-    const [arrivalIndex, setArrivalIndex] = useState<null | number>(null);
     const [numberOfSquaresChecked, setNumberOfSquaresChecked] = useState<number>(0);
 
-    // Startar timern för kontroll av första rutan.
-    useEffect(() => {
-        if (isPreparationTime) {
-            setCheckStartConnection(false);
+    const prepTimerRef = useRef<number | null>(null);
+    const gameTimerRef = useRef<number | null>(null);
+    const squareTimerRef = useRef<number | null>(null);
 
-            const prepTime = setTimeout(() => {
-                setCheckStartConnection(true);
-            }, PREPARATION_TIME * 1000);
+    const validGameBoardIndices = [
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
+    ];
+    const isStartingSquareConnected =
+        typeof nextSquareToCheckIndex === 'number' &&
+        typeof arrivalIndex === 'number' &&
+        gameBoardArray[nextSquareToCheckIndex].isRevealed &&
+        gameBoardArray[nextSquareToCheckIndex].tile.connections[arrivalIndex] === true;
 
-            return () => clearTimeout(prepTime);
+    const clearTimers = () => {
+        if (squareTimerRef.current) {
+            clearTimeout(squareTimerRef.current);
         }
-    }, [isPreparationTime]);
+        if (prepTimerRef.current) {
+            clearInterval(prepTimerRef.current);
+        }
+        if (gameTimerRef.current) {
+            clearInterval(gameTimerRef.current);
+        }
+    };
 
-    // Uppdaterar tidsnedräkningen för avgång.
+    // Uppdaterar tidsnedräkningen för departure. Togglar checkStartConnection.
     useEffect(() => {
         if (isPreparationTime && !isGameOver) {
-            const prepTimerUpdate = setTimeout(() => {
-                if (preparationTime !== 0) {
-                    setPreparationTime((prev) => prev - 1);
-                }
-            }, 1000);
-
-            return () => clearTimeout(prepTimerUpdate);
+            handleDepartureTimer();
         }
-    }, [preparationTime, isGameRunning]);
-
-    // Uppdaterar tidsnedräkningen för speltid.
-    useEffect(() => {
-        if (totalTime === 0 && !isPreparationTime && !isGameOver) {
-            console.log('SLUT PÅ TID! GAME OVER MAN!');
-            return gameOver();
-        }
-        if (!isPreparationTime && !isGameOver) {
-            const gameTimer = setTimeout(() => {
-                if (totalTime !== 0) {
-                    setTotalTime((prev) => prev - 1);
-                }
-            }, 1000);
-
-            return () => clearTimeout(gameTimer);
-        }
-    }, [preparationTime, totalTime]);
-
-    // Kontrollerar om startrutan är kopplad korrekt. Sätter game over ifall den inte är det.
-    // useEffect(() => {
-    //     if (checkStartConnection && isGameRunning && startingIndex !== null && startConnectionIndex !== null) {
-    //         console.log('Starting on square:', startingIndex);
-    //         const isStartingSquareConnected =
-    //             gameBoardArray[startingIndex].isRevealed &&
-    //             gameBoardArray[startingIndex].tile.connections[startConnectionIndex] === true;
-
-    //         if (isStartingSquareConnected) {
-    //             setIsPreparationTime(false);
-    //             setGameBoardArray((prevBoard) => {
-    //                 const newBoard = [...prevBoard];
-    //                 newBoard[startingIndex] = { ...newBoard[startingIndex], isActive: true };
-    //                 return newBoard;
-    //             });
-    //             const direction = determineDirection(startingIndex, startConnectionIndex);
-    //             const isOutOfBounds = checkForOutOfBounds(startingIndex, direction);
-    //             if (isOutOfBounds) {
-    //                 setIsGameOver(true);
-    //             }
-    //             const willArriveFrom = direction === 0 ? 2 : direction === 2 ? 0 : direction === 1 ? 3 : 1;
-    //             const nextSquare = squareToCheck(startingIndex, direction);
-
-    //             setArrivalIndex(willArriveFrom);
-    //             setNextSquareToCheckIndex(nextSquare);
-    //         } else {
-    //             setIsGameOver(true);
-    //         }
-    //     }
-    // }, [checkStartConnection]);
-
-    // Kontrollerar om startrutan är kopplad korrekt. Sätter game over ifall den inte är det.
-    useEffect(() => {
-        if (checkStartConnection && isGameRunning && startingIndex !== null && startConnectionIndex !== null) {
-            console.log('Starting on square:', startingIndex);
-            const isStartingSquareConnected =
-                gameBoardArray[startingIndex].isRevealed &&
-                gameBoardArray[startingIndex].tile.connections[startConnectionIndex] === true;
-
-            setIsPreparationTime(false);
-            if (isStartingSquareConnected) {
-                const squareTimer = setTimeout(() => {
-                    const direction = determineDirection(startingIndex, startConnectionIndex);
-                    const willArriveFrom = direction === 0 ? 2 : direction === 2 ? 0 : direction === 1 ? 3 : 1;
-                    const nextSquare = squareToCheck(startingIndex, direction);
-
-                    setGameBoardArray((prevBoard) => {
-                        const newBoard = [...prevBoard];
-                        newBoard[startingIndex] = { ...newBoard[startingIndex], isActive: true };
-                        return newBoard;
-                    });
-                    setArrivalIndex(willArriveFrom);
-                    setNextSquareToCheckIndex(nextSquare);
-                }, SQUARE_TIMER * 1000);
-
-                return () => clearTimeout(squareTimer);
-            } else {
-                return gameOver();
+        return () => {
+            if (prepTimerRef.current) {
+                clearInterval(prepTimerRef.current);
             }
+        };
+    }, [isPreparationTime]);
+
+    // Uppdaterar speltiden och sätter game-over om den når 0. Triggas av handleStartSquareControl.
+    useEffect(() => {
+        if (!isPreparationTime && !isGameOver) {
+            handleGameTimer();
+            handleNextSquareTimer();
+            return () => {
+                if (gameTimerRef.current) {
+                    clearInterval(gameTimerRef.current);
+                }
+            };
         }
-    }, [checkStartConnection]);
+    }, [isPreparationTime, isGameOver]);
+    // Startar timer för när nästa ruta ska kontrolleras.
+    useEffect(() => {
+        if (!isPreparationTime && !isGameOver) {
+            handleNextSquareTimer();
+        }
+    }, [nextSquareToCheckIndex]);
+
+    // Kontrollerar om ruta är kopplad. Triggas av handleNextSquareTimer.
+    useEffect(() => {
+        if (!isPreparationTime && !isGameOver) {
+            handleConnectionControl();
+        }
+    }, [numberOfSquaresChecked]);
+
+    useEffect(() => {
+        console.log('row98 arrivalIndex:', arrivalIndex);
+        if (arrivalIndex !== null && nextSquareToCheckIndex !== null) {
+            const isSquareConnected =
+                gameBoardArray[nextSquareToCheckIndex].isRevealed &&
+                gameBoardArray[nextSquareToCheckIndex].tile.connections[arrivalIndex] === true;
+            if (!isSquareConnected) {
+                console.log('Not connected!');
+                gameOver();
+                return;
+            }
+            setPoints((prev) => prev + POINTS_PER_SQUARE);
+            console.log(nextSquareToCheckIndex, 'connected!');
+        }
+    }, [triggerArrival]);
+
+    useEffect(() => {
+        handleNextLevel();
+    }, [level]);
+
+    const handleDepartureTimer = () => {
+        if (prepTimerRef.current) {
+            clearInterval(prepTimerRef.current);
+        }
+
+        if (isPreparationTime) {
+            prepTimerRef.current = window.setInterval(() => {
+                setPreparationTime((prev) => {
+                    if (prev > 1) {
+                        return prev - 1;
+                    } else {
+                        console.log('PREP TIME OVER!');
+                        if (prepTimerRef.current) {
+                            clearInterval(prepTimerRef.current);
+                        }
+                        setIsPreparationTime(false);
+                        return 0;
+                    }
+                });
+            }, 1000);
+        }
+    };
+
+    const handleGameTimer = () => {
+        if (gameTimerRef.current) {
+            clearInterval(gameTimerRef.current);
+        }
+
+        if (!isPreparationTime && !isGameOver) {
+            gameTimerRef.current = window.setInterval(() => {
+                setTotalTime((prev) => {
+                    if (prev > 1) {
+                        return prev - 1;
+                    } else {
+                        console.log('SLUT PÅ TID! GAME OVER MAN!');
+                        if (gameTimerRef.current) {
+                            clearInterval(gameTimerRef.current);
+                        }
+                        gameOver();
+                        return 0;
+                    }
+                });
+            }, 1000);
+        }
+    };
 
     // Startar timer för att kontrollera nästa ruta.
-    useEffect(() => {
-        if (
-            nextSquareToCheckIndex !== null &&
-            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24].includes(
-                nextSquareToCheckIndex
-            )
-        ) {
+    const handleNextSquareTimer = () => {
+        console.log('isStartingSquareConnected before connection ctrl', isStartingSquareConnected);
+        if (nextSquareToCheckIndex === startingIndex && !isStartingSquareConnected) {
+            console.log('isStartingSquareConnected', isStartingSquareConnected);
+            gameOver();
+            return;
+        }
+        if (nextSquareToCheckIndex !== null && validGameBoardIndices.includes(nextSquareToCheckIndex)) {
             console.log('row150 nextSquareToCheckIndex:', nextSquareToCheckIndex);
             if (
-                // ! Lös nextSquareToCheckIndex när det är icke valid index
                 nextSquareToCheckIndex >= 0 &&
                 gameBoardArray[nextSquareToCheckIndex].isRevealed &&
                 gameBoardArray[nextSquareToCheckIndex].tile.connections.includes(true) // kollar om det är en stoppskylt.
             ) {
-                console.log('Started timer on square:', nextSquareToCheckIndex);
-
-                const squareTimer = setTimeout(() => {
+                updateGameSquare(nextSquareToCheckIndex, { isActive: true });
+                if (squaresToSwap.includes(nextSquareToCheckIndex)) {
+                    setSquaresToSwap();
+                }
+                squareTimerRef.current = window.setTimeout(() => {
                     setNumberOfSquaresChecked((prev) => prev + 1);
-                    setGameBoardArray((prevBoard) => {
-                        const newBoard = [...prevBoard];
-                        newBoard[nextSquareToCheckIndex] = { ...newBoard[nextSquareToCheckIndex], isActive: true };
-                        return newBoard;
-                    });
+                    updateGameSquare(nextSquareToCheckIndex, { isPreviousSquare: true, isActive: false });
                 }, SQUARE_TIMER * 1000);
-
-                return () => clearTimeout(squareTimer);
+                return () => {
+                    if (squareTimerRef.current) {
+                        clearTimeout(squareTimerRef.current);
+                    }
+                };
             }
-            return gameOver();
+            gameOver();
+            return;
         }
-    }, [nextSquareToCheckIndex]);
+    };
 
-    // Kontrollerar om ruta är kopplad.
-    useEffect(() => {
-        if (nextSquareToCheckIndex !== null && arrivalIndex !== null && numberOfSquaresChecked > 0) {
+    const handleConnectionControl = () => {
+        if (nextSquareToCheckIndex !== null && arrivalIndex !== null) {
             const direction = determineDirection(nextSquareToCheckIndex, arrivalIndex);
-            console.log('direction', direction);
             const willArriveFrom = direction === 0 ? 2 : direction === 2 ? 0 : direction === 1 ? 3 : 1;
             const isOutOfBounds = checkForOutOfBounds(nextSquareToCheckIndex, direction);
             const nextSquare = squareToCheck(nextSquareToCheckIndex, direction);
             console.log('willArriveFrom', willArriveFrom);
 
-            if (nextSquareToCheckIndex !== endingIndex && isOutOfBounds) {
+            if (
+                (nextSquareToCheckIndex !== endingIndex && isOutOfBounds) ||
+                (nextSquareToCheckIndex === endingIndex && isOutOfBounds && direction !== finishConnectionIndex)
+            ) {
                 console.log('nextSquareToCheckIndex:', nextSquareToCheckIndex, 'endingIndex', endingIndex);
                 console.log('OUT OF BOUNDS!');
-                return gameOver();
+                gameOver();
+                return;
             }
             console.log('Moving to square:', nextSquare);
-            if (nextSquareToCheckIndex === endingIndex) {
-                // const isNotAStopSign = gameBoardArray[nextSquare].tile.connections.includes(true);
-                if (direction === finishConnectionIndex) {
-                    console.log('Ny bana bra bra');
-                    const changeLevel = setTimeout(() => {
-                        return setLevel((prev) => prev + 1);
-                    }, 1000);
-
-                    return () => clearTimeout(changeLevel);
-                }
+            if (nextSquareToCheckIndex === endingIndex && direction === finishConnectionIndex) {
+                console.log('Ny bana bra bra');
+                setLevel((prev) => prev + 1);
+                return;
             }
 
             setNextSquareToCheckIndex(nextSquare);
             setArrivalIndex(willArriveFrom);
             setTriggerArrival((prev) => !prev);
         }
-    }, [numberOfSquaresChecked]);
-
-    // && nextSquareToCheckIndex !== endingIndex //orsakar bugg vid ending index om det inte är korrekt kopplat?
-    useEffect(() => {
-        console.log('row203 arrivalIndex:', arrivalIndex);
-        if (
-            arrivalIndex !== null &&
-            nextSquareToCheckIndex !== null
-            // && [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24].includes(
-            //     nextSquareToCheckIndex
-            // )
-        ) {
-            const isSquareConnected =
-                gameBoardArray[nextSquareToCheckIndex].isRevealed &&
-                gameBoardArray[nextSquareToCheckIndex].tile.connections[arrivalIndex] === true;
-            if (!isSquareConnected) {
-                console.log('Not connected!');
-                return gameOver();
-            }
-            console.log(nextSquareToCheckIndex, 'connected!');
-        }
-    }, [triggerArrival]);
+    };
 
     // Hanterar reset vid klarad bana
-    useEffect(() => {
+    const handleNextLevel = () => {
         if (level !== 1) {
-            setPoints((prev) => prev + POINTS_PER_LEVEL * (level - 1));
+            setNextSquareToCheckIndex(null);
+            setPoints((prev) => prev + POINTS_PER_LEVEL + POINTS_PER_SQUARE);
             setTotalTime((prev) => prev + BONUS_TIME);
             const startAndFinishIndex = generateStartAndFinishIndex();
             const gameBoard = createGameBoardArray();
             setArrivalIndex(null);
-            setNextSquareToCheckIndex(null);
             setStartingIndex(startAndFinishIndex.start);
             setEndingIndex(startAndFinishIndex.finish);
             setGameBoardArray(gameBoard);
             setPreparationTime(PREPARATION_TIME);
             setIsPreparationTime(true);
         }
-    }, [level]);
-    // Hanterar reset vid game over.
-    // useEffect(() => {
-    //     if (isGameOver) {
-    //         console.log('GAME OVER!');
-    //         setIsGameRunning(false);
-    //         setIsPreparationTime(false);
-    //         setPreparationTime(PREPARATION_TIME);
-    //         setStartingIndex(null);
-    //         setEndingIndex(null);
-    //         setStartConnectionIndex(null);
-    //         setCheckStartConnection(false);
-    //         setNextSquareToCheckIndex(null);
-    //         setNumberOfSquaresChecked(0);
-    //         setPoints(0);
-    //         setArrivalIndex(null);
-    //         setTotalTime(TOTAL_TIME);
-    //         setLevel(1);
-    //         setSquaresToSwap();
-    //     }
-    // }, [isGameOver]);
+    };
 
     const checkForOutOfBounds = (indexOfSquare: number, indexOfDirection: number) => {
         const noUp = [0, 1, 2, 3, 4];
@@ -288,14 +269,14 @@ const GameLoop: React.FC = () => {
         return false;
     };
 
-    const determineDirection = (currentSquare: number, arrivedFromIndex: number) => {
-        const determineDirection = gameBoardArray[currentSquare].tile.connections.findIndex(
+    const determineDirection = (currentSquare: GameBoardIndices, arrivedFromIndex: Connections): Connections => {
+        const direction = gameBoardArray[currentSquare].tile.connections.findIndex(
             (value, index) => value === true && index !== arrivedFromIndex
         );
-        return determineDirection;
+        return direction as Connections;
     };
 
-    const squareToCheck = (currentSquare: number, direction: number) => {
+    const squareToCheck = (currentSquare: GameBoardIndices, direction: Connections) => {
         const nextSquare =
             direction === 0
                 ? currentSquare - 5 // Upp
@@ -304,21 +285,20 @@ const GameLoop: React.FC = () => {
                 : direction === 2
                 ? currentSquare + 5 // Ned
                 : currentSquare - 1; // Vänster
-        return nextSquare;
+        return nextSquare as GameBoardIndices;
     };
 
     const gameOver = () => {
         console.log('GAME OVER!');
         window.ClubHouseGame.setScore(points);
         setIsGameOver(true);
+        clearTimers();
         window.ClubHouseGame.gameDone();
         setIsGameRunning(false);
         setIsPreparationTime(false);
         setPreparationTime(PREPARATION_TIME);
         setStartingIndex(null);
         setEndingIndex(null);
-        setStartConnectionIndex(null);
-        setCheckStartConnection(false);
         setNextSquareToCheckIndex(null);
         setNumberOfSquaresChecked(0);
         setArrivalIndex(null);

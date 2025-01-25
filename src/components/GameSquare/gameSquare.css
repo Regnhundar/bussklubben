@@ -3,17 +3,18 @@
     appearance: none;
     border: none;
     background-color: var(--white);
-    border: 2px solid var(--light-gray);
+    box-shadow: inset 1px 0 0 1px var(--light-gray);
     color: var(--light-gray);
     font-size: var(--font-size-m);
     font-weight: 600;
+
 }
 
 .game-square__image {
     aspect-ratio: 1;
     width: 100%;
     background-color: var(--light-gray);
-    border: 2px solid var(--light-gray);
+
 }
 
 .game-square__image--selected {
@@ -55,8 +56,24 @@
     box-shadow: inset -8px 0 hotpink;
 }
 
+.game-square__image--is-previous {
+    background-color: lawngreen;
+}
+
 .game-square__image--is-active {
-    background-color: aqua;
+    animation: active .5s linear infinite forwards;
+}
+
+@keyframes active {
+
+    0%,
+    100% {
+        background-color: red;
+    }
+
+    50% {
+        background-color: var(--light-gray);
+    }
 }
 
 .game-square__image[data-index="0"],
