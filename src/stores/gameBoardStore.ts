@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { SquareData } from '../interfaces/gameBoard';
 import { Connections, GameBoardIndices, PossibleStartingIndices } from '../types/type';
+import { SQUARE_TIMER } from '../constants';
 
 interface GameBoardStore {
     gameBoardArray: SquareData[];
@@ -16,6 +17,7 @@ interface GameBoardStore {
     finishConnectionIndex: Connections | null;
     setFinishConnectionIndex: (index: Connections | null) => void;
     updateGameSquare: (index: number, updates: Partial<SquareData>) => void;
+    activateSpeedAbility: (speedMultiplier: number) => void;
     squaresToSwap: number[];
     setSquaresToSwap: (index?: number) => void;
     swapGameSquares: (index1: number, index2: number) => void;
@@ -40,6 +42,13 @@ const useGameBoardStore = create<GameBoardStore>((set) => ({
     updateGameSquare: (index, updates) =>
         set((state) => ({
             gameBoardArray: state.gameBoardArray.map((square, i) => (i === index ? { ...square, ...updates } : square)),
+        })),
+    activateSpeedAbility: (speedMultiplier) =>
+        set((state) => ({
+            gameBoardArray: state.gameBoardArray.map((square) => ({
+                ...square,
+                timer: SQUARE_TIMER * speedMultiplier,
+            })),
         })),
     squaresToSwap: [],
     setSquaresToSwap: (index) =>
