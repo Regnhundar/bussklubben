@@ -14,8 +14,9 @@ const GameBoard: React.FC = () => {
         setEndingIndex,
         startingIndex,
         endingIndex,
-        setStartConnectionIndex,
         setFinishConnectionIndex,
+        setNextSquareToCheckIndex,
+        setArrivalIndex,
     } = useGameBoardStore();
     const { isGameOver } = useGameStore();
     const [startingArrowDirection, setStartingArrowDirection] = useState<'down' | 'up' | 'left' | 'right'>('down');
@@ -33,7 +34,8 @@ const GameBoard: React.FC = () => {
         if (startingIndex !== null) {
             const startEndpoint = endPoints(startingIndex);
             setStartingArrowDirection(startEndpoint.arrowDirection);
-            setStartConnectionIndex(startEndpoint.successConnection);
+            setNextSquareToCheckIndex(startingIndex);
+            setArrivalIndex(startEndpoint.successConnection);
         }
         if (endingIndex !== null) {
             const finishEndpoint = endPoints(endingIndex);
