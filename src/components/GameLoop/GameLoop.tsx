@@ -42,22 +42,17 @@ const GameLoop: React.FC = () => {
     const prepTimerRef = useRef<number | null>(null);
     const gameTimerRef = useRef<number | null>(null);
     const squareTimerRef = useRef<number | null>(null);
-    const firstSquareTimerRef = useRef<number | null>(null);
 
     const validGameBoardIndices = [
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
     ];
-
     const isStartingSquareConnected =
-        nextSquareToCheckIndex &&
-        arrivalIndex &&
+        typeof nextSquareToCheckIndex === 'number' &&
+        typeof arrivalIndex === 'number' &&
         gameBoardArray[nextSquareToCheckIndex].isRevealed &&
         gameBoardArray[nextSquareToCheckIndex].tile.connections[arrivalIndex] === true;
 
     const clearTimers = () => {
-        if (firstSquareTimerRef.current) {
-            clearTimeout(firstSquareTimerRef.current);
-        }
         if (squareTimerRef.current) {
             clearTimeout(squareTimerRef.current);
         }
@@ -71,7 +66,7 @@ const GameLoop: React.FC = () => {
 
     // Uppdaterar tidsnedräkningen för departure. Togglar checkStartConnection.
     useEffect(() => {
-        if (isPreparationTime) {
+        if (isPreparationTime && !isGameOver) {
             handleDepartureTimer();
         }
         return () => {
@@ -95,14 +90,14 @@ const GameLoop: React.FC = () => {
     }, [isPreparationTime, isGameOver]);
     // Startar timer för när nästa ruta ska kontrolleras.
     useEffect(() => {
-        if (!isPreparationTime) {
+        if (!isPreparationTime && !isGameOver) {
             handleNextSquareTimer();
         }
     }, [nextSquareToCheckIndex]);
 
     // Kontrollerar om ruta är kopplad. Triggas av handleNextSquareTimer.
     useEffect(() => {
-        if (!isPreparationTime) {
+        if (!isPreparationTime && !isGameOver) {
             handleConnectionControl();
         }
     }, [numberOfSquaresChecked]);
@@ -175,6 +170,7 @@ const GameLoop: React.FC = () => {
 
     // Startar timer för att kontrollera nästa ruta.
     const handleNextSquareTimer = () => {
+        console.log('isStartingSquareConnected before connection ctrl', isStartingSquareConnected);
         if (nextSquareToCheckIndex === startingIndex && !isStartingSquareConnected) {
             console.log('isStartingSquareConnected', isStartingSquareConnected);
             gameOver();
