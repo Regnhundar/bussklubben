@@ -6,4 +6,6 @@
     aspect-ratio: 1;
     grid-template-rows: repeat(5, minmax(0, 1fr));
     grid-template-columns: repeat(5, minmax(0, 1fr));
+    background-color: var(--light-gray);
+    border-radius: var(--spacing-s);
 }

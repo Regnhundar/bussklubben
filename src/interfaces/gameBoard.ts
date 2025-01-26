@@ -4,7 +4,6 @@ export interface SquareData {
     isActive: boolean;
     isPreviousSquare: boolean;
     isRevealed: boolean;
-    timer: number;
     tile: RoadTile;
 }
 export interface RoadTile {

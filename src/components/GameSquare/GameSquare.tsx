@@ -13,9 +13,17 @@ interface Props {
 }
 
 const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, startingIndicator }) => {
-    const { updateGameSquare, squaresToSwap, setSquaresToSwap, swapGameSquares, startingIndex, endingIndex } =
-        useGameBoardStore();
-    const { isGameOver } = useGameStore();
+    const {
+        updateGameSquare,
+        squaresToSwap,
+        setSquaresToSwap,
+        swapGameSquares,
+        startingIndex,
+        endingIndex,
+        jokerTile,
+        setJokerTile,
+    } = useGameBoardStore();
+    const { isGameOver, isPreparationTime } = useGameStore();
     const [selectedToMove, setSelectedToMove] = useState(false);
     const startingTile = index === startingIndex;
     const endingTile = index === endingIndex;
@@ -37,6 +45,17 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
         }
     }, [squaresToSwap]);
 
+    const handleRoadTile = () => {
+        if (!jokerTile && !squareData.isPreviousSquare && !squareData.isActive && !isGameOver) {
+            setSquaresToSwap(index);
+            return;
+        }
+        if (jokerTile && !squareData.isPreviousSquare && !squareData.isActive && !isGameOver && !isPreparationTime) {
+            updateGameSquare(index, { tile: jokerTile });
+            setJokerTile(null);
+        }
+    };
+
     return squareData.isRevealed ? (
         <img
             data-index={index}
@@ -56,9 +75,7 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
             }
 
             `}
-            onClick={() =>
-                !squareData.isPreviousSquare && !squareData.isActive && !isGameOver && setSquaresToSwap(index)
-            }
+            onClick={handleRoadTile}
         />
     ) : (
         <button

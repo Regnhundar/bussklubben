@@ -18,7 +18,7 @@ const GameLoop: React.FC = () => {
         isGameOver,
         setIsGameOver,
         setIsGameRunning,
-        isGameRunning,
+        // isGameRunning,
         setTotalTime,
         level,
         setLevel,
@@ -118,18 +118,15 @@ const GameLoop: React.FC = () => {
     }, [numberOfSquaresChecked]);
 
     useEffect(() => {
-        console.log('row98 arrivalIndex:', arrivalIndex);
         if (arrivalIndex !== null && nextSquareToCheckIndex !== null) {
             const isSquareConnected =
                 gameBoardArray[nextSquareToCheckIndex].isRevealed &&
                 gameBoardArray[nextSquareToCheckIndex].tile.connections[arrivalIndex] === true;
             if (!isSquareConnected) {
-                console.log('Not connected!');
                 gameOver();
                 return;
             }
             setPoints((prev) => prev + POINTS_PER_SQUARE);
-            console.log(nextSquareToCheckIndex, 'connected!');
         }
     }, [triggerArrival]);
 
@@ -148,7 +145,6 @@ const GameLoop: React.FC = () => {
                     if (prev > 1) {
                         return prev - 1;
                     } else {
-                        console.log('PREP TIME OVER!');
                         if (prepTimerRef.current) {
                             clearInterval(prepTimerRef.current);
                         }
@@ -167,8 +163,6 @@ const GameLoop: React.FC = () => {
                     if (prev > 1) {
                         return prev - 1;
                     } else {
-                        console.log('SLUT PÅ TID! GAME OVER MAN!');
-
                         gameOver();
                         return 0;
                     }
@@ -179,14 +173,11 @@ const GameLoop: React.FC = () => {
 
     // Startar timer för att kontrollera nästa ruta.
     const handleNextSquareTimer = () => {
-        console.log('isStartingSquareConnected before connection ctrl', isStartingSquareConnected);
         if (nextSquareToCheckIndex === startingIndex && !isStartingSquareConnected) {
-            console.log('isStartingSquareConnected', isStartingSquareConnected);
             gameOver();
             return;
         }
         if (nextSquareToCheckIndex !== null && validGameBoardIndices.includes(nextSquareToCheckIndex)) {
-            console.log('row150 nextSquareToCheckIndex:', nextSquareToCheckIndex);
             if (
                 nextSquareToCheckIndex >= 0 &&
                 gameBoardArray[nextSquareToCheckIndex].isRevealed &&
@@ -217,20 +208,14 @@ const GameLoop: React.FC = () => {
             const willArriveFrom = direction === 0 ? 2 : direction === 2 ? 0 : direction === 1 ? 3 : 1;
             const isOutOfBounds = checkForOutOfBounds(nextSquareToCheckIndex, direction);
             const nextSquare = squareToCheck(nextSquareToCheckIndex, direction);
-            console.log('willArriveFrom', willArriveFrom);
-
             if (
                 (nextSquareToCheckIndex !== endingIndex && isOutOfBounds) ||
                 (nextSquareToCheckIndex === endingIndex && isOutOfBounds && direction !== finishConnectionIndex)
             ) {
-                console.log('nextSquareToCheckIndex:', nextSquareToCheckIndex, 'endingIndex', endingIndex);
-                console.log('OUT OF BOUNDS!');
                 gameOver();
                 return;
             }
-            console.log('Moving to square:', nextSquare);
             if (nextSquareToCheckIndex === endingIndex && direction === finishConnectionIndex) {
-                console.log('Ny bana bra bra');
                 setLevel((prev) => prev + 1);
                 return;
             }
@@ -299,7 +284,6 @@ const GameLoop: React.FC = () => {
     };
 
     const gameOver = () => {
-        console.log('GAME OVER!');
         setSquareSpeed('normal');
         window.ClubHouseGame.setScore(points);
         setIsGameOver(true);

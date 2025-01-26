@@ -22,7 +22,7 @@
 
 .game-square__image--selected {
     z-index: 2;
-    border: 2px solid red;
+    border: 2px solid var(--accent1);
     background-color: var(--accent2);
     scale: 1.2;
 }

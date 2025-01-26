@@ -7,14 +7,14 @@ import { useEffect, useState } from 'react';
 import useGameStore from '../../stores/gameStore';
 
 const AbilityBar: React.FC = () => {
-    const { setSquareSpeed } = useGameBoardStore();
+    const { setSquareSpeed, jokerTile, setJokerTile, squaresToSwap, setSquaresToSwap } = useGameBoardStore();
     const { isGameOver, isPreparationTime, setIsPreparationTime } = useGameStore();
     const [activeTile, setActiveTile] = useState(0);
 
     const newTiles = [...roadTiles].filter((tile) => tile.name !== 'stop');
 
     useEffect(() => {
-        if (!isGameOver && !isPreparationTime) {
+        if (!isGameOver && !isPreparationTime && !jokerTile) {
             const interval = setInterval(() => {
                 if (activeTile === newTiles.length - 1 && !isGameOver) {
                     setActiveTile(0);
@@ -25,15 +25,27 @@ const AbilityBar: React.FC = () => {
 
             return () => clearInterval(interval);
         }
-    }, [activeTile, isPreparationTime, isGameOver]);
+    }, [activeTile, isPreparationTime, isGameOver, jokerTile]);
 
-    const handleChangeSquare = () => {};
+    const handleJokerTile = () => {
+        if (!isPreparationTime) {
+            if (squaresToSwap.length !== 0) {
+                setSquaresToSwap();
+            }
+            if (jokerTile) {
+                setJokerTile(null);
+                return;
+            }
+
+            setJokerTile(newTiles[activeTile]);
+        }
+    };
     const abilities: Ability[] = [
         {
             name: 'byt',
             alt: 'Vägbit som du kan byta till.',
             src: !isGameOver && !isPreparationTime ? newTiles[activeTile].src : newTiles[0].src,
-            func: () => handleChangeSquare(),
+            func: () => handleJokerTile(),
         },
         {
             name: 'lugn',

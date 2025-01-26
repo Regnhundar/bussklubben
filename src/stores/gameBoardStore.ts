@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { SquareData } from '../interfaces/gameBoard';
+import { RoadTile, SquareData } from '../interfaces/gameBoard';
 import { Connections, GameBoardIndices, PossibleStartingIndices, SquareSpeed } from '../types/type';
 
 interface GameBoardStore {
@@ -21,6 +21,8 @@ interface GameBoardStore {
     squaresToSwap: number[];
     setSquaresToSwap: (index?: number) => void;
     swapGameSquares: (index1: number, index2: number) => void;
+    jokerTile: RoadTile | null;
+    setJokerTile: (roadTile: RoadTile | null) => void;
 }
 
 const useGameBoardStore = create<GameBoardStore>((set) => ({
@@ -63,6 +65,8 @@ const useGameBoardStore = create<GameBoardStore>((set) => ({
             ];
             return { gameBoardArray: newGameBoardArray };
         }),
+    jokerTile: null,
+    setJokerTile: (roadTile) => set({ jokerTile: roadTile }),
 }));
 
 export default useGameBoardStore;
