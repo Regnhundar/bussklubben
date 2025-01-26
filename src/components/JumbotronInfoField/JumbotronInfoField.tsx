@@ -7,7 +7,7 @@ interface Props {
     type: 'timer' | 'points';
 }
 const JumbotronInfoField: React.FC<Props> = ({ variable, unit, src, type }) => {
-    const { isPreparationTime, isGameOver, totalTime } = useGameStore();
+    const { isPreparationTime, totalTime } = useGameStore();
     const finalSeconds =
         !isPreparationTime && type === 'timer' && totalTime <= 5 ? 'jumbotron-info-field__data--final-seconds' : '';
     return (
