@@ -7,11 +7,26 @@ import { useEffect, useState } from 'react';
 import useGameStore from '../../stores/gameStore';
 
 const AbilityBar: React.FC = () => {
-    const { setSquareSpeed, jokerTile, setJokerTile, squaresToSwap, setSquaresToSwap } = useGameBoardStore();
+    const { squareSpeed, setSquareSpeed, jokerTile, setJokerTile, squaresToSwap, setSquaresToSwap } =
+        useGameBoardStore();
     const { isGameOver, isPreparationTime, setIsPreparationTime } = useGameStore();
     const [activeTile, setActiveTile] = useState(0);
 
     const newTiles = [...roadTiles].filter((tile) => tile.name !== 'stop');
+
+    const bytState = jokerTile ? 'ability__button--joker-active' : '';
+    const lugnState =
+        squareSpeed === 'slow'
+            ? 'ability__button--speed-active'
+            : squareSpeed === 'turbo'
+            ? 'ability__button--speed-disabled'
+            : '';
+    const turboState =
+        squareSpeed === 'turbo'
+            ? 'ability__button--speed-active'
+            : squareSpeed === 'slow'
+            ? 'ability__button--speed-disabled'
+            : '';
 
     useEffect(() => {
         if (!isGameOver && !isPreparationTime && !jokerTile) {
@@ -45,21 +60,26 @@ const AbilityBar: React.FC = () => {
             name: 'byt',
             alt: 'Vägbit som du kan byta till.',
             src: !isGameOver && !isPreparationTime ? newTiles[activeTile].src : newTiles[0].src,
+            state: bytState,
             func: () => handleJokerTile(),
         },
         {
             name: 'lugn',
             alt: 'Paus ikon. Bussen saktar in.',
             src: './images/abilities/paus.svg',
-            func: () => setSquareSpeed('slow'),
+            state: lugnState,
+            func: () => squareSpeed === 'normal' && setSquareSpeed('slow'),
         },
         {
             name: 'turbo',
             alt: 'Buss som kör fort. Bussen åker snabbare.',
             src: './images/abilities/turbo.svg',
+            state: turboState,
             func: () => {
-                setSquareSpeed('turbo');
-                isPreparationTime && setIsPreparationTime(false);
+                if (squareSpeed === 'normal') {
+                    setSquareSpeed('turbo');
+                    isPreparationTime && setIsPreparationTime(false);
+                }
             },
         },
     ];

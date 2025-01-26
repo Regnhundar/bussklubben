@@ -29,6 +29,7 @@ const GameLoop: React.FC = () => {
         setPreparationTime,
     } = useGameStore();
     const {
+        setJokerTile,
         setStartingIndex,
         endingIndex,
         setEndingIndex,
@@ -285,6 +286,7 @@ const GameLoop: React.FC = () => {
 
     const gameOver = () => {
         setSquareSpeed('normal');
+        setJokerTile(null);
         window.ClubHouseGame.setScore(points);
         setIsGameOver(true);
         clearTimers();

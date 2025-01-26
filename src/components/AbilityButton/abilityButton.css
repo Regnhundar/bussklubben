@@ -12,6 +12,19 @@
     height: 100%;
 }
 
+.ability__button--speed-active {
+    background-color: yellowgreen;
+}
+
+.ability__button--speed-disabled {
+    opacity: .5;
+    filter: grayscale(1);
+}
+
+.ability__button--joker-active {
+    background-color: yellowgreen;
+}
+
 .ability-button__image {
     width: 100%;
     max-width: 4.5rem;
