@@ -1,4 +1,6 @@
 .game-square {
+    aspect-ratio: 1;
+    width: 100%;
     position: relative;
     appearance: none;
     border: none;
@@ -14,6 +16,7 @@
     aspect-ratio: 1;
     width: 100%;
     background-color: var(--light-gray);
+    object-fit: contain;
 
 }
 

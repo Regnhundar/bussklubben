@@ -1,6 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import useGameStore from '../../stores/gameStore';
-import { BONUS_TIME, POINTS_PER_LEVEL, POINTS_PER_SQUARE, PREPARATION_TIME } from '../../constants';
+import {
+    BONUS_TIME,
+    POINTS_PER_LEVEL,
+    POINTS_PER_SQUARE,
+    PREPARATION_TIME,
+    SLOW_MULTIPLIER,
+    SQUARE_TIMER,
+    TURBO_MULTIPLIER,
+} from '../../constants';
 import useGameBoardStore from '../../stores/gameBoardStore';
 import { createGameBoardArray, generateStartAndFinishIndex } from '../../utils/utilityFunctions';
 import { Connections, GameBoardIndices } from '../../types/type';
@@ -29,6 +37,8 @@ const GameLoop: React.FC = () => {
         setGameBoardArray,
         squaresToSwap,
         setSquaresToSwap,
+        squareSpeed,
+        setSquareSpeed,
         updateGameSquare,
         nextSquareToCheckIndex,
         setNextSquareToCheckIndex,
@@ -42,7 +52,12 @@ const GameLoop: React.FC = () => {
     const prepTimerRef = useRef<number | null>(null);
     const gameTimerRef = useRef<number | null>(null);
     const squareTimerRef = useRef<number | null>(null);
-
+    const nextSquareTimer =
+        squareSpeed === 'turbo'
+            ? SQUARE_TIMER * TURBO_MULTIPLIER
+            : squareSpeed === 'slow'
+            ? SQUARE_TIMER * SLOW_MULTIPLIER
+            : SQUARE_TIMER;
     const validGameBoardIndices = [
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
     ];
@@ -146,10 +161,6 @@ const GameLoop: React.FC = () => {
     };
 
     const handleGameTimer = () => {
-        if (gameTimerRef.current) {
-            clearInterval(gameTimerRef.current);
-        }
-
         if (!isPreparationTime && !isGameOver) {
             gameTimerRef.current = window.setInterval(() => {
                 setTotalTime((prev) => {
@@ -157,9 +168,7 @@ const GameLoop: React.FC = () => {
                         return prev - 1;
                     } else {
                         console.log('SLUT PÅ TID! GAME OVER MAN!');
-                        if (gameTimerRef.current) {
-                            clearInterval(gameTimerRef.current);
-                        }
+
                         gameOver();
                         return 0;
                     }
@@ -190,7 +199,7 @@ const GameLoop: React.FC = () => {
                 squareTimerRef.current = window.setTimeout(() => {
                     setNumberOfSquaresChecked((prev) => prev + 1);
                     updateGameSquare(nextSquareToCheckIndex, { isPreviousSquare: true, isActive: false });
-                }, gameBoardArray[nextSquareToCheckIndex].timer * 1000);
+                }, nextSquareTimer * 1000);
                 return () => {
                     if (squareTimerRef.current) {
                         clearTimeout(squareTimerRef.current);
@@ -246,6 +255,7 @@ const GameLoop: React.FC = () => {
             setGameBoardArray(gameBoard);
             setPreparationTime(PREPARATION_TIME);
             setIsPreparationTime(true);
+            setSquareSpeed('normal');
         }
     };
 
@@ -290,6 +300,7 @@ const GameLoop: React.FC = () => {
 
     const gameOver = () => {
         console.log('GAME OVER!');
+        setSquareSpeed('normal');
         window.ClubHouseGame.setScore(points);
         setIsGameOver(true);
         clearTimers();

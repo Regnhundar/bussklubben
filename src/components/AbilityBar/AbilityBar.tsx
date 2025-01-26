@@ -2,13 +2,12 @@ import './abilityBar.css';
 import AbilityButton from '../AbilityButton/AbilityButton';
 import { Ability } from '../../interfaces/ability';
 import useGameBoardStore from '../../stores/gameBoardStore';
-import { SLOW_MULTIPLIER, TURBO_MULTIPLIER } from '../../constants';
 import { roadTiles } from '../../data/roadTiles';
 import { useEffect, useState } from 'react';
 import useGameStore from '../../stores/gameStore';
 
 const AbilityBar: React.FC = () => {
-    const { activateSpeedAbility } = useGameBoardStore();
+    const { setSquareSpeed } = useGameBoardStore();
     const { isGameOver, isPreparationTime, setIsPreparationTime } = useGameStore();
     const [activeTile, setActiveTile] = useState(0);
 
@@ -40,14 +39,14 @@ const AbilityBar: React.FC = () => {
             name: 'lugn',
             alt: 'Paus ikon. Bussen saktar in.',
             src: './images/abilities/paus.svg',
-            func: () => activateSpeedAbility(SLOW_MULTIPLIER),
+            func: () => setSquareSpeed('slow'),
         },
         {
             name: 'turbo',
             alt: 'Buss som kör fort. Bussen åker snabbare.',
             src: './images/abilities/turbo.svg',
             func: () => {
-                activateSpeedAbility(TURBO_MULTIPLIER);
+                setSquareSpeed('turbo');
                 isPreparationTime && setIsPreparationTime(false);
             },
         },

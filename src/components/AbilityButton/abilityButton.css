@@ -16,6 +16,7 @@
     width: 100%;
     max-width: 4.5rem;
     padding: var(--spacing-xs);
+    object-fit: contain;
 
 }
 
@@ -23,11 +24,11 @@
     background-color: var(--light-gray);
     border: 1px solid var(--gray);
     border-radius: 4px;
+    aspect-ratio: 1;
 }
 
 .ability--lugn .ability-button__image {
     max-width: 3.5rem;
-
 }
 
 .ability--turbo .ability-button__image {

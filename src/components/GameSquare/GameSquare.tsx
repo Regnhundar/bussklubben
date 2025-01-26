@@ -64,7 +64,10 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
         <button
             data-index={index}
             className='game-square'
-            onClick={() => !isGameOver && updateGameSquare(index, { isRevealed: true })}>
+            onClick={() => {
+                !isGameOver && updateGameSquare(index, { isRevealed: true });
+                squaresToSwap.length !== 0 && setSquaresToSwap();
+            }}>
             {startingTile && <StartEndIndicator type='start' direction={startingIndicator} />}
             {endingTile && <StartEndIndicator type='finish' direction={finishIndicator} />}
             {index}
