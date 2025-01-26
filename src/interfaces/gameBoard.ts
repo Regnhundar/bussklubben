@@ -1,17 +1,17 @@
-export interface GameSquare {
+import { Connections } from '../types/type';
+
+export interface SquareData {
     isActive: boolean;
+    isPreviousSquare: boolean;
     isRevealed: boolean;
-    timer: number;
     tile: RoadTile;
 }
-export interface GameBoard {
-    row5: GameSquare[];
-    row4: GameSquare[];
-    row3: GameSquare[];
-    row2: GameSquare[];
-    row1: GameSquare[];
-}
 export interface RoadTile {
+    name: string;
     src: string;
     connections: [boolean, boolean, boolean, boolean];
+}
+export interface endPointInfo {
+    arrowDirection: 'up' | 'down' | 'left' | 'right';
+    successConnection: Connections;
 }

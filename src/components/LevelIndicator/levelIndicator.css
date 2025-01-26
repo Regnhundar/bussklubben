@@ -1,21 +1,29 @@
 .level-info {
     display: grid;
     place-items: center;
+    transform-origin: left;
 }
 
 .level-info__message {
     font-weight: 700;
     font-size: var(--font-size-m);
-    background-color: var(--accent1);
-    color: var(--bg-primary);
     padding: var(--spacing-m);
     border-radius: var(--spacing-m);
+}
+
+.level-info__message--running {
+    background-color: var(--accent1);
+    color: var(--bg-primary);
+}
+
+.level-info__message--preparing {
+    background-color: var(--accent4);
+    color: var(--white);
 }
 
 .level-info__number {
     display: grid;
     place-items: center;
-    background-color: var(--bg-primary);
     color: var(--white);
     border-radius: 50%;
     aspect-ratio: 1;
@@ -24,4 +32,28 @@
     font-weight: 700;
     border: 2px solid var(--white);
     transform: translateY(calc(-1 * var(--spacing-m)));
+}
+
+.level-info__number--preparing {
+    background-color: var(--black);
+}
+
+.level-info__number--running {
+    background-color: var(--bg-primary);
+}
+
+.level-info--soon-to-leave {
+    animation: leaving .5s linear 10 forwards;
+}
+
+@keyframes leaving {
+
+    0%,
+    100% {
+        scale: 1;
+    }
+
+    50% {
+        scale: 1.2;
+    }
 }
