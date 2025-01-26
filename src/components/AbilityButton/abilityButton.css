@@ -13,7 +13,7 @@
 }
 
 .ability__button--speed-active {
-    background-color: yellowgreen;
+    background-color: hotpink;
 }
 
 .ability__button--speed-disabled {
@@ -22,7 +22,7 @@
 }
 
 .ability__button--joker-active {
-    background-color: yellowgreen;
+    background-color: hotpink;
 }
 
 .ability-button__image {
