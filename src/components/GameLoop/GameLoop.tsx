@@ -1,6 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import useGameStore from '../../stores/gameStore';
-import { BONUS_TIME, POINTS_PER_LEVEL, POINTS_PER_SQUARE, PREPARATION_TIME, SQUARE_TIMER } from '../../constants';
+import {
+    BONUS_TIME,
+    POINTS_PER_LEVEL,
+    POINTS_PER_SQUARE,
+    PREPARATION_TIME,
+    SLOW_MULTIPLIER,
+    SQUARE_TIMER,
+    TURBO_MULTIPLIER,
+} from '../../constants';
 import useGameBoardStore from '../../stores/gameBoardStore';
 import { createGameBoardArray, generateStartAndFinishIndex } from '../../utils/utilityFunctions';
 import { Connections, GameBoardIndices } from '../../types/type';
@@ -10,7 +18,7 @@ const GameLoop: React.FC = () => {
         isGameOver,
         setIsGameOver,
         setIsGameRunning,
-        isGameRunning,
+        // isGameRunning,
         setTotalTime,
         level,
         setLevel,
@@ -21,6 +29,7 @@ const GameLoop: React.FC = () => {
         setPreparationTime,
     } = useGameStore();
     const {
+        setJokerTile,
         setStartingIndex,
         endingIndex,
         setEndingIndex,
@@ -29,6 +38,8 @@ const GameLoop: React.FC = () => {
         setGameBoardArray,
         squaresToSwap,
         setSquaresToSwap,
+        squareSpeed,
+        setSquareSpeed,
         updateGameSquare,
         nextSquareToCheckIndex,
         setNextSquareToCheckIndex,
@@ -42,7 +53,12 @@ const GameLoop: React.FC = () => {
     const prepTimerRef = useRef<number | null>(null);
     const gameTimerRef = useRef<number | null>(null);
     const squareTimerRef = useRef<number | null>(null);
-
+    const nextSquareTimer =
+        squareSpeed === 'turbo'
+            ? SQUARE_TIMER * TURBO_MULTIPLIER
+            : squareSpeed === 'slow'
+            ? SQUARE_TIMER * SLOW_MULTIPLIER
+            : SQUARE_TIMER;
     const validGameBoardIndices = [
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
     ];
@@ -103,18 +119,15 @@ const GameLoop: React.FC = () => {
     }, [numberOfSquaresChecked]);
 
     useEffect(() => {
-        console.log('row98 arrivalIndex:', arrivalIndex);
         if (arrivalIndex !== null && nextSquareToCheckIndex !== null) {
             const isSquareConnected =
                 gameBoardArray[nextSquareToCheckIndex].isRevealed &&
                 gameBoardArray[nextSquareToCheckIndex].tile.connections[arrivalIndex] === true;
             if (!isSquareConnected) {
-                console.log('Not connected!');
                 gameOver();
                 return;
             }
             setPoints((prev) => prev + POINTS_PER_SQUARE);
-            console.log(nextSquareToCheckIndex, 'connected!');
         }
     }, [triggerArrival]);
 
@@ -133,7 +146,6 @@ const GameLoop: React.FC = () => {
                     if (prev > 1) {
                         return prev - 1;
                     } else {
-                        console.log('PREP TIME OVER!');
                         if (prepTimerRef.current) {
                             clearInterval(prepTimerRef.current);
                         }
@@ -146,20 +158,12 @@ const GameLoop: React.FC = () => {
     };
 
     const handleGameTimer = () => {
-        if (gameTimerRef.current) {
-            clearInterval(gameTimerRef.current);
-        }
-
         if (!isPreparationTime && !isGameOver) {
             gameTimerRef.current = window.setInterval(() => {
                 setTotalTime((prev) => {
                     if (prev > 1) {
                         return prev - 1;
                     } else {
-                        console.log('SLUT PÅ TID! GAME OVER MAN!');
-                        if (gameTimerRef.current) {
-                            clearInterval(gameTimerRef.current);
-                        }
                         gameOver();
                         return 0;
                     }
@@ -170,14 +174,11 @@ const GameLoop: React.FC = () => {
 
     // Startar timer för att kontrollera nästa ruta.
     const handleNextSquareTimer = () => {
-        console.log('isStartingSquareConnected before connection ctrl', isStartingSquareConnected);
         if (nextSquareToCheckIndex === startingIndex && !isStartingSquareConnected) {
-            console.log('isStartingSquareConnected', isStartingSquareConnected);
             gameOver();
             return;
         }
         if (nextSquareToCheckIndex !== null && validGameBoardIndices.includes(nextSquareToCheckIndex)) {
-            console.log('row150 nextSquareToCheckIndex:', nextSquareToCheckIndex);
             if (
                 nextSquareToCheckIndex >= 0 &&
                 gameBoardArray[nextSquareToCheckIndex].isRevealed &&
@@ -190,7 +191,7 @@ const GameLoop: React.FC = () => {
                 squareTimerRef.current = window.setTimeout(() => {
                     setNumberOfSquaresChecked((prev) => prev + 1);
                     updateGameSquare(nextSquareToCheckIndex, { isPreviousSquare: true, isActive: false });
-                }, gameBoardArray[nextSquareToCheckIndex].timer * 1000);
+                }, nextSquareTimer * 1000);
                 return () => {
                     if (squareTimerRef.current) {
                         clearTimeout(squareTimerRef.current);
@@ -208,20 +209,14 @@ const GameLoop: React.FC = () => {
             const willArriveFrom = direction === 0 ? 2 : direction === 2 ? 0 : direction === 1 ? 3 : 1;
             const isOutOfBounds = checkForOutOfBounds(nextSquareToCheckIndex, direction);
             const nextSquare = squareToCheck(nextSquareToCheckIndex, direction);
-            console.log('willArriveFrom', willArriveFrom);
-
             if (
                 (nextSquareToCheckIndex !== endingIndex && isOutOfBounds) ||
                 (nextSquareToCheckIndex === endingIndex && isOutOfBounds && direction !== finishConnectionIndex)
             ) {
-                console.log('nextSquareToCheckIndex:', nextSquareToCheckIndex, 'endingIndex', endingIndex);
-                console.log('OUT OF BOUNDS!');
                 gameOver();
                 return;
             }
-            console.log('Moving to square:', nextSquare);
             if (nextSquareToCheckIndex === endingIndex && direction === finishConnectionIndex) {
-                console.log('Ny bana bra bra');
                 setLevel((prev) => prev + 1);
                 return;
             }
@@ -246,6 +241,7 @@ const GameLoop: React.FC = () => {
             setGameBoardArray(gameBoard);
             setPreparationTime(PREPARATION_TIME);
             setIsPreparationTime(true);
+            setSquareSpeed('normal');
         }
     };
 
@@ -289,7 +285,8 @@ const GameLoop: React.FC = () => {
     };
 
     const gameOver = () => {
-        console.log('GAME OVER!');
+        setSquareSpeed('normal');
+        setJokerTile(null);
         window.ClubHouseGame.setScore(points);
         setIsGameOver(true);
         clearTimers();

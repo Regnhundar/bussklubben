@@ -25,6 +25,7 @@
     left: var(--after-left, unset);
     right: var(--after-right, unset);
     transform: var(--after-transform, none);
+    z-index: -1;
 }
 
 .indicator-sign--green {

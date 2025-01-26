@@ -26,3 +26,4 @@ export type GameBoardIndices =
     | 23
     | 24;
 export type Connections = 0 | 1 | 2 | 3;
+export type SquareSpeed = 'normal' | 'turbo' | 'slow';

@@ -12,10 +12,36 @@
     height: 100%;
 }
 
+.ability__button--speed-active {
+    background-color: yellowgreen;
+}
+
+.ability__button--speed-disabled {
+    opacity: .5;
+    filter: grayscale(1);
+}
+
+.ability__button--joker-active {
+    background-color: yellowgreen;
+}
+
 .ability-button__image {
     width: 100%;
     max-width: 4.5rem;
-    padding: var(--spacing-xs)
+    padding: var(--spacing-xs);
+    object-fit: contain;
+
+}
+
+.ability--byt .ability-button__image {
+    background-color: var(--light-gray);
+    border: 1px solid var(--gray);
+    border-radius: 4px;
+    aspect-ratio: 1;
+}
+
+.ability--lugn .ability-button__image {
+    max-width: 3.5rem;
 }
 
 .ability--turbo .ability-button__image {

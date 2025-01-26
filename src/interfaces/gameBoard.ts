@@ -4,10 +4,10 @@ export interface SquareData {
     isActive: boolean;
     isPreviousSquare: boolean;
     isRevealed: boolean;
-    timer: number;
     tile: RoadTile;
 }
 export interface RoadTile {
+    name: string;
     src: string;
     connections: [boolean, boolean, boolean, boolean];
 }

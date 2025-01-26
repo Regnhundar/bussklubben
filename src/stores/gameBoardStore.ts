@@ -1,7 +1,6 @@
 import { create } from 'zustand';
-import { SquareData } from '../interfaces/gameBoard';
-import { Connections, GameBoardIndices, PossibleStartingIndices } from '../types/type';
-import { SQUARE_TIMER } from '../constants';
+import { RoadTile, SquareData } from '../interfaces/gameBoard';
+import { Connections, GameBoardIndices, PossibleStartingIndices, SquareSpeed } from '../types/type';
 
 interface GameBoardStore {
     gameBoardArray: SquareData[];
@@ -17,10 +16,13 @@ interface GameBoardStore {
     finishConnectionIndex: Connections | null;
     setFinishConnectionIndex: (index: Connections | null) => void;
     updateGameSquare: (index: number, updates: Partial<SquareData>) => void;
-    activateSpeedAbility: (speedMultiplier: number) => void;
+    squareSpeed: string;
+    setSquareSpeed: (speed: SquareSpeed) => void;
     squaresToSwap: number[];
     setSquaresToSwap: (index?: number) => void;
     swapGameSquares: (index1: number, index2: number) => void;
+    jokerTile: RoadTile | null;
+    setJokerTile: (roadTile: RoadTile | null) => void;
 }
 
 const useGameBoardStore = create<GameBoardStore>((set) => ({
@@ -43,13 +45,8 @@ const useGameBoardStore = create<GameBoardStore>((set) => ({
         set((state) => ({
             gameBoardArray: state.gameBoardArray.map((square, i) => (i === index ? { ...square, ...updates } : square)),
         })),
-    activateSpeedAbility: (speedMultiplier) =>
-        set((state) => ({
-            gameBoardArray: state.gameBoardArray.map((square) => ({
-                ...square,
-                timer: SQUARE_TIMER * speedMultiplier,
-            })),
-        })),
+    squareSpeed: 'normal',
+    setSquareSpeed: (speed) => set({ squareSpeed: speed }),
     squaresToSwap: [],
     setSquaresToSwap: (index) =>
         set((state) => {
@@ -68,6 +65,8 @@ const useGameBoardStore = create<GameBoardStore>((set) => ({
             ];
             return { gameBoardArray: newGameBoardArray };
         }),
+    jokerTile: null,
+    setJokerTile: (roadTile) => set({ jokerTile: roadTile }),
 }));
 
 export default useGameBoardStore;
