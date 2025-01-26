@@ -3,16 +3,38 @@ import AbilityButton from '../AbilityButton/AbilityButton';
 import { Ability } from '../../interfaces/ability';
 import useGameBoardStore from '../../stores/gameBoardStore';
 import { SLOW_MULTIPLIER, TURBO_MULTIPLIER } from '../../constants';
+import { roadTiles } from '../../data/roadTiles';
+import { useEffect, useState } from 'react';
+import useGameStore from '../../stores/gameStore';
 
 const AbilityBar: React.FC = () => {
     const { activateSpeedAbility } = useGameBoardStore();
+    const { isGameOver, isPreparationTime, setIsPreparationTime } = useGameStore();
+    const [activeTile, setActiveTile] = useState(0);
 
+    const newTiles = [...roadTiles].filter((tile) => tile.name !== 'stop');
+
+    useEffect(() => {
+        if (!isGameOver && !isPreparationTime) {
+            const interval = setInterval(() => {
+                if (activeTile === newTiles.length - 1 && !isGameOver) {
+                    setActiveTile(0);
+                } else {
+                    setActiveTile((prev) => prev + 1);
+                }
+            }, 1000);
+
+            return () => clearInterval(interval);
+        }
+    }, [activeTile, isPreparationTime, isGameOver]);
+
+    const handleChangeSquare = () => {};
     const abilities: Ability[] = [
         {
             name: 'byt',
             alt: 'Vägbit som du kan byta till.',
-            src: './images/roadTiles/vertical.svg',
-            func: () => console.log('Du klickade på BYT'),
+            src: !isGameOver && !isPreparationTime ? newTiles[activeTile].src : newTiles[0].src,
+            func: () => handleChangeSquare(),
         },
         {
             name: 'lugn',
@@ -24,7 +46,10 @@ const AbilityBar: React.FC = () => {
             name: 'turbo',
             alt: 'Buss som kör fort. Bussen åker snabbare.',
             src: './images/abilities/turbo.svg',
-            func: () => activateSpeedAbility(TURBO_MULTIPLIER),
+            func: () => {
+                activateSpeedAbility(TURBO_MULTIPLIER);
+                isPreparationTime && setIsPreparationTime(false);
+            },
         },
     ];
     return (

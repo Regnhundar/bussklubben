@@ -45,10 +45,14 @@ const useGameBoardStore = create<GameBoardStore>((set) => ({
         })),
     activateSpeedAbility: (speedMultiplier) =>
         set((state) => ({
-            gameBoardArray: state.gameBoardArray.map((square) => ({
-                ...square,
-                timer: SQUARE_TIMER * speedMultiplier,
-            })),
+            gameBoardArray: state.gameBoardArray.map((square) =>
+                square.isActive === false
+                    ? {
+                          ...square,
+                          timer: SQUARE_TIMER * speedMultiplier,
+                      }
+                    : square
+            ),
         })),
     squaresToSwap: [],
     setSquaresToSwap: (index) =>

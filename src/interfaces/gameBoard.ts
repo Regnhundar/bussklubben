@@ -8,6 +8,7 @@ export interface SquareData {
     tile: RoadTile;
 }
 export interface RoadTile {
+    name: string;
     src: string;
     connections: [boolean, boolean, boolean, boolean];
 }

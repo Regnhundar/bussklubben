@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import useGameStore from '../../stores/gameStore';
-import { BONUS_TIME, POINTS_PER_LEVEL, POINTS_PER_SQUARE, PREPARATION_TIME, SQUARE_TIMER } from '../../constants';
+import { BONUS_TIME, POINTS_PER_LEVEL, POINTS_PER_SQUARE, PREPARATION_TIME } from '../../constants';
 import useGameBoardStore from '../../stores/gameBoardStore';
 import { createGameBoardArray, generateStartAndFinishIndex } from '../../utils/utilityFunctions';
 import { Connections, GameBoardIndices } from '../../types/type';

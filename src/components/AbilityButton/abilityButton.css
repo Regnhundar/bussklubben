@@ -15,7 +15,19 @@
 .ability-button__image {
     width: 100%;
     max-width: 4.5rem;
-    padding: var(--spacing-xs)
+    padding: var(--spacing-xs);
+
+}
+
+.ability--byt .ability-button__image {
+    background-color: var(--light-gray);
+    border: 1px solid var(--gray);
+    border-radius: 4px;
+}
+
+.ability--lugn .ability-button__image {
+    max-width: 3.5rem;
+
 }
 
 .ability--turbo .ability-button__image {
