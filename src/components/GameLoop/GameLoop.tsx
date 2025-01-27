@@ -99,6 +99,7 @@ const GameLoop: React.FC = () => {
             };
         }
     }, [isPreparationTime, isGameOver]);
+
     // Startar timer för när nästa ruta ska kontrolleras.
     useEffect(() => {
         if (!isPreparationTime && !isGameOver) {
@@ -127,7 +128,9 @@ const GameLoop: React.FC = () => {
     }, [triggerArrival]);
 
     useEffect(() => {
-        handleNextLevel();
+        if (level !== 1) {
+            handleNextLevel();
+        }
     }, [level]);
 
     const handleDepartureTimer = () => {
