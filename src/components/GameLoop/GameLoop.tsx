@@ -241,7 +241,7 @@ const GameLoop: React.FC = () => {
             setStartingIndex(startAndFinishIndex.start);
             setEndingIndex(startAndFinishIndex.finish);
             setGameBoardArray(gameBoard);
-            const adjustedPrepTime = PREPARATION_TIME - (level - 1) >= 10 ? PREPARATION_TIME - (level - 1) : 10;
+            const adjustedPrepTime = PREPARATION_TIME - (level - 1) > 10 ? PREPARATION_TIME - (level - 1) : 10;
             setPreparationTime(adjustedPrepTime);
             setIsPreparationTime(true);
             setSquareSpeed('normal');
