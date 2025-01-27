@@ -44,3 +44,4 @@ export const stop: RoadTile = {
 };
 
 export const roadTiles: RoadTile[] = [upDown, upLeft, upRight, rightLeft, rightDown, downLeft, stop];
+export const jokerRoadTiles: RoadTile[] = [...roadTiles].filter((tile) => tile.name !== 'stop');
