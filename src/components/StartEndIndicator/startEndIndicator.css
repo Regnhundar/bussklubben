@@ -8,10 +8,14 @@
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: .85rem;
+    color: var(--white);
+    text-shadow: var(--text-outline--black);
     background-color: var(--after-bg-color);
     padding: var(--spacing-xs) var(--spacing-s);
     font-weight: bold;
     width: fit-content;
+    filter: drop-shadow(1px 1px 2px var(--gray));
+    border-radius: 2px;
 }
 
 .indicator-sign::after {
@@ -29,13 +33,11 @@
 }
 
 .indicator-sign--green {
-    --after-bg-color: var(--bg-primary);
-    color: var(--white);
+    --after-bg-color: var(--accent1);
 }
 
 .indicator-sign--yellow {
-    --after-bg-color: var(--accent1);
-    color: var(--bg-primary);
+    --after-bg-color: var(--accent4);
 }
 
 .indicator-sign--down {

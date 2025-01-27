@@ -3,6 +3,7 @@
     grid-template-columns: auto 1fr;
     grid-template-rows: repeat(2, 1fr);
     column-gap: var(--spacing-l);
+
 }
 
 .jumbotron-info-field--preparing {

@@ -93,7 +93,6 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
             }}>
             {startingTile && <StartEndIndicator type='start' direction={startingIndicator} />}
             {endingTile && <StartEndIndicator type='finish' direction={finishIndicator} />}
-            {index}
         </button>
     );
 };
