@@ -2,7 +2,7 @@ import './abilityBar.css';
 import AbilityButton from '../AbilityButton/AbilityButton';
 import { Ability } from '../../interfaces/ability';
 import useGameBoardStore from '../../stores/gameBoardStore';
-import { jokerRoadTiles, roadTiles } from '../../data/roadTiles';
+import { jokerRoadTiles } from '../../data/roadTiles';
 import { useEffect } from 'react';
 import useGameStore from '../../stores/gameStore';
 
