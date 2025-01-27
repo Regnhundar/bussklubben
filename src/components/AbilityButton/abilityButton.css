@@ -18,7 +18,6 @@
 .ability__button--speed-active,
 .ability__button--joker-active {
     background-color: var(--accent1);
-    filter: hue-rotate(360deg);
 }
 
 .ability__button--speed-disabled {
