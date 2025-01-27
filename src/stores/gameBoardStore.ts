@@ -21,6 +21,8 @@ interface GameBoardStore {
     squaresToSwap: number[];
     setSquaresToSwap: (index?: number) => void;
     swapGameSquares: (index1: number, index2: number) => void;
+    activeJokerTile: number;
+    setActiveJokerTile: (value: number | ((prev: number) => number)) => void;
     jokerTile: RoadTile | null;
     setJokerTile: (roadTile: RoadTile | null) => void;
 }
@@ -65,6 +67,11 @@ const useGameBoardStore = create<GameBoardStore>((set) => ({
             ];
             return { gameBoardArray: newGameBoardArray };
         }),
+    activeJokerTile: 0,
+    setActiveJokerTile: (value) =>
+        set((state) => ({
+            activeJokerTile: typeof value === 'function' ? value(state.activeJokerTile) : value,
+        })),
     jokerTile: null,
     setJokerTile: (roadTile) => set({ jokerTile: roadTile }),
 }));

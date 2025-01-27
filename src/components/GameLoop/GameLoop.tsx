@@ -17,8 +17,6 @@ const GameLoop: React.FC = () => {
     const {
         isGameOver,
         setIsGameOver,
-        setIsGameRunning,
-        // isGameRunning,
         setTotalTime,
         level,
         setLevel,
@@ -53,12 +51,7 @@ const GameLoop: React.FC = () => {
     const prepTimerRef = useRef<number | null>(null);
     const gameTimerRef = useRef<number | null>(null);
     const squareTimerRef = useRef<number | null>(null);
-    const nextSquareTimer =
-        squareSpeed === 'turbo'
-            ? SQUARE_TIMER * TURBO_MULTIPLIER
-            : squareSpeed === 'slow'
-            ? SQUARE_TIMER * SLOW_MULTIPLIER
-            : SQUARE_TIMER;
+
     const validGameBoardIndices = [
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
     ];
@@ -104,6 +97,7 @@ const GameLoop: React.FC = () => {
             };
         }
     }, [isPreparationTime, isGameOver]);
+
     // Startar timer för när nästa ruta ska kontrolleras.
     useEffect(() => {
         if (!isPreparationTime && !isGameOver) {
@@ -132,7 +126,9 @@ const GameLoop: React.FC = () => {
     }, [triggerArrival]);
 
     useEffect(() => {
-        handleNextLevel();
+        if (level !== 1) {
+            handleNextLevel();
+        }
     }, [level]);
 
     const handleDepartureTimer = () => {
@@ -188,6 +184,12 @@ const GameLoop: React.FC = () => {
                 if (squaresToSwap.includes(nextSquareToCheckIndex)) {
                     setSquaresToSwap();
                 }
+                const nextSquareTimer =
+                    squareSpeed === 'turbo'
+                        ? SQUARE_TIMER * TURBO_MULTIPLIER
+                        : squareSpeed === 'slow'
+                        ? SQUARE_TIMER * SLOW_MULTIPLIER
+                        : SQUARE_TIMER;
                 squareTimerRef.current = window.setTimeout(() => {
                     setNumberOfSquaresChecked((prev) => prev + 1);
                     updateGameSquare(nextSquareToCheckIndex, { isPreviousSquare: true, isActive: false });
@@ -239,7 +241,8 @@ const GameLoop: React.FC = () => {
             setStartingIndex(startAndFinishIndex.start);
             setEndingIndex(startAndFinishIndex.finish);
             setGameBoardArray(gameBoard);
-            setPreparationTime(PREPARATION_TIME);
+            const adjustedPrepTime = PREPARATION_TIME - (level - 1) > 10 ? PREPARATION_TIME - (level - 1) : 10;
+            setPreparationTime(adjustedPrepTime);
             setIsPreparationTime(true);
             setSquareSpeed('normal');
         }
@@ -291,7 +294,6 @@ const GameLoop: React.FC = () => {
         setIsGameOver(true);
         clearTimers();
         window.ClubHouseGame.gameDone();
-        setIsGameRunning(false);
         setIsPreparationTime(false);
         setPreparationTime(PREPARATION_TIME);
         setStartingIndex(null);

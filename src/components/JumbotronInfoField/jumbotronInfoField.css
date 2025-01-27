@@ -3,6 +3,7 @@
     grid-template-columns: auto 1fr;
     grid-template-rows: repeat(2, 1fr);
     column-gap: var(--spacing-l);
+
 }
 
 .jumbotron-info-field--preparing {
@@ -18,7 +19,9 @@
     width: 2rem;
     border-radius: 50%;
     padding: var(--spacing-xs);
-    box-shadow: 0 0 0 4px var(--accent2), 1px 3px 12px 1px var(--black);
+    box-shadow: 0 0 0 4px var(--accent2), 0 0 0 5px rgba(0, 0, 0, 0.3);
+    filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.5));
+
 }
 
 .jumbotron-info-field__wrapper {

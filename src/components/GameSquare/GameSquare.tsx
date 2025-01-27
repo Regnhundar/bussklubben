@@ -4,6 +4,7 @@ import useGameBoardStore from '../../stores/gameBoardStore';
 import { useEffect, useState } from 'react';
 import StartEndIndicator from '../StartEndIndicator/StartEndIndicator';
 import useGameStore from '../../stores/gameStore';
+import { jokerRoadTiles } from '../../data/roadTiles';
 
 interface Props {
     squareData: SquareData;
@@ -22,6 +23,8 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
         endingIndex,
         jokerTile,
         setJokerTile,
+        activeJokerTile,
+        setActiveJokerTile,
     } = useGameBoardStore();
     const { isGameOver, isPreparationTime } = useGameStore();
     const [selectedToMove, setSelectedToMove] = useState(false);
@@ -52,6 +55,9 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
         }
         if (jokerTile && !squareData.isPreviousSquare && !squareData.isActive && !isGameOver && !isPreparationTime) {
             updateGameSquare(index, { tile: jokerTile });
+            activeJokerTile === jokerRoadTiles.length - 1
+                ? setActiveJokerTile(0)
+                : setActiveJokerTile((prev) => prev + 1);
             setJokerTile(null);
         }
     };
@@ -87,7 +93,6 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
             }}>
             {startingTile && <StartEndIndicator type='start' direction={startingIndicator} />}
             {endingTile && <StartEndIndicator type='finish' direction={finishIndicator} />}
-            {index}
         </button>
     );
 };

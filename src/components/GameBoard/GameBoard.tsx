@@ -5,8 +5,10 @@ import { createGameBoardArray, endPoints, generateStartAndFinishIndex } from '..
 import './gameBoard.css';
 import GameOver from '../GameOver/GameOver';
 import useGameStore from '../../stores/gameStore';
-
-const GameBoard: React.FC = () => {
+interface Props {
+    startFunction: () => void;
+}
+const GameBoard: React.FC<Props> = ({ startFunction }) => {
     const {
         gameBoardArray,
         setGameBoardArray,
@@ -58,7 +60,7 @@ const GameBoard: React.FC = () => {
         // </section>
         <>
             {isGameOver ? (
-                <GameOver />
+                <GameOver startFunction={startFunction} />
             ) : (
                 <section className='game-board'>
                     {gameBoardArray.map((squareData, i) => (
