@@ -1,16 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
+
+
 :root {
   --bg-primary: #017A36;
 
   --white: #fff;
-  --off-white: rgb(255, 255, 255);
+  --off-white: rgb(255, 255, 240);
   --light-gray: #E4E4E4;
   --gray: #514D4D;
   --black: #120C03;
 
   --3d-shadow: inset 2px 2px 0 0 rgba(255, 255, 255, 0.15), inset -3px -3px 0 0 rgba(0, 0, 0, 0.089);
-  --3d-shadow-reverse: inset -1px -1px 0 0 rgba(255, 255, 255, 0.192), inset 2px 2px 0 0 rgba(0, 0, 0, 0.342);
+  --3d-shadow-reverse: inset -3px -3px 0 0 rgba(255, 255, 255, 0.192), inset 2px 2px 0 0 rgba(0, 0, 0, 0.342);
+  --3d-shadow-reverse--small: inset -1px -1px 0 0 rgba(255, 255, 255, 0.192), inset 2px 2px 0 0 rgba(0, 0, 0, 0.342);
 
   --accent1: #FDCC00;
   --accent2: #FFEFB4;

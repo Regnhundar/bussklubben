@@ -3,7 +3,14 @@
     width: 100%;
     grid-column: 1/-1;
     display: grid;
-    place-items: center
+    place-items: center;
+
+}
+
+.game-over__title,
+.game-over__reason {
+    text-shadow: var(--text-outline--black);
+    filter: drop-shadow(3px 3px 0 rgba(0, 0, 0, 0.5));
 }
 
 .game-over__replay-button {
@@ -17,10 +24,9 @@
     box-shadow: var(--3d-shadow);
     border: 2px solid black;
     text-shadow: var(--text-outline--white);
+    filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.5));
     animation: lookAtMe 3s linear infinite forwards;
-    animation-timing-function: ease-in-out;
-
-
+    animation-delay: 1s;
 }
 
 @keyframes lookAtMe {

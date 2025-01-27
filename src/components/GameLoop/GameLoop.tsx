@@ -17,8 +17,6 @@ const GameLoop: React.FC = () => {
     const {
         isGameOver,
         setIsGameOver,
-        setIsGameRunning,
-        // isGameRunning,
         setTotalTime,
         level,
         setLevel,
@@ -243,7 +241,8 @@ const GameLoop: React.FC = () => {
             setStartingIndex(startAndFinishIndex.start);
             setEndingIndex(startAndFinishIndex.finish);
             setGameBoardArray(gameBoard);
-            setPreparationTime(PREPARATION_TIME);
+            const adjustedPrepTime = PREPARATION_TIME - (level - 1) >= 10 ? PREPARATION_TIME - (level - 1) : 10;
+            setPreparationTime(adjustedPrepTime);
             setIsPreparationTime(true);
             setSquareSpeed('normal');
         }
@@ -295,7 +294,6 @@ const GameLoop: React.FC = () => {
         setIsGameOver(true);
         clearTimers();
         window.ClubHouseGame.gameDone();
-        setIsGameRunning(false);
         setIsPreparationTime(false);
         setPreparationTime(PREPARATION_TIME);
         setStartingIndex(null);

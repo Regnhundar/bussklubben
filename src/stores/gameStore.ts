@@ -44,7 +44,7 @@ const useGameStore = create<GameStore>((set) => ({
         set((state) => ({
             level: typeof value === 'function' ? value(state.level) : value,
         })),
-    isGameRunning: true,
+    isGameRunning: false,
     setIsGameRunning: (value) =>
         set((state) => ({
             isGameRunning: typeof value === 'function' ? value(state.isGameRunning) : value,

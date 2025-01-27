@@ -45,7 +45,7 @@
 .level-info__number--preparing {
     background-color: #333333;
     text-shadow: var(--text-outline--black);
-    box-shadow: 0 -2px 0 0 #BC201C, var(--3d-shadow-reverse);
+    box-shadow: 0 -2px 0 0 #BC201C, var(--3d-shadow-reverse--small);
     border: 1px solid black;
 
 }
@@ -53,7 +53,7 @@
 .level-info__number--running {
     background-color: var(--bg-primary);
     text-shadow: var(--text-outline--black);
-    box-shadow: 0 -2px 0 0 #E6BA00, var(--3d-shadow-reverse);
+    box-shadow: 0 -2px 0 0 #E6BA00, var(--3d-shadow-reverse--small);
     border: 1px solid black;
 }
 

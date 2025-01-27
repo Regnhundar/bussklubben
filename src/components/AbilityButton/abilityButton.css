@@ -10,19 +10,20 @@
     border-radius: .5rem;
     width: 100%;
     height: 100%;
+    border: 2px solid black;
+    filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.5));
+    box-shadow: var(--3d-shadow);
 }
 
-.ability__button--speed-active {
-    background-color: hotpink;
+.ability__button--speed-active,
+.ability__button--joker-active {
+    background-color: var(--accent1);
+    filter: hue-rotate(360deg);
 }
 
 .ability__button--speed-disabled {
     opacity: .5;
     filter: grayscale(1);
-}
-
-.ability__button--joker-active {
-    background-color: hotpink;
 }
 
 .ability-button__image {
@@ -31,6 +32,7 @@
     padding: var(--spacing-xs);
     object-fit: contain;
 
+
 }
 
 .ability--byt .ability-button__image {
@@ -38,15 +40,44 @@
     border: 1px solid var(--gray);
     border-radius: 4px;
     aspect-ratio: 1;
+    filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.5));
 }
 
 .ability--lugn .ability-button__image {
     max-width: 3.5rem;
+    filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.5));
+}
+
+
+
+.ability--turbo {
+    position: relative;
+
+}
+
+.ability--turbo .ability-button__image::after {
+    content: "";
+    position: absolute;
+    background-color: aqua;
+    inset: 0;
+    margin: auto;
+    width: 100%;
+    max-width: 4.5rem;
+    aspect-ratio: 1;
+    z-index: 1;
 }
 
 .ability--turbo .ability-button__image {
-    max-width: 6.5rem;
-    filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.25));
+    max-width: 4.5rem;
+    width: 100%;
+    border: 2px solid var(--gray);
+    background-color: var(--off-white);
+    filter: drop-shadow(2px 2px 0 var(--gray));
+    box-shadow: var(--3d-shadow);
+    border-radius: 50%;
+    aspect-ratio: 1;
+    z-index: 999;
+    position: relative;
 }
 
 .ability-button__name {
@@ -58,9 +89,12 @@
     border: 1px solid var(--accent3);
     padding: var(--spacing-xs);
     color: var(--white);
-    border-radius: var(--spacing-m);
+    border-radius: var(--spacing-s);
     font-size: var(--font-size-s);
     font-weight: 500;
-    box-shadow: 2px 2px 8px 0 var(--black);
+    box-shadow: var(--3d-shadow);
+    text-shadow: var(--text-outline--black);
+    filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.25));
+    border: 2px solid black;
     margin: 0 auto;
 }
