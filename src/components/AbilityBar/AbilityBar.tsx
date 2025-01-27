@@ -95,7 +95,7 @@ const AbilityBar: React.FC = () => {
         {
             name: 'turbo',
             alt: 'Buss som kör fort. Bussen åker snabbare.',
-            src: './images/abilities/turbo.svg',
+            src: './images/abilities/flash.svg',
             state: turboState,
             func: handleTurboBus,
         },
