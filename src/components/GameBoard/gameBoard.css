@@ -6,7 +6,7 @@
     aspect-ratio: 1;
     grid-template-rows: repeat(5, minmax(0, 1fr));
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    background-color: var(--gray);
+    background-color: var(--bg-primary);
     border-radius: var(--spacing-s);
     border: 2px solid var(--black);
 }
