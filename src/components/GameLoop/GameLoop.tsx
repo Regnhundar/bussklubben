@@ -232,16 +232,17 @@ const GameLoop: React.FC = () => {
     // Hanterar reset vid klarad bana
     const handleNextLevel = () => {
         if (level !== 1) {
-            setNextSquareToCheckIndex(null);
-            setPoints((prev) => prev + POINTS_PER_LEVEL + POINTS_PER_SQUARE);
-            setTotalTime((prev) => prev + BONUS_TIME);
+            const adjustedPrepTime = PREPARATION_TIME - (level - 1) > 10 ? PREPARATION_TIME - (level - 1) : 10;
+            const adjustedBonusTime = BONUS_TIME - (level - 2) > 5 ? BONUS_TIME - (level - 2) : 5;
             const startAndFinishIndex = generateStartAndFinishIndex();
             const gameBoard = createGameBoardArray();
+            setNextSquareToCheckIndex(null);
+            setPoints((prev) => prev + POINTS_PER_LEVEL + POINTS_PER_SQUARE);
+            setTotalTime((prev) => prev + adjustedBonusTime);
             setArrivalIndex(null);
             setStartingIndex(startAndFinishIndex.start);
             setEndingIndex(startAndFinishIndex.finish);
             setGameBoardArray(gameBoard);
-            const adjustedPrepTime = PREPARATION_TIME - (level - 1) > 10 ? PREPARATION_TIME - (level - 1) : 10;
             setPreparationTime(adjustedPrepTime);
             setIsPreparationTime(true);
             setSquareSpeed('normal');

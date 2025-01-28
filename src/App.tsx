@@ -32,7 +32,6 @@ function App() {
         setPreparationTime(PREPARATION_TIME);
         setTotalTime(TOTAL_TIME);
         setIsPreparationTime(true);
-        setTotalTime(TOTAL_TIME);
         setPoints(0);
         setLevel(1);
     };
