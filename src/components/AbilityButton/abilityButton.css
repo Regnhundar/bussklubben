@@ -20,7 +20,7 @@
     background-color: var(--accent1);
 }
 
-.ability__button--speed-disabled {
+.ability__button--disabled {
     opacity: .5;
     filter: grayscale(1);
 }
@@ -73,7 +73,7 @@
     background-color: var(--off-white);
     filter: drop-shadow(2px 2px 0 var(--gray));
     box-shadow: var(--3d-shadow);
-    border-radius: 50%;
+    border-radius: 4px;
     aspect-ratio: 1;
     z-index: 999;
     position: relative;
@@ -96,4 +96,8 @@
     filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.25));
     border: 2px solid black;
     margin: 0 auto;
+}
+
+.ability-button__name--disabled {
+    background-color: gray;
 }
