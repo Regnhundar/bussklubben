@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import StartEndIndicator from '../StartEndIndicator/StartEndIndicator';
 import useGameStore from '../../stores/gameStore';
 import { jokerRoadTiles } from '../../data/roadTiles';
+import { motion } from 'motion/react';
 
 interface Props {
     squareData: SquareData;
@@ -62,6 +63,15 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
         }
     };
 
+    const childVariant = {
+        hidden: { opacity: 0, scale: 0.8 },
+        show: (customDelay: number) => ({
+            opacity: 1,
+            scale: 1,
+            transition: { duration: 0.5, delay: customDelay },
+        }),
+    };
+
     return squareData.isRevealed ? (
         <img
             data-index={index}
@@ -84,7 +94,9 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
             onClick={handleRoadTile}
         />
     ) : (
-        <button
+        <motion.button
+            variants={childVariant}
+            custom={squareData.delay}
             data-index={index}
             className='game-square'
             onClick={() => {
@@ -93,7 +105,7 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
             }}>
             {startingTile && <StartEndIndicator type='start' direction={startingIndicator} />}
             {endingTile && <StartEndIndicator type='finish' direction={finishIndicator} />}
-        </button>
+        </motion.button>
     );
 };
 

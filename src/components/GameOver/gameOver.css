@@ -23,7 +23,7 @@
     font-weight: 800;
     box-shadow: var(--3d-shadow);
     border: 2px solid black;
-    text-shadow: var(--text-outline--white);
+    text-shadow: var(--text-outline--accent-2);
     filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.5));
     animation: lookAtMe 3s linear infinite forwards;
     animation-delay: 1s;

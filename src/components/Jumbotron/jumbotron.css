@@ -19,7 +19,7 @@
     background-color: var(--light-gray);
     position: absolute;
     left: 50%;
-    top: 50%;
+    top: 53%;
     transform: translate(-50%, -50%);
 }
 

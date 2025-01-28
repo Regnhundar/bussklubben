@@ -19,18 +19,22 @@ const AbilityBar: React.FC = () => {
     } = useGameBoardStore();
     const { isGameOver, isPreparationTime, setIsPreparationTime } = useGameStore();
 
-    const bytState = jokerTile ? 'ability__button--joker-active' : '';
+    const bytState = jokerTile
+        ? 'ability__button--joker-active'
+        : isPreparationTime || isGameOver
+        ? 'ability__button--disabled'
+        : '';
     const lugnState =
         squareSpeed === 'slow'
             ? 'ability__button--speed-active'
-            : squareSpeed === 'turbo'
-            ? 'ability__button--speed-disabled'
+            : squareSpeed === 'turbo' || isPreparationTime || isGameOver
+            ? 'ability__button--disabled'
             : '';
     const turboState =
         squareSpeed === 'turbo'
             ? 'ability__button--speed-active'
-            : squareSpeed === 'slow'
-            ? 'ability__button--speed-disabled'
+            : squareSpeed === 'slow' || isGameOver
+            ? 'ability__button--disabled'
             : '';
 
     useEffect(() => {
@@ -80,6 +84,7 @@ const AbilityBar: React.FC = () => {
     const abilities: Ability[] = [
         {
             name: 'byt',
+            class: 'byt',
             alt: 'Vägbit som du kan byta till.',
             src: !isGameOver && !isPreparationTime ? jokerRoadTiles[activeJokerTile].src : jokerRoadTiles[0].src,
             state: bytState,
@@ -87,13 +92,15 @@ const AbilityBar: React.FC = () => {
         },
         {
             name: 'lugn',
+            class: 'lugn',
             alt: 'Paus ikon. Bussen saktar in.',
             src: './images/abilities/paus.svg',
             state: lugnState,
             func: handleSlowBus,
         },
         {
-            name: 'turbo',
+            name: isPreparationTime ? 'kör!' : 'turbo',
+            class: 'turbo',
             alt: 'Buss som kör fort. Bussen åker snabbare.',
             src: './images/abilities/flash.svg',
             state: turboState,

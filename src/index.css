@@ -30,6 +30,8 @@
     -1px 1px var(--black);
   --text-outline--white: 1px 1px var(--white), -1px -1px var(--white), 1px -1px var(--white),
     -1px 1px var(--white);
+  --text-outline--accent-2: 1px 1px var(--accent2), -1px -1px var(--accent2), 1px -1px var(--accent2),
+    -1px 1px var(--accent2);
 
   --spacing-xs: .25rem;
   --spacing-s: .5rem;

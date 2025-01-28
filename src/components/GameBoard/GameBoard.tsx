@@ -5,6 +5,7 @@ import { createGameBoardArray, endPoints, generateStartAndFinishIndex } from '..
 import './gameBoard.css';
 import GameOver from '../GameOver/GameOver';
 import useGameStore from '../../stores/gameStore';
+import { AnimatePresence, motion } from 'motion/react';
 interface Props {
     startFunction: () => void;
 }
@@ -46,6 +47,17 @@ const GameBoard: React.FC<Props> = ({ startFunction }) => {
         }
     }, [startingIndex, endingIndex]);
 
+    const staggerContainer = {
+        hidden: { scale: 1 },
+        show: {
+            scale: 1,
+            transition: {
+                staggerChildren: 0.1, // Delay between child animations
+                delayChildren: 0, // Initial delay before staggering starts
+            },
+        },
+    };
+
     return (
         // <section className='game-board'>
         //     {gameBoardArray.map((squareData, i) => (
@@ -62,17 +74,19 @@ const GameBoard: React.FC<Props> = ({ startFunction }) => {
             {isGameOver ? (
                 <GameOver startFunction={startFunction} />
             ) : (
-                <section className='game-board'>
-                    {gameBoardArray.map((squareData, i) => (
-                        <GameSquare
-                            key={i}
-                            squareData={squareData}
-                            index={i}
-                            startingIndicator={startingArrowDirection}
-                            finishIndicator={finishArrowDirection}
-                        />
-                    ))}
-                </section>
+                <motion.section variants={staggerContainer} initial='hidden' animate='show' className='game-board'>
+                    <AnimatePresence>
+                        {gameBoardArray.map((squareData, i) => (
+                            <GameSquare
+                                key={i}
+                                squareData={squareData}
+                                index={i}
+                                startingIndicator={startingArrowDirection}
+                                finishIndicator={finishArrowDirection}
+                            />
+                        ))}
+                    </AnimatePresence>
+                </motion.section>
             )}
         </>
     );
