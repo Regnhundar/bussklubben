@@ -5,6 +5,10 @@
   src: url("./fonts/Silvertones.otf");
 }
 
+@font-face {
+  font-family: kong;
+  src: url("./fonts/kongtext.ttf");
+}
 
 
 :root {
