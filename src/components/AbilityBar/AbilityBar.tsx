@@ -37,6 +37,7 @@ const AbilityBar: React.FC = () => {
             ? 'ability__button--disabled'
             : '';
 
+    // Skiftar vilken "byt/jokerTile" som visas i ability bar.
     useEffect(() => {
         if (!isGameOver && !isPreparationTime && !jokerTile) {
             const interval = setInterval(() => {

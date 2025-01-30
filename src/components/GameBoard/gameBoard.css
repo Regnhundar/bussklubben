@@ -1,7 +1,7 @@
 .game-board {
     display: grid;
     place-self: start center;
-    gap: 0;
+    gap: 1px;
     width: 100%;
     aspect-ratio: 1;
     grid-template-rows: repeat(5, minmax(0, 1fr));

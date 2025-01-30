@@ -87,6 +87,22 @@ export const endPoints = (index: PossibleStartingIndices): endPointInfo => {
     return endPoint;
 };
 
+export function daysUntilInternshipIsOver(): number {
+    const today = new Date();
+    const currentYear = today.getFullYear();
+
+    let targetDate = new Date(currentYear, 2, 9);
+
+    if (today > targetDate) {
+        targetDate = new Date(currentYear + 1, 2, 9);
+    }
+
+    const diffTime = targetDate.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    return diffDays;
+}
+
 // export const checkSquareConnections = (index: GameBoardIndices, gameBoardArray: SquareData[]): boolean => {
 //     gameBoardArray[index].tile.connections;
 //     return true;

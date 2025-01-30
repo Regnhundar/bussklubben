@@ -1,5 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
+@font-face {
+  font-family: Silvertones;
+  src: url("./fonts/Silvertones.otf");
+}
+
+@font-face {
+  font-family: kong;
+  src: url("./fonts/kongtext.ttf");
+}
 
 
 :root {
@@ -40,6 +49,7 @@
   --spacing-xl: 1.5rem;
   --spacing-xxl: 1.75rem;
   --spacing-xxxl: 2rem;
+  --spacing-xxxxl: 2rem;
 
   --max-width: 500px;
 }
@@ -60,12 +70,19 @@ body {
 .wrapper {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+
   max-width: var(--max-width);
   width: 100%;
   height: 100svh;
   padding-inline: var(--spacing-s);
-  padding-block: var(--spacing-xl) var(--spacing-s);
   margin: 0 auto;
   /* outline: 2px solid red; */
+}
+
+.game {
+  padding-block: var(--spacing-xl) var(--spacing-s);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
 }

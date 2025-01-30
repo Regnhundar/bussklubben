@@ -52,24 +52,13 @@ const GameBoard: React.FC<Props> = ({ startFunction }) => {
         show: {
             scale: 1,
             transition: {
-                staggerChildren: 0.1, // Delay between child animations
-                delayChildren: 0, // Initial delay before staggering starts
+                staggerChildren: 0.1,
+                delayChildren: 0,
             },
         },
     };
 
     return (
-        // <section className='game-board'>
-        //     {gameBoardArray.map((squareData, i) => (
-        //         <GameSquare
-        //             key={i}
-        //             squareData={squareData}
-        //             index={i}
-        //             startingIndicator={startingArrowDirection}
-        //             finishIndicator={finishArrowDirection}
-        //         />
-        //     ))}
-        // </section>
         <>
             {isGameOver ? (
                 <GameOver startFunction={startFunction} />

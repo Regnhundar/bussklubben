@@ -4,7 +4,6 @@
     grid-column: 1/-1;
     display: grid;
     place-items: center;
-
 }
 
 .game-over__title,
@@ -48,5 +47,4 @@
     30% {
         transform: rotateZ(25deg)
     }
-
 }

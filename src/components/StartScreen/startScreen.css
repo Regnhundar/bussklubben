@@ -1,46 +1,82 @@
 .start-splash {
+    height: 100%;
+    width: 100%;
+    max-height: 45rem;
     display: grid;
+    place-self: center;
     place-items: center;
-    gap: var(--spacing-l);
-}
-
-.start-splash__title {
-    text-shadow: var(--text-outline--black);
-    filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.5));
-    font-size: 3rem;
+    position: relative;
+    padding-block: var(--spacing-s);
+    margin-block: auto;
 }
 
 .start-splash__sub-title {
     text-shadow: var(--text-outline--black);
+    font-size: clamp(1.1rem, 0.3889rem + 3.5556vw, 1.5rem);
+    text-align: center;
     filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.5));
+    font-family: kong;
+    margin-block: var(--spacing-s);
 }
 
 .start-splash__image-wrapper {
     aspect-ratio: 1;
-    background-color: var(--off-white);
-    box-shadow: var(--3d-shadow);
+    background-color: rgb(254, 255, 247);
+    box-shadow:
+        inset 0 0 0 1px rgb(117, 116, 116),
+        0 0 2px 2px #ffea00,
+        0 0 3px 5px #e6e09a,
+        0 0 1px 7px #69642e,
+        inset 10px 10px 20px rgba(136, 135, 135, 0.664),
+        0 0 0 8px black;
+    overflow: hidden;
     padding: var(--spacing-s);
     border-radius: 50%;
     border: 2px solid black;
     display: grid;
     place-items: center;
+    max-width: 15rem;
 }
 
 .start-splash__image {
-    width: 10rem;
+    transform: translateY(2rem);
+    max-width: 15rem;
+    width: 100%;
     filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.5));
 }
 
-.start-splash__start-button {
-    background-color: var(--accent1);
-    padding: var(--spacing-l);
-    font-family: var(--bread-font);
-    font-size: var(--font-size-l);
-    border-radius: var(--spacing-s);
-    color: var(--bg-primary);
-    font-weight: 800;
-    box-shadow: var(--3d-shadow);
-    border: 2px solid black;
-    text-shadow: var(--text-outline--white);
-    filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.5));
+.start-splash__button-wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 15rem;
+}
+
+/* SVG SHENNANIGANS */
+text {
+    font-size: 7rem;
+    font-family: Silvertones;
+}
+
+.shadow {
+    fill: rgba(41, 41, 41, 0.993);
+    stroke: rgba(41, 41, 41, 0.75);
+    transform: translate(3px, 3px);
+}
+
+.main {
+    fill: var(--accent1);
+    stroke: #fffdf4;
+    stroke-width: 2px;
+}
+
+.feDropShadow {
+    flood-color: rgba(41, 41, 41, 0.753);
+}
+
+.svg-title {
+    display: block;
+    align-self: end;
+    margin: 0 auto;
+    max-width: 100%;
 }
