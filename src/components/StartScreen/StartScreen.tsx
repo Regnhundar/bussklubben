@@ -3,7 +3,7 @@ interface Props {
     startFunction: () => void;
 }
 const StartScreen: React.FC<Props> = ({ startFunction }) => {
-    const mainTitle: string[] = ['R', 'o', 'a', 'd', 'B', 'l', 'o', 'X'];
+    // const mainTitle: string[] = ['R', 'o', 'a', 'd', 'B', 'l', 'o', 'X'];
     const subTitle: string[] = ['E', 't', 't', ' ', 'b', 'u', 's', 's', 'i', 'g', 't', ' ', 's', 'p', 'e', 'l', '!'];
 
     return (
@@ -13,7 +13,7 @@ const StartScreen: React.FC<Props> = ({ startFunction }) => {
 
                 <defs>
                     <filter id='text-shadow'>
-                        <feDropShadow dx='10' dy='10' stdDeviation='3' className='feDropShadow' />
+                        <feDropShadow dx='10' dy='8' stdDeviation='1' className='feDropShadow' />
                     </filter>
                 </defs>
                 <text className='shadow' filter='url(#text-shadow)'>
