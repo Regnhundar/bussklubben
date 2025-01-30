@@ -1,3 +1,4 @@
+import CTAbutton from '../CTAbutton/CTAbutton';
 import './startScreen.css';
 interface Props {
     startFunction: () => void;
@@ -45,9 +46,7 @@ const StartScreen: React.FC<Props> = ({ startFunction }) => {
                     </span>
                 ))}
             </h2>
-            <button className='start-splash__start-button' onClick={startFunction}>
-                STARTA
-            </button>
+            <CTAbutton text='SPELA' onClick={startFunction} modifier='proceed' attention={true} />
         </main>
     );
 };

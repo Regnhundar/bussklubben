@@ -147,20 +147,6 @@
     filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.5));
 }
 
-.start-splash__start-button {
-    background-color: var(--accent1);
-    padding: var(--spacing-l);
-    font-family: var(--bread-font);
-    font-size: var(--font-size-l);
-    border-radius: var(--spacing-s);
-    color: var(--bg-primary);
-    font-weight: 800;
-    box-shadow: var(--3d-shadow);
-    border: 2px solid black;
-    text-shadow: var(--text-outline--white);
-    filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.5));
-}
-
 /* SVG SHENNANIGANS */
 text {
     font-size: 7rem;
