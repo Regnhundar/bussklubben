@@ -71,15 +71,6 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
         }
     };
 
-    const childVariant = {
-        hidden: { opacity: 0, scale: 0.8 },
-        show: (customDelay: number) => ({
-            opacity: 1,
-            scale: 1,
-            transition: { duration: 0.5, delay: customDelay },
-        }),
-    };
-
     return squareData.isRevealed ? (
         <motion.img
             variants={squareImgVariant}
@@ -120,7 +111,6 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
             initial='hidden'
             animate='show'
             exit='exit'
-            variants={childVariant}
             custom={squareData.delay}
             data-index={index}
             className='game-square'
