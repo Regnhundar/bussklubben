@@ -37,11 +37,31 @@
     animation: correctConnection 1s linear 1 forwards;
 }
 
+.game-square__image--starting-square-unconnected,
+.game-square__image--ending-square-unconnected {
+    animation: incorrectConnection 1s linear 1 forwards;
+}
+
 @keyframes correctConnection {
 
     0%,
     20% {
         background-color: rgb(14, 156, 14);
+    }
+
+
+    10%,
+    30%,
+    100% {
+        background-color: var(--light-gray)
+    }
+}
+
+@keyframes incorrectConnection {
+
+    0%,
+    20% {
+        background-color: var(--accent4);
     }
 
 
@@ -107,7 +127,7 @@
 
     0%,
     100% {
-        background-color: red;
+        background-color: #ff5e00;
     }
 
     50% {

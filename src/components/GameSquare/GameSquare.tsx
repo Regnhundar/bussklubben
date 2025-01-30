@@ -85,12 +85,18 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
                     ? 'game-square__image--selected'
                     : startingTile && arrivalIndex !== null && squareData.tile.connections[arrivalIndex] === true
                     ? `game-square__image--starting-square-connected game-square__image--starting-square-${startingIndicator}`
+                    : startingTile && arrivalIndex !== null && squareData.tile.connections[arrivalIndex] === false
+                    ? `game-square__image--starting-square-unconnected game-square__image--starting-square-${startingIndicator}`
                     : startingTile
                     ? `game-square__image--starting-square-${startingIndicator}`
                     : endingTile &&
                       finishConnectionIndex !== null &&
                       squareData.tile.connections[finishConnectionIndex] === true
                     ? `game-square__image--ending-square-connected game-square__image--ending-square-${finishIndicator}`
+                    : endingTile &&
+                      finishConnectionIndex !== null &&
+                      squareData.tile.connections[finishConnectionIndex] === false
+                    ? `game-square__image--ending-square-unconnected game-square__image--ending-square-${finishIndicator}`
                     : endingTile
                     ? `game-square__image--ending-square-${finishIndicator}`
                     : ''
