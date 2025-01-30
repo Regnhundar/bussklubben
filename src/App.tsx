@@ -39,12 +39,12 @@ function App() {
     return (
         <>
             {isGameRunning ? (
-                <>
+                <main className='game'>
                     <Jumbotron />
                     <GameBoard startFunction={startGame} />
                     <AbilityBar />
                     <GameLoop />
-                </>
+                </main>
             ) : (
                 <StartScreen startFunction={startGame} />
             )}

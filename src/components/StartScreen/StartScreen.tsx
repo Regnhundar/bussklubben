@@ -1,14 +1,18 @@
+import { useState } from 'react';
 import CTAbutton from '../CTAbutton/CTAbutton';
+import InfoOverlay from '../InfoOverlay/InfoOverlay';
 import './startScreen.css';
+import { AnimatePresence } from 'motion/react';
 interface Props {
     startFunction: () => void;
 }
 const StartScreen: React.FC<Props> = ({ startFunction }) => {
-    // const mainTitle: string[] = ['R', 'o', 'a', 'd', 'B', 'l', 'o', 'X'];
     const subTitle: string[] = ['E', 't', 't', ' ', 'b', 'u', 's', 's', 'i', 'g', 't', ' ', 's', 'p', 'e', 'l', '!'];
+    const [isOverlayOpen, setIsOverlayOpen] = useState(false);
 
     return (
         <main className='start-splash'>
+            <AnimatePresence>{isOverlayOpen && <InfoOverlay func={() => setIsOverlayOpen(false)} />}</AnimatePresence>
             <svg viewBox='0 0 550 200' className='svg-title'>
                 <path id='curve' d='M0,200 C150,80 400,80 550,200' fill='transparent' />
 
@@ -28,13 +32,7 @@ const StartScreen: React.FC<Props> = ({ startFunction }) => {
                     </textPath>
                 </text>
             </svg>
-            {/* <h1 className='start-splash__title'>
-                {mainTitle.map((letter, i) => (
-                    <span key={i} className={`start-splash__title--${i}`}>
-                        {letter}
-                    </span>
-                ))}
-            </h1> */}
+
             <figure className='start-splash__image-wrapper'>
                 <img className='start-splash__image' src='./images/busdriver.png' alt='En buss som flyger fram!' />
             </figure>
@@ -46,7 +44,10 @@ const StartScreen: React.FC<Props> = ({ startFunction }) => {
                     </span>
                 ))}
             </h2>
-            <CTAbutton text='SPELA' onClick={startFunction} modifier='proceed' attention={true} />
+            <div className='start-splash__button-wrapper'>
+                <CTAbutton text='info' onClick={() => setIsOverlayOpen(true)} modifier='info' />
+                <CTAbutton text='SPELA' onClick={startFunction} modifier='proceed' attention={true} />
+            </div>
         </main>
     );
 };

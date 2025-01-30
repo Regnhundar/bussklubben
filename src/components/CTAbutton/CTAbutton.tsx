@@ -6,7 +6,7 @@ interface Props {
     modifier: 'proceed' | 'cancel' | 'info';
     attention?: boolean;
 }
-const CTAbutton: React.FC<Props> = ({ text, onClick, modifier, attention = false }) => {
+const CTAbutton: React.FC<Props> = ({ text = 'text', onClick, modifier, attention = false }) => {
     const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
     const animateThenExecute = () => {
@@ -17,7 +17,7 @@ const CTAbutton: React.FC<Props> = ({ text, onClick, modifier, attention = false
             setIsAnimating(false);
 
             onClick();
-        }, 250);
+        }, 400);
     };
 
     return (
@@ -25,7 +25,7 @@ const CTAbutton: React.FC<Props> = ({ text, onClick, modifier, attention = false
             disabled={isAnimating}
             onClick={animateThenExecute}
             className={`cta-button cta-button--${modifier} ${
-                isAnimating ? 'cta-button--clicked' : attention ? 'cta-button--look-at-me' : ''
+                isAnimating ? `cta-button--${modifier}-clicked` : attention ? 'cta-button--look-at-me' : ''
             }`}>
             <span className='cta-button__button-text'>{text.toUpperCase()}</span>
         </button>
