@@ -4,7 +4,7 @@
 
 }
 
-.start-splash__title {
+/* .start-splash__title {
     display: grid;
     grid-template-columns: repeat(8, auto);
     --logo-font-size: clamp(5rem, 1rem + 16vw, 6rem);
@@ -84,7 +84,7 @@
     position: absolute;
     top: 80%;
     left: -90%;
-}
+} */
 
 /* .start-splash__title--0,
 .start-splash__title--7 {
