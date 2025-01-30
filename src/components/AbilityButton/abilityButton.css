@@ -1,7 +1,6 @@
 .ability {
     width: 100%;
     max-width: 7rem;
-
 }
 
 .ability__button {
@@ -47,23 +46,8 @@
     filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.5));
 }
 
-
-
 .ability--turbo {
     position: relative;
-
-}
-
-.ability--turbo .ability-button__image::after {
-    content: "";
-    position: absolute;
-    background-color: aqua;
-    inset: 0;
-    margin: auto;
-    width: 100%;
-    max-width: 4.5rem;
-    aspect-ratio: 1;
-    z-index: 1;
 }
 
 .ability--turbo .ability-button__image {
@@ -100,4 +84,20 @@
 
 .ability-button__name--disabled {
     background-color: gray;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .ability {
+        transform: translateY(-2px);
+        cursor: pointer;
+    }
+
+    .ability__button {
+        cursor: pointer;
+    }
+
+    .ability__button--disabled,
+    .ability-button__name--disabled {
+        cursor: not-allowed;
+    }
 }
