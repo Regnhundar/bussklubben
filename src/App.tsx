@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import AbilityBar from './components/AbilityBar/AbilityBar';
 import GameBoard from './components/GameBoard/GameBoard';
 import GameLoop from './components/GameLoop/GameLoop';
@@ -7,8 +8,11 @@ import { PREPARATION_TIME, TOTAL_TIME } from './constants';
 import useGameBoardStore from './stores/gameBoardStore';
 import useGameStore from './stores/gameStore';
 import { createGameBoardArray, generateStartAndFinishIndex } from './utils/utilityFunctions';
+import PreLoader from './components/PreLoader/PreLoader';
+import Loader from './components/Loader/Loader';
 
 function App() {
+    const [isGameLoaded, setIsGameLoaded] = useState<boolean>(false);
     const { setGameBoardArray, setStartingIndex, setEndingIndex } = useGameBoardStore();
     const {
         isGameRunning,
@@ -38,7 +42,10 @@ function App() {
 
     return (
         <>
-            {isGameRunning ? (
+            <PreLoader isGameLoaded={isGameLoaded} setIsGameLoaded={setIsGameLoaded} />
+            {!isGameLoaded ? (
+                <Loader />
+            ) : isGameRunning ? (
                 <main className='game'>
                     <Jumbotron />
                     <GameBoard startFunction={startGame} />
