@@ -2,12 +2,12 @@
 
 @font-face {
   font-family: Silvertones;
-  src: url("./fonts/Silvertones.otf");
+  src: url("/fonts/Silvertones.otf");
 }
 
 @font-face {
   font-family: kong;
-  src: url("./fonts/kongtext.ttf");
+  src: url("/fonts/kongtext.ttf");
 }
 
 
