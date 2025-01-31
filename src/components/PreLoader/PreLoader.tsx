@@ -1,22 +1,23 @@
 import { useEffect } from 'react';
+
 interface Props {
     isGameLoaded: boolean;
     setIsGameLoaded: (boolean: boolean) => void;
 }
 const PreLoader: React.FC<Props> = ({ isGameLoaded, setIsGameLoaded }) => {
     const imagesToPreLoad = [
-        './images/roadTiles/downLeft.svg',
-        './images/roadTiles/rightDown.svg',
-        './images/roadTiles/rightLeft.svg',
-        './images/roadTiles/stop.svg',
-        './images/roadTiles/upDown.svg',
-        './images/roadTiles/upLeft.svg',
-        './images/roadTiles/upRight.svg',
-        './images/abilities/flash.svg',
-        './images/abilities/paus.svg',
-        './images/icons/hour-glass.svg',
-        './images/icons/star.svg',
-        './images/busdriver.png',
+        `${import.meta.env.BASE_URL}images/roadTiles/downLeft.svg`,
+        `${import.meta.env.BASE_URL}images/roadTiles/rightDown.svg`,
+        `${import.meta.env.BASE_URL}images/roadTiles/rightLeft.svg`,
+        `${import.meta.env.BASE_URL}images/roadTiles/stop.svg`,
+        `${import.meta.env.BASE_URL}images/roadTiles/upDown.svg`,
+        `${import.meta.env.BASE_URL}images/roadTiles/upLeft.svg`,
+        `${import.meta.env.BASE_URL}images/roadTiles/upRight.svg`,
+        `${import.meta.env.BASE_URL}images/abilities/flash.svg`,
+        `${import.meta.env.BASE_URL}images/abilities/paus.svg`,
+        `${import.meta.env.BASE_URL}images/icons/hour-glass.svg`,
+        `${import.meta.env.BASE_URL}images/icons/star.svg`,
+        `${import.meta.env.BASE_URL}images/busdriver.png`,
     ];
 
     const preloadImages = (imagePaths: string[]) => {
@@ -50,7 +51,7 @@ const PreLoader: React.FC<Props> = ({ isGameLoaded, setIsGameLoaded }) => {
         //För att förhindra att react städar bort bilderna ur minnet läggs de i DOM. Annars måste de hämtas igen när de ska renderas på spelbrädet.
         <div style={{ display: 'none' }}>
             {imagesToPreLoad
-                .filter((src) => src !== './images/busdriver.png')
+                .filter((src) => src !== `${import.meta.env.BASE_URL}images/busdriver.png`)
                 .map((src, index) => (
                     <img key={index} src={src} alt='' />
                 ))}
