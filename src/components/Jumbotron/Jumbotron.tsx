@@ -21,10 +21,15 @@ const Jumbotron: React.FC = () => {
             <JumbotronInfoField
                 variable={totalTime}
                 unit={'SEKUNDER'}
-                src={'./images/icons/hour-glass.svg'}
+                src={`${import.meta.env.BASE_URL}images/icons/hour-glass.svg`}
                 type='timer'
             />
-            <JumbotronInfoField variable={points} unit={'POÄNG'} src={'./images/icons/star.svg'} type='points' />
+            <JumbotronInfoField
+                variable={points}
+                unit={'POÄNG'}
+                src={`${import.meta.env.BASE_URL}images/icons/star.svg`}
+                type={'points'}
+            />
         </section>
     );
 };
