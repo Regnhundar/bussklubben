@@ -2,14 +2,13 @@
 
 @font-face {
   font-family: Silvertones;
-  src: url("/fonts/silvertones.otf");
+  src: url("/src/assets/fonts/silvertones.otf");
 }
 
 @font-face {
   font-family: Kong;
-  src: url("/fonts/kongtext.ttf");
+  src: url("/src/assets/fonts/kongtext.ttf");
 }
-
 
 :root {
   --bg-primary: #017A36;
