@@ -34,7 +34,11 @@ const StartScreen: React.FC<Props> = ({ startFunction }) => {
             </svg>
 
             <figure className='start-splash__image-wrapper'>
-                <img className='start-splash__image' src='./images/busdriver.png' alt='En buss som flyger fram!' />
+                <img
+                    className='start-splash__image'
+                    src={`${import.meta.env.BASE_URL}images/busdriver.png`}
+                    alt='En buss som flyger fram!'
+                />
             </figure>
 
             <h2 className='start-splash__sub-title'>
