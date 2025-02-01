@@ -11,7 +11,7 @@ const StartScreen: React.FC<Props> = ({ startFunction }) => {
     const [isOverlayOpen, setIsOverlayOpen] = useState(false);
 
     return (
-        <main className='start-splash'>
+        <main className='start-splash' style={{ display: 'none' }}>
             <AnimatePresence>{isOverlayOpen && <InfoOverlay func={() => setIsOverlayOpen(false)} />}</AnimatePresence>
             <svg viewBox='0 0 550 200' className='svg-title'>
                 <path id='curve' d='M0,200 C150,80 400,80 550,200' fill='transparent' />

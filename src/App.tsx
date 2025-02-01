@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AbilityBar from './components/AbilityBar/AbilityBar';
 import GameBoard from './components/GameBoard/GameBoard';
 import GameLoop from './components/GameLoop/GameLoop';
@@ -40,9 +40,27 @@ function App() {
         setLevel(1);
     };
 
+    useEffect(() => {
+        const checkLoader = setInterval(() => {
+            console.log('Rensas korrekt?');
+            if (document.getElementById('loader')) {
+                clearInterval(checkLoader);
+                window.ClubHouseGame.gameLoaded({ hideInGame: true });
+            }
+        }, 100);
+        window.ClubHouseGame.registerRestart(startGame);
+        return () => clearInterval(checkLoader);
+    }, []);
+
     return (
         <>
             <PreLoader isGameLoaded={isGameLoaded} setIsGameLoaded={setIsGameLoaded} />
+            <div id='ui'></div>
+            <div className='loader' id='loader'>
+                <p className='loader-text'>Startar</p>
+                <img className='loader-logo' src='/images/logo.png' />
+                <img className='spinner' src='/images/spinner.svg' />
+            </div>
             {!isGameLoaded ? (
                 <Loader />
             ) : isGameRunning ? (

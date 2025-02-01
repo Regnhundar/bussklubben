@@ -1,11 +1,11 @@
-.loader {
+/* .loader {
     place-self: center;
     place-items: center;
     display: grid;
     width: 100%;
     height: 100%;
     animation: initialHide .5s linear 1;
-}
+} */
 
 @keyframes initialHide {
     0% {
