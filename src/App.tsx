@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AbilityBar from './components/AbilityBar/AbilityBar';
 import GameBoard from './components/GameBoard/GameBoard';
 import GameLoop from './components/GameLoop/GameLoop';
@@ -10,6 +10,7 @@ import useGameStore from './stores/gameStore';
 import { createGameBoardArray, generateStartAndFinishIndex } from './utils/utilityFunctions';
 import PreLoader from './components/PreLoader/PreLoader';
 import Loader from './components/Loader/Loader';
+import ClubHouseGameUI from './components/ClubHouseGameUI/ClubHouseGameUI';
 
 function App() {
     const [isGameLoaded, setIsGameLoaded] = useState<boolean>(false);
@@ -43,6 +44,7 @@ function App() {
     return (
         <>
             <PreLoader isGameLoaded={isGameLoaded} setIsGameLoaded={setIsGameLoaded} />
+            <ClubHouseGameUI startGame={startGame} />
             {!isGameLoaded ? (
                 <Loader />
             ) : isGameRunning ? (
