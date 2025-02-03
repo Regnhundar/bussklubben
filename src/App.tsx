@@ -10,6 +10,7 @@ import useGameStore from './stores/gameStore';
 import { createGameBoardArray, generateStartAndFinishIndex } from './utils/utilityFunctions';
 import PreLoader from './components/PreLoader/PreLoader';
 import Loader from './components/Loader/Loader';
+import ClubHouseGameUI from './components/ClubHouseGameUI/ClubHouseGameUI';
 
 function App() {
     const [isGameLoaded, setIsGameLoaded] = useState<boolean>(false);
@@ -40,27 +41,10 @@ function App() {
         setLevel(1);
     };
 
-    useEffect(() => {
-        const checkLoader = setInterval(() => {
-            console.log('Rensas korrekt?');
-            if (document.getElementById('loader')) {
-                clearInterval(checkLoader);
-                window.ClubHouseGame.gameLoaded({ hideInGame: true });
-            }
-        }, 100);
-        window.ClubHouseGame.registerRestart(startGame);
-        return () => clearInterval(checkLoader);
-    }, []);
-
     return (
         <>
             <PreLoader isGameLoaded={isGameLoaded} setIsGameLoaded={setIsGameLoaded} />
-            <div id='ui'></div>
-            <div className='loader' id='loader'>
-                <p className='loader-text'>Startar</p>
-                <img className='loader-logo' src='/images/logo.png' />
-                <img className='spinner' src='/images/spinner.svg' />
-            </div>
+            <ClubHouseGameUI startGame={startGame} />
             {!isGameLoaded ? (
                 <Loader />
             ) : isGameRunning ? (

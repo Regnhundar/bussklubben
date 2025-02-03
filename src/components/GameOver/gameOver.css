@@ -4,6 +4,8 @@
     grid-column: 1/-1;
     display: grid;
     place-items: center;
+    opacity: 0;
+    pointer-events: none;
 }
 
 .game-over__title,
