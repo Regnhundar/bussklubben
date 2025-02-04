@@ -174,12 +174,15 @@ const GameLoop: React.FC = () => {
             gameOver();
             return;
         }
+        console.log('nextSquareToCheckIndex 177', nextSquareToCheckIndex);
         if (nextSquareToCheckIndex !== null && validGameBoardIndices.includes(nextSquareToCheckIndex)) {
+            console.log('nextSquareToCheckIndex 178', nextSquareToCheckIndex);
             if (
                 nextSquareToCheckIndex >= 0 &&
                 gameBoardArray[nextSquareToCheckIndex].isRevealed &&
                 gameBoardArray[nextSquareToCheckIndex].tile.connections.includes(true) // kollar om det är en stoppskylt.
             ) {
+                console.log('nextSquareToCheckIndex 184', nextSquareToCheckIndex);
                 updateGameSquare(nextSquareToCheckIndex, { isActive: true });
                 if (squaresToSwap.includes(nextSquareToCheckIndex)) {
                     setSquaresToSwap();
@@ -240,8 +243,13 @@ const GameLoop: React.FC = () => {
             setPoints((prev) => prev + POINTS_PER_LEVEL + POINTS_PER_SQUARE);
             setTotalTime((prev) => prev + adjustedBonusTime);
             setArrivalIndex(null);
-            setStartingIndex(startAndFinishIndex.start);
-            setEndingIndex(startAndFinishIndex.finish);
+            setStartingIndex(null);
+            setEndingIndex(null);
+            setTimeout(() => {
+                //! Anledningen till timeout: om startingIndex och endingIndex är samma två banor på rad så får vi inget nytt "nextSquareIndex". Så först resettar vi till null, för att säkerställa att startingIndex/endingIndex blir förnyat i useEffect i komponenten GameBoard.
+                setStartingIndex(startAndFinishIndex.start);
+                setEndingIndex(startAndFinishIndex.finish);
+            }, 0);
             setGameBoardArray(gameBoard);
             setPreparationTime(adjustedPrepTime);
             setIsPreparationTime(true);

@@ -5,6 +5,8 @@ import useGameBoardStore from '../../stores/gameBoardStore';
 import { jokerRoadTiles } from '../../data/roadTiles';
 import { useEffect } from 'react';
 import useGameStore from '../../stores/gameStore';
+import { motion } from 'motion/react';
+import { abilityBarVariant } from '../../motionVariants/variants';
 
 const AbilityBar: React.FC = () => {
     const {
@@ -109,11 +111,11 @@ const AbilityBar: React.FC = () => {
         },
     ];
     return (
-        <div className='ability-bar'>
+        <motion.div variants={abilityBarVariant} initial='hidden' animate='show' exit='hidden' className='ability-bar'>
             {abilities.map((ability) => (
                 <AbilityButton key={ability.name} ability={ability} />
             ))}
-        </div>
+        </motion.div>
     );
 };
 

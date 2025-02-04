@@ -3,13 +3,9 @@ import useGameBoardStore from '../../stores/gameBoardStore';
 import GameSquare from '../GameSquare/GameSquare';
 import { createGameBoardArray, endPoints, generateStartAndFinishIndex } from '../../utils/utilityFunctions';
 import './gameBoard.css';
-import GameOver from '../GameOver/GameOver';
-import useGameStore from '../../stores/gameStore';
 import { AnimatePresence, motion } from 'motion/react';
-interface Props {
-    startFunction: () => void;
-}
-const GameBoard: React.FC<Props> = ({ startFunction }) => {
+
+const GameBoard: React.FC = () => {
     const {
         gameBoardArray,
         setGameBoardArray,
@@ -21,7 +17,6 @@ const GameBoard: React.FC<Props> = ({ startFunction }) => {
         setNextSquareToCheckIndex,
         setArrivalIndex,
     } = useGameBoardStore();
-    const { isGameOver } = useGameStore();
     const [startingArrowDirection, setStartingArrowDirection] = useState<'down' | 'up' | 'left' | 'right'>('down');
     const [finishArrowDirection, setFinishArrowDirection] = useState<'down' | 'up' | 'left' | 'right'>('down');
 
@@ -48,35 +43,32 @@ const GameBoard: React.FC<Props> = ({ startFunction }) => {
     }, [startingIndex, endingIndex]);
 
     const staggerContainer = {
-        hidden: { scale: 1 },
+        hidden: { opacity: 0 },
         show: {
-            scale: 1,
-            transition: {
-                staggerChildren: 0.1,
-                delayChildren: 0,
-            },
+            opacity: 1,
         },
     };
 
     return (
         <>
-            {isGameOver ? (
-                <GameOver startFunction={startFunction} />
-            ) : (
-                <motion.section variants={staggerContainer} initial='hidden' animate='show' className='game-board'>
-                    <AnimatePresence>
-                        {gameBoardArray.map((squareData, i) => (
-                            <GameSquare
-                                key={i}
-                                squareData={squareData}
-                                index={i}
-                                startingIndicator={startingArrowDirection}
-                                finishIndicator={finishArrowDirection}
-                            />
-                        ))}
-                    </AnimatePresence>
-                </motion.section>
-            )}
+            <motion.section
+                variants={staggerContainer}
+                initial='hidden'
+                animate='show'
+                exit='hidden'
+                className='game-board'>
+                <AnimatePresence>
+                    {gameBoardArray.map((squareData, i) => (
+                        <GameSquare
+                            key={i}
+                            squareData={squareData}
+                            index={i}
+                            startingIndicator={startingArrowDirection}
+                            finishIndicator={finishArrowDirection}
+                        />
+                    ))}
+                </AnimatePresence>
+            </motion.section>
         </>
     );
 };

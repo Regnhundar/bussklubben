@@ -17,7 +17,7 @@ const PreLoader: React.FC<Props> = ({ isGameLoaded, setIsGameLoaded }) => {
         `${import.meta.env.BASE_URL}images/abilities/paus.svg`,
         `${import.meta.env.BASE_URL}images/icons/hour-glass.svg`,
         `${import.meta.env.BASE_URL}images/icons/star.svg`,
-        `${import.meta.env.BASE_URL}images/busdriver.png`,
+        `${import.meta.env.BASE_URL}images/logo.png`,
     ];
 
     const preloadImages = (imagePaths: string[]) => {
@@ -46,7 +46,6 @@ const PreLoader: React.FC<Props> = ({ isGameLoaded, setIsGameLoaded }) => {
         }
         if (isGameLoaded) {
             const checkLoader = setInterval(() => {
-                console.log('Rensas korrekt?');
                 if (document.getElementById('loader')) {
                     clearInterval(checkLoader);
                     window.ClubHouseGame.gameLoaded({ hideInGame: true });
