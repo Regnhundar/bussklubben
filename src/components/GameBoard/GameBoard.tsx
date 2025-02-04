@@ -3,7 +3,6 @@ import useGameBoardStore from '../../stores/gameBoardStore';
 import GameSquare from '../GameSquare/GameSquare';
 import { createGameBoardArray, endPoints, generateStartAndFinishIndex } from '../../utils/utilityFunctions';
 import './gameBoard.css';
-import useGameStore from '../../stores/gameStore';
 import { AnimatePresence, motion } from 'motion/react';
 
 const GameBoard: React.FC = () => {
@@ -18,7 +17,6 @@ const GameBoard: React.FC = () => {
         setNextSquareToCheckIndex,
         setArrivalIndex,
     } = useGameBoardStore();
-    const { isGameOver } = useGameStore();
     const [startingArrowDirection, setStartingArrowDirection] = useState<'down' | 'up' | 'left' | 'right'>('down');
     const [finishArrowDirection, setFinishArrowDirection] = useState<'down' | 'up' | 'left' | 'right'>('down');
 

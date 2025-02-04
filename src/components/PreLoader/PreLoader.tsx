@@ -46,7 +46,6 @@ const PreLoader: React.FC<Props> = ({ isGameLoaded, setIsGameLoaded }) => {
         }
         if (isGameLoaded) {
             const checkLoader = setInterval(() => {
-                console.log('Rensas korrekt?');
                 if (document.getElementById('loader')) {
                     clearInterval(checkLoader);
                     window.ClubHouseGame.gameLoaded({ hideInGame: true });

@@ -1,0 +1,264 @@
+@keyframes animate {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: .5;
+
+    }
+
+    100% {
+        transform: translateY(-100vh) rotate(90deg);
+        opacity: 0;
+    }
+}
+
+.background {
+    position: fixed;
+    z-index: -1;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    background: var(--bg-primary);
+    background: linear-gradient(to top, var(--bg-primary), var(--bg-primary--dark));
+    overflow: hidden;
+}
+
+.background div {
+    position: absolute;
+    display: block;
+
+    width: 20px;
+    height: 20px;
+    border-radius: 6%;
+    background: rgba(255, 255, 255, 0.2);
+    animation: animate 19s linear infinite;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+
+
+.background div:nth-child(0) {
+    left: 51%;
+    width: 59px;
+    height: 59px;
+    bottom: -59px;
+    animation: animate 11s linear infinite;
+    animation-delay: 1s;
+    background-image: url("../../../public/images/roadTiles/downLeft.svg");
+
+}
+
+.background div:nth-child(1) {
+    left: 63%;
+    width: 42px;
+    height: 42px;
+    bottom: -42px;
+    animation: animate 15s linear infinite;
+    animation-delay: 4s;
+    background-image: url("../../../public/images/roadTiles/upLeft.svg");
+
+}
+
+.background div:nth-child(2) {
+    left: 90%;
+    width: 86px;
+    height: 86px;
+    bottom: -86px;
+    animation: animate 12s linear infinite;
+    animation-delay: 6s;
+    background-image: url("../../../public/images/roadTiles/upRight.svg");
+
+}
+
+.background div:nth-child(3) {
+    left: 9%;
+    width: 64px;
+    height: 64px;
+    bottom: -64px;
+    animation: animate 25s linear infinite;
+    animation-delay: 11s;
+    background-image: url("../../../public/images/roadTiles/rightDown.svg");
+
+}
+
+.background div:nth-child(4) {
+    left: 65%;
+    width: 43px;
+    height: 43px;
+    bottom: -43px;
+    animation: animate 11s linear infinite;
+    animation-delay: 2s;
+    background-image: url("../../../public/images/roadTiles/upDown.svg");
+
+}
+
+.background div:nth-child(5) {
+    left: 100%;
+    width: 54px;
+    height: 54px;
+    bottom: -54px;
+    animation: animate 5s linear infinite;
+    animation-delay: 22s;
+    background-image: url("../../../public/images/roadTiles/upLeft.svg");
+
+}
+
+.background div:nth-child(6) {
+    left: 12%;
+    width: 71px;
+    height: 71px;
+    bottom: -71px;
+    animation: animate 22s linear infinite;
+    animation-delay: 20s;
+    background-image: url("../../../public/images/roadTiles/rightLeft.svg");
+
+}
+
+.background div:nth-child(7) {
+    left: 43%;
+    width: 63px;
+    height: 63px;
+    bottom: -63px;
+    animation: animate 17s linear infinite;
+    animation-delay: 13s;
+    background-image: url("../../../public/images/roadTiles/rightDown.svg");
+
+}
+
+.background div:nth-child(8) {
+    left: 37%;
+    width: 96px;
+    height: 96px;
+    bottom: -96px;
+    animation-delay: 15s;
+    background-image: url("../../../public/images/roadTiles/upDown.svg");
+
+}
+
+.background div:nth-child(9) {
+    left: 67%;
+    width: 68px;
+    height: 68px;
+    bottom: -68px;
+    animation: animate 9s linear infinite;
+    animation-delay: 39s;
+    background-image: url("../../../public/images/roadTiles/rightLeft.svg");
+
+}
+
+.background div:nth-child(10) {
+    left: 73%;
+    width: 35px;
+    height: 35px;
+    bottom: -35px;
+    animation: animate 13s linear infinite;
+    animation-delay: 13s;
+    background-image: url("../../../public/images/roadTiles/stop.svg");
+
+}
+
+.background div:nth-child(11) {
+    left: 24%;
+    width: 55px;
+    height: 55px;
+    bottom: -55px;
+    animation: animate 22s linear infinite;
+    animation-delay: 4s;
+    background-image: url("../../../public/images/roadTiles/stop.svg");
+
+}
+
+.background div:nth-child(12) {
+    left: 3%;
+    width: 33px;
+    height: 33px;
+    bottom: -33px;
+    animation: animate 16s linear infinite;
+    animation-delay: 44s;
+    background-image: url("../../../public/images/roadTiles/upDown.svg");
+
+}
+
+.background div:nth-child(13) {
+    left: 51%;
+    width: 98px;
+    height: 98px;
+    bottom: -98px;
+    animation: animate 6s linear infinite;
+    animation-delay: 24s;
+    background-image: url("../../../public/images/roadTiles/downLeft.svg");
+
+}
+
+.background div:nth-child(14) {
+    left: 1%;
+    width: 77px;
+    height: 77px;
+    bottom: -77px;
+    animation: animate 22s linear infinite;
+    animation-delay: 1s;
+    background-image: url("../../../public/images/roadTiles/upRight.svg");
+
+}
+
+.background div:nth-child(15) {
+    left: 54%;
+    width: 56px;
+    height: 56px;
+    bottom: -56px;
+    animation-delay: 18s;
+    background-image: url("../../../public/images/roadTiles/rightLeft.svg");
+
+}
+
+.background div:nth-child(16) {
+    left: 12%;
+    width: 53px;
+    height: 53px;
+    bottom: -53px;
+    animation: animate 14s linear infinite;
+    background-image: url("../../../public/images/roadTiles/upLeft.svg");
+
+}
+
+.background div:nth-child(17) {
+    left: 88%;
+    width: 43px;
+    height: 43px;
+    bottom: -43px;
+    animation: animate 26s linear infinite;
+    animation-delay: 81s;
+    background-image: url("../../../public/images/roadTiles/downLeft.svg");
+
+}
+
+.background div:nth-child(18) {
+    left: 85%;
+    width: 46px;
+    height: 46px;
+    bottom: -46px;
+    animation: animate 18s linear infinite;
+    animation-delay: 32s;
+    background-image: url("../../../public/images/roadTiles/upRight.svg");
+
+}
+
+.background div:nth-child(19) {
+    left: 50%;
+    width: 86px;
+    height: 86px;
+    bottom: -86px;
+
+    background-image: url("../../../public/images/roadTiles/stop.svg");
+}
+
+@media (prefers-reduced-motion) {
+    .background {
+        display: none;
+    }
+}

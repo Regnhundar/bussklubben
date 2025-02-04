@@ -10,6 +10,7 @@ import { createGameBoardArray, generateStartAndFinishIndex } from './utils/utili
 import ClubHouseGameUI from './components/ClubHouseGameUI/ClubHouseGameUI';
 import PreLoader from './components/PreLoader/PreLoader';
 import { AnimatePresence } from 'motion/react';
+import BackgroundAnimation from './components/BackgroundAnimation/BackgroundAnimation';
 
 function App() {
     const [isGameLoaded, setIsGameLoaded] = useState<boolean>(false);
@@ -45,7 +46,7 @@ function App() {
         <>
             <PreLoader isGameLoaded={isGameLoaded} setIsGameLoaded={setIsGameLoaded} />
             <ClubHouseGameUI startGame={startGame} />
-
+            {(isGameOver || !isGameRunning) && <BackgroundAnimation />}
             <AnimatePresence>
                 {isGameRunning && isGameLoaded && !isGameOver && (
                     <main className='game'>
