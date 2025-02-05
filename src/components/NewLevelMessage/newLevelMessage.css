@@ -1,0 +1,13 @@
+.new-level-message {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    font-family: Riffic;
+    letter-spacing: 1px;
+    text-shadow: var(--text-outline--black);
+    font-size: 3rem;
+    text-align: center;
+    filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.5));
+    color: var(--accent1);
+    z-index: 999;
+}

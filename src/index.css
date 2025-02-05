@@ -10,6 +10,28 @@
   src: url("/src/assets/fonts/kongtext.ttf");
 }
 
+@font-face {
+  font-family: Lapsus;
+  src: url("/src/assets/fonts/LapsusPro-Bold.otf");
+}
+
+@font-face {
+  font-family: Pacool;
+  src: url("/src/assets/fonts/Pat-PaCool.otf");
+}
+
+@font-face {
+  font-family: Riffic;
+  src: url("/src/assets/fonts/RifficFree-Bold.ttf");
+}
+
+@font-face {
+  font-family: Dubba;
+  src: url("/src/assets/fonts/Acme-Regular.ttf");
+}
+
+
+
 :root {
   --bg-primary: #017A36;
   --bg-primary--light: #01A648;
@@ -85,5 +107,5 @@ body {
   flex-direction: column;
   justify-content: space-evenly;
   height: 100%;
-  overflow-y: hidden;
+  overflow: hidden;
 }
