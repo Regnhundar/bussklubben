@@ -1,12 +1,40 @@
 import { useEffect } from 'react';
 import './clubHouseGameUI.css';
-interface Props {
-    startGame: () => void;
-}
-const ClubHouseGameUI: React.FC<Props> = ({ startGame }) => {
+import useGameBoardStore from '../../stores/gameBoardStore';
+import useGameStore from '../../stores/gameStore';
+import { createGameBoardArray, generateStartAndFinishIndex } from '../../utils/utilityFunctions';
+import { PREPARATION_TIME, TOTAL_TIME } from '../../constants';
+
+const ClubHouseGameUI: React.FC = () => {
+    const { setGameBoardArray, setStartingIndex, setEndingIndex } = useGameBoardStore();
+    const {
+        setIsGameOver,
+        setIsGameRunning,
+        setIsPreparationTime,
+        setTotalTime,
+        setPreparationTime,
+        setPoints,
+        setLevel,
+    } = useGameStore();
+
     useEffect(() => {
         window.ClubHouseGame.registerRestart(startGame);
     }, []);
+
+    const startGame = () => {
+        const startAndFinishIndex = generateStartAndFinishIndex();
+        const gameBoard = createGameBoardArray();
+        setIsGameRunning(true);
+        setIsGameOver(false);
+        setStartingIndex(startAndFinishIndex.start);
+        setEndingIndex(startAndFinishIndex.finish);
+        setGameBoardArray(gameBoard);
+        setPreparationTime(PREPARATION_TIME);
+        setTotalTime(TOTAL_TIME);
+        setIsPreparationTime(true);
+        setPoints(0);
+        setLevel(1);
+    };
 
     return (
         <>

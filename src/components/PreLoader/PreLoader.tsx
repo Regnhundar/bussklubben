@@ -34,8 +34,7 @@ const PreLoader: React.FC<Props> = ({ isGameLoaded, setIsGameLoaded }) => {
     };
 
     const loadFonts = async () => {
-        await document.fonts.load('1rem Kong');
-        await document.fonts.load('1rem Silvertones');
+        await document.fonts.ready;
     };
 
     useEffect(() => {
@@ -60,7 +59,7 @@ const PreLoader: React.FC<Props> = ({ isGameLoaded, setIsGameLoaded }) => {
         //För att förhindra att react städar bort bilderna ur minnet läggs de i DOM. Annars måste de hämtas igen när de ska renderas på spelbrädet.
         <div style={{ display: 'none' }}>
             {imagesToPreLoad
-                .filter((src) => src !== `${import.meta.env.BASE_URL}images/busdriver.png`)
+                .filter((src) => src !== `${import.meta.env.BASE_URL}images/logo.png`)
                 .map((src, index) => (
                     <img key={index} src={src} alt='' />
                 ))}

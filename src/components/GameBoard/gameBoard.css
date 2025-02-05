@@ -1,4 +1,5 @@
 .game-board {
+    position: relative;
     display: grid;
     place-self: start center;
     gap: 1px;

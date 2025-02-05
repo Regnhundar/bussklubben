@@ -76,6 +76,7 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
             variants={squareImgVariant}
             data-index={index}
             src={squareData.tile.src}
+            alt={squareData.tile.alt}
             className={`game-square__image  ${
                 squareData.isPreviousSquare
                     ? 'game-square__image--is-previous'
@@ -113,6 +114,7 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
             exit='exit'
             custom={squareData.delay}
             data-index={index}
+            aria-label='En knapp som kommer att visa en dold vägbit.'
             className='game-square'
             onClick={() => {
                 !isGameOver && updateGameSquare(index, { isRevealed: true });
