@@ -1,6 +1,7 @@
 .ability {
     width: 100%;
     max-width: 7rem;
+    aspect-ratio: 1;
 }
 
 .ability__button {
@@ -17,6 +18,68 @@
 .ability__button--speed-active,
 .ability__button--joker-active {
     background-color: var(--accent1);
+    overflow: hidden;
+    animation: pressedAbility cubic-bezier(0.175, 0.885, 0.32, 1.275) .3s 1, activeAbility linear .3s 2;
+}
+
+.ability__button--speed-active .ability-button__image,
+.ability__button--joker-active .ability-button__image {
+    animation: turboActivated cubic-bezier(0.175, 0.885, 0.32, 1.275) .4s 1
+}
+
+.ability__button--speed-active .ability-button__name {
+    animation: grayOutName ease-in-out .2s 1
+}
+
+@keyframes grayOutName {
+
+    0% {
+        background-color: var(--bg-primary);
+    }
+
+    100% {
+        background-color: gray;
+    }
+}
+
+@keyframes turboActivated {
+
+    0%,
+    100% {
+        transform: skewX(0);
+    }
+
+    33% {
+        transform: skewX(5deg)
+    }
+
+    66% {
+        transform: skewX(-5deg)
+    }
+}
+
+@keyframes pressedAbility {
+
+    0%,
+    100% {
+        scale: 1;
+    }
+
+    50% {
+        scale: .95;
+    }
+}
+
+@keyframes activeAbility {
+
+    0%,
+    100% {
+        background-color: var(--accent1);
+    }
+
+    50% {
+        background-color: var(--accent2);
+    }
 }
 
 .ability__button--disabled {
@@ -25,32 +88,35 @@
 }
 
 .ability-button__image {
-    width: 100%;
-    max-width: 4.5rem;
+    width: clamp(3.5rem, 19vw, 4.5rem);
     padding: var(--spacing-xs);
-    object-fit: contain;
-
-
-}
-
-.ability--byt .ability-button__image {
-    background-color: var(--light-gray);
-    border: 1px solid var(--gray);
+    border: 2px solid var(--gray);
+    background-color: var(--off-white);
+    filter: drop-shadow(2px 2px 0 var(--gray));
+    box-shadow: var(--3d-shadow);
     border-radius: 4px;
     aspect-ratio: 1;
-    filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.5));
+    z-index: 999;
+    position: relative;
+    object-fit: contain;
+}
+
+/* .ability--byt .ability-button__image {
+    background-color: var(--light-gray);
+    border: 2px solid var(--gray);
+    border-radius: 4px;
+    aspect-ratio: 1;
+    filter: drop-shadow(2px 2px 0 var(--gray));
 }
 
 .ability--lugn .ability-button__image {
     max-width: 3.5rem;
     filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.5));
-}
+} */
 
-.ability--turbo {
-    position: relative;
-}
-
-.ability--turbo .ability-button__image {
+/* .ability--turbo .ability-button__image,
+.ability--byt .ability-button__image,
+.ability--lugn .ability-button__image {
     max-width: 4.5rem;
     width: 100%;
     border: 2px solid var(--gray);
@@ -61,7 +127,7 @@
     aspect-ratio: 1;
     z-index: 999;
     position: relative;
-}
+} */
 
 .ability-button__name {
     transform: translateY(calc(-1 * var(--spacing-m)));

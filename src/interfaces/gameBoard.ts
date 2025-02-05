@@ -10,6 +10,7 @@ export interface SquareData {
 export interface RoadTile {
     name: string;
     src: string;
+    alt: string;
     connections: [boolean, boolean, boolean, boolean];
 }
 export interface endPointInfo {

@@ -11,7 +11,9 @@ const AbilityButton: React.FC<Props> = ({ ability }) => {
             </button>
             <h3
                 className={`ability-button__name ${
-                    ability.state === 'ability__button--disabled' ? 'ability-button__name--disabled' : ''
+                    ability.state === 'ability__button--disabled' || ability.state === 'ability__button--speed-active'
+                        ? 'ability-button__name--disabled'
+                        : ''
                 }`}>
                 {ability.name.toUpperCase()}
             </h3>
