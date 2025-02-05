@@ -237,6 +237,7 @@ const GameLoop: React.FC = () => {
             const startAndFinishIndex = generateStartAndFinishIndex();
             const gameBoard = createGameBoardArray();
             setNextSquareToCheckIndex(null);
+            setJokerTile(null);
             setPoints((prev) => prev + POINTS_PER_LEVEL + POINTS_PER_SQUARE);
             setTotalTime((prev) => prev + adjustedBonusTime);
             setArrivalIndex(null);

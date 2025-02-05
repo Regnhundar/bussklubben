@@ -34,8 +34,7 @@ const PreLoader: React.FC<Props> = ({ isGameLoaded, setIsGameLoaded }) => {
     };
 
     const loadFonts = async () => {
-        await document.fonts.load('1rem Kong');
-        await document.fonts.load('1rem Silvertones');
+        await document.fonts.ready;
     };
 
     useEffect(() => {
