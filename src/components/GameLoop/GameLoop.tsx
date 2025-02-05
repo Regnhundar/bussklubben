@@ -174,15 +174,12 @@ const GameLoop: React.FC = () => {
             gameOver();
             return;
         }
-        console.log('nextSquareToCheckIndex 177', nextSquareToCheckIndex);
         if (nextSquareToCheckIndex !== null && validGameBoardIndices.includes(nextSquareToCheckIndex)) {
-            console.log('nextSquareToCheckIndex 178', nextSquareToCheckIndex);
             if (
                 nextSquareToCheckIndex >= 0 &&
                 gameBoardArray[nextSquareToCheckIndex].isRevealed &&
                 gameBoardArray[nextSquareToCheckIndex].tile.connections.includes(true) // kollar om det är en stoppskylt.
             ) {
-                console.log('nextSquareToCheckIndex 184', nextSquareToCheckIndex);
                 updateGameSquare(nextSquareToCheckIndex, { isActive: true });
                 if (squaresToSwap.includes(nextSquareToCheckIndex)) {
                     setSquaresToSwap();
