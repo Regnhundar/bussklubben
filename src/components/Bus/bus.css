@@ -1,0 +1,133 @@
+.bus {
+
+    max-width: 4rem;
+    width: 100%;
+    pointer-events: none;
+    position: absolute;
+    z-index: 999;
+}
+
+/* .bus--position-0 {
+    grid-column: 1/2;
+    grid-row: 1/2;
+}
+
+.bus--position-1 {
+    grid-column: 2/3;
+    grid-row: 1/2;
+}
+
+.bus--position-2 {
+    grid-column: 3/4;
+    grid-row: 1/2;
+}
+
+.bus--position-3 {
+    grid-column: 4/5;
+    grid-row: 1/2;
+}
+
+.bus--position-4 {
+    grid-column: 5/6;
+    grid-row: 1/2;
+}
+
+.bus--position-5 {
+    grid-column: 1/2;
+    grid-row: 2/3;
+}
+
+.bus--position-6 {
+    grid-column: 2/3;
+    grid-row: 2/3;
+}
+
+.bus--position-7 {
+    grid-column: 3/4;
+    grid-row: 2/3;
+}
+
+.bus--position-8 {
+    grid-column: 4/5;
+    grid-row: 2/3;
+}
+
+.bus--position-9 {
+    grid-column: 5/6;
+    grid-row: 2/3;
+}
+
+.bus--position-10 {
+    grid-column: 1/2;
+    grid-row: 3/4;
+}
+
+.bus--position-11 {
+    grid-column: 2/3;
+    grid-row: 3/4;
+}
+
+.bus--position-12 {
+    grid-column: 3/4;
+    grid-row: 3/4;
+}
+
+.bus--position-13 {
+    grid-column: 4/5;
+    grid-row: 3/4;
+}
+
+.bus--position-14 {
+    grid-column: 5/6;
+    grid-row: 3/4;
+}
+
+.bus--position-15 {
+    grid-column: 1/2;
+    grid-row: 4/5;
+}
+
+.bus--position-16 {
+    grid-column: 2/3;
+    grid-row: 4/5;
+}
+
+.bus--position-17 {
+    grid-column: 3/4;
+    grid-row: 4/5;
+}
+
+.bus--position-18 {
+    grid-column: 4/5;
+    grid-row: 4/5;
+}
+
+.bus--position-19 {
+    grid-column: 5/6;
+    grid-row: 4/5;
+}
+
+.bus--position-20 {
+    grid-column: 1/2;
+    grid-row: 5/6;
+}
+
+.bus--position-21 {
+    grid-column: 2/3;
+    grid-row: 5/6;
+}
+
+.bus--position-22 {
+    grid-column: 3/4;
+    grid-row: 5/6;
+}
+
+.bus--position-23 {
+    grid-column: 4/5;
+    grid-row: 5/6;
+}
+
+.bus--position-24 {
+    grid-column: 5/6;
+    grid-row: 5/6;
+} */

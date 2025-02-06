@@ -1,3 +1,10 @@
+export const gameboardVariant = {
+    hidden: { opacity: 0 },
+    show: {
+        opacity: 1,
+    },
+};
+
 export const squareButtonVariant = {
     hidden: { opacity: 0, scale: 0.8 },
     show: (customDelay: number) => ({

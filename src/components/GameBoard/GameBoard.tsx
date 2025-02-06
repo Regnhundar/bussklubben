@@ -3,7 +3,8 @@ import useGameBoardStore from '../../stores/gameBoardStore';
 import GameSquare from '../GameSquare/GameSquare';
 import { createGameBoardArray, endPoints, generateStartAndFinishIndex } from '../../utils/utilityFunctions';
 import './gameBoard.css';
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
+import { gameboardVariant } from '../../motionVariants/variants';
 
 const GameBoard: React.FC = () => {
     const {
@@ -42,31 +43,26 @@ const GameBoard: React.FC = () => {
         }
     }, [startingIndex, endingIndex]);
 
-    const staggerContainer = {
-        hidden: { opacity: 0 },
-        show: {
-            opacity: 1,
-        },
-    };
-
     return (
         <>
             <motion.section
-                variants={staggerContainer}
+                variants={gameboardVariant}
                 initial='hidden'
                 animate='show'
                 exit='hidden'
                 className='game-board'>
                 <AnimatePresence>
-                    {gameBoardArray.map((squareData, i) => (
-                        <GameSquare
-                            key={i}
-                            squareData={squareData}
-                            index={i}
-                            startingIndicator={startingArrowDirection}
-                            finishIndicator={finishArrowDirection}
-                        />
-                    ))}
+                    <LayoutGroup>
+                        {gameBoardArray.map((squareData, i) => (
+                            <GameSquare
+                                key={i}
+                                squareData={squareData}
+                                index={i}
+                                startingIndicator={startingArrowDirection}
+                                finishIndicator={finishArrowDirection}
+                            />
+                        ))}
+                    </LayoutGroup>
                 </AnimatePresence>
             </motion.section>
         </>
