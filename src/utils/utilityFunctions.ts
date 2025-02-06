@@ -1,7 +1,8 @@
 import { IS_REVEALED } from '../constants';
 import { roadTiles } from '../data/roadTiles';
 import { endPointInfo, SquareData } from '../interfaces/gameBoard';
-import { PossibleStartingIndices } from '../types/type';
+import { Connections, GameBoardIndices, PossibleStartingIndices } from '../types/type';
+import useGameBoardStore from '../stores/gameBoardStore';
 
 export function fisherYatesShuffle<T>(array: T[]): T[] {
     for (let i: number = array.length - 1; i > 0; i--) {
@@ -102,6 +103,25 @@ export function daysUntilInternshipIsOver(): number {
 
     return diffDays;
 }
+export const determineDirection = (currentSquare: GameBoardIndices, arrivedFromIndex: Connections): Connections => {
+    const gameBoardArray = useGameBoardStore.getState().gameBoardArray; // getState låter dig hämta state från Zustand utan att vara i en tsx/jsx fil.
+
+    const direction = gameBoardArray[currentSquare].tile.connections.findIndex(
+        (value, index) => value === true && index !== arrivedFromIndex
+    );
+    return direction as Connections;
+};
+export const squareToCheck = (currentSquare: GameBoardIndices, direction: Connections) => {
+    const nextSquare =
+        direction === 0
+            ? currentSquare - 5 // Upp
+            : direction === 1
+            ? currentSquare + 1 // Höger
+            : direction === 2
+            ? currentSquare + 5 // Ned
+            : currentSquare - 1; // Vänster
+    return nextSquare as GameBoardIndices;
+};
 
 // export const checkSquareConnections = (index: GameBoardIndices, gameBoardArray: SquareData[]): boolean => {
 //     gameBoardArray[index].tile.connections;

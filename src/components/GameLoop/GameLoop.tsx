@@ -10,8 +10,12 @@ import {
     TURBO_MULTIPLIER,
 } from '../../constants';
 import useGameBoardStore from '../../stores/gameBoardStore';
-import { createGameBoardArray, generateStartAndFinishIndex } from '../../utils/utilityFunctions';
-import { Connections, GameBoardIndices } from '../../types/type';
+import {
+    createGameBoardArray,
+    determineDirection,
+    generateStartAndFinishIndex,
+    squareToCheck,
+} from '../../utils/utilityFunctions';
 
 const GameLoop: React.FC = () => {
     const {
@@ -275,24 +279,12 @@ const GameLoop: React.FC = () => {
         return false;
     };
 
-    const determineDirection = (currentSquare: GameBoardIndices, arrivedFromIndex: Connections): Connections => {
-        const direction = gameBoardArray[currentSquare].tile.connections.findIndex(
-            (value, index) => value === true && index !== arrivedFromIndex
-        );
-        return direction as Connections;
-    };
-
-    const squareToCheck = (currentSquare: GameBoardIndices, direction: Connections) => {
-        const nextSquare =
-            direction === 0
-                ? currentSquare - 5 // Upp
-                : direction === 1
-                ? currentSquare + 1 // Höger
-                : direction === 2
-                ? currentSquare + 5 // Ned
-                : currentSquare - 1; // Vänster
-        return nextSquare as GameBoardIndices;
-    };
+    // const determineDirection = (currentSquare: GameBoardIndices, arrivedFromIndex: Connections): Connections => {
+    //     const direction = gameBoardArray[currentSquare].tile.connections.findIndex(
+    //         (value, index) => value === true && index !== arrivedFromIndex
+    //     );
+    //     return direction as Connections;
+    // };
 
     const gameOver = () => {
         setSquareSpeed('normal');
