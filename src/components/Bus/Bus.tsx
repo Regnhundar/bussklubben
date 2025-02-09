@@ -4,50 +4,79 @@ import { motion } from 'motion/react';
 import './bus.css';
 import { determineDirection } from '../../utils/utilityFunctions';
 import { useEffect, useState } from 'react';
+import { SLOW_MULTIPLIER, SQUARE_TIMER, TURBO_MULTIPLIER } from '../../constants';
 const Bus: React.FC = () => {
     const { isPreparationTime } = useGameStore();
     const { squareSpeed, nextSquareToCheckIndex, arrivalIndex } = useGameBoardStore();
-    const [busDirection, setBusDirection] = useState<string>('left');
+    const [busDirection, setBusDirection] = useState<string | null>(null);
 
     const handleStateInfo = () => {
         switch (squareSpeed) {
             case 'turbo':
-                return { src: './images/bus.svg', alt: 'En gul buss med gröna dekaler som åker som en oljad blixt!' };
+                return {
+                    src: busDirection === 'left' ? './images/bus-left.svg' : './images/bus-right.svg',
+                    alt: 'En gul buss med gröna dekaler som åker som en oljad blixt!',
+                };
             case 'slow':
                 return {
                     src: './images/abilities/paus.svg',
                     alt: 'En gul buss som förvandlats till en gul snigel med grönt skal som sniglar sig fram riktigt långsamt.',
                 };
             default:
-                return { src: './images/bus.svg', alt: 'En gul buss med gröna dekaler som åker mot sin hållplats.' };
+                return {
+                    src: busDirection === 'left' ? './images/bus-left.svg' : './images/bus-right.svg',
+                    alt: 'En gul buss med gröna dekaler som åker mot sin hållplats.',
+                };
         }
     };
     useEffect(() => {
         if (nextSquareToCheckIndex !== null && arrivalIndex !== null) {
             const direction = determineDirection(nextSquareToCheckIndex, arrivalIndex);
             const willLeaveFrom =
-                direction === 0 ? 'up' : direction === 2 ? 'down' : direction === 1 ? 'right' : 'left';
-
-            setBusDirection(willLeaveFrom);
+                direction === 0
+                    ? 'up'
+                    : direction === 2
+                    ? 'down'
+                    : direction === 1
+                    ? 'right'
+                    : direction === 3
+                    ? 'left'
+                    : null;
+            if (willLeaveFrom !== null) {
+                setBusDirection(willLeaveFrom);
+            }
         }
-    }, [nextSquareToCheckIndex, arrivalIndex]);
-
-    const busLeaveRotation =
-        busDirection === 'down'
-            ? { rotate: -90, rotateY: 0 }
-            : busDirection === 'up'
-            ? { rotate: 90, rotateY: 0 }
-            : busDirection === 'right'
-            ? { rotate: 0, rotateY: 180 }
-            : { rotate: 0, rotateY: 0 };
+    }, [nextSquareToCheckIndex]);
+    useEffect(() => {
+        if (busDirection !== null) {
+            console.log('busDirection', busDirection);
+        }
+    }, [busDirection]);
+    //Höger till vänster = bra. Vänster till höger fuckar ur.
+    const busLeaveRotationLeft =
+        busDirection === 'down' ? { rotate: -90 } : busDirection === 'up' ? { rotate: 90 } : { rotate: 0 };
+    const busLeaveRotationRight =
+        busDirection === 'down' ? { rotate: 90 } : busDirection === 'up' ? { rotate: -90 } : { rotate: 0 };
 
     return (
         !isPreparationTime && (
             <motion.img
-                initial={busLeaveRotation}
-                animate={busLeaveRotation}
-                exit={busLeaveRotation}
-                transition={{ duration: 0.3, ease: 'easeInOut', delay: 0.05 }}
+                initial={busDirection === 'right' ? busLeaveRotationRight : busLeaveRotationLeft}
+                animate={busDirection === 'right' ? busLeaveRotationRight : busLeaveRotationLeft}
+                exit={busDirection === 'right' ? busLeaveRotationRight : busLeaveRotationLeft}
+                // initial={busLeaveRotationRight}
+                // animate={busLeaveRotationRight}
+                // exit={busLeaveRotationRight}
+                transition={{
+                    duration:
+                        squareSpeed === 'turbo'
+                            ? (TURBO_MULTIPLIER * SQUARE_TIMER) / 2
+                            : squareSpeed === 'slow'
+                            ? (SLOW_MULTIPLIER * SQUARE_TIMER) / 2
+                            : SQUARE_TIMER / 2,
+                    ease: 'linear',
+                    delay: 0.05,
+                }}
                 layout='position'
                 layoutId='bus'
                 className={`bus`}

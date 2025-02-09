@@ -5,6 +5,7 @@ import { createGameBoardArray, endPoints, generateStartAndFinishIndex } from '..
 import './gameBoard.css';
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
 import { gameboardVariant } from '../../motionVariants/variants';
+import { testGameBoard1 } from '../../data/roadTiles';
 
 const GameBoard: React.FC = () => {
     const {
@@ -24,9 +25,12 @@ const GameBoard: React.FC = () => {
     useEffect(() => {
         const startAndFinishIndex = generateStartAndFinishIndex();
         const gameBoard = createGameBoardArray();
-        setStartingIndex(startAndFinishIndex.start);
-        setEndingIndex(startAndFinishIndex.finish);
-        setGameBoardArray(gameBoard);
+        // setStartingIndex(startAndFinishIndex.start);
+        // setEndingIndex(startAndFinishIndex.finish);
+        // setGameBoardArray(gameBoard);
+        setStartingIndex(24);
+        setEndingIndex(0);
+        setGameBoardArray(testGameBoard1);
     }, []);
 
     useEffect(() => {
@@ -34,11 +38,13 @@ const GameBoard: React.FC = () => {
             const startEndpoint = endPoints(startingIndex);
             setStartingArrowDirection(startEndpoint.arrowDirection);
             setNextSquareToCheckIndex(startingIndex);
-            setArrivalIndex(startEndpoint.successConnection);
+            // setArrivalIndex(startEndpoint.successConnection);
+            setArrivalIndex(1);
         }
         if (endingIndex !== null) {
             const finishEndpoint = endPoints(endingIndex);
-            setFinishConnectionIndex(finishEndpoint.successConnection);
+            // setFinishConnectionIndex(finishEndpoint.successConnection);
+            setFinishConnectionIndex(3);
             setFinishArrowDirection(finishEndpoint.arrowDirection);
         }
     }, [startingIndex, endingIndex]);
