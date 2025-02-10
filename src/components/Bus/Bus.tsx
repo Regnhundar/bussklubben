@@ -2,19 +2,19 @@ import useGameBoardStore from '../../stores/gameBoardStore';
 import useGameStore from '../../stores/gameStore';
 import { motion } from 'motion/react';
 import './bus.css';
-
-import { useState } from 'react';
 import { SLOW_MULTIPLIER, SQUARE_TIMER, TURBO_MULTIPLIER } from '../../constants';
 
 interface Props {
     x: number;
     y: number;
+    upOrDown: string | null;
+    leftOrRight: string | null;
+    direction: string | null;
 }
 
-const Bus: React.FC<Props> = ({ x, y }) => {
+const Bus: React.FC<Props> = ({ x, y, upOrDown, leftOrRight, direction }) => {
     const { isPreparationTime } = useGameStore();
     const { squareSpeed } = useGameBoardStore();
-    const [busDirection, setBusDirection] = useState<string | null>(null);
 
     const animationSpeed =
         squareSpeed === 'turbo'
@@ -27,7 +27,7 @@ const Bus: React.FC<Props> = ({ x, y }) => {
         switch (squareSpeed) {
             case 'turbo':
                 return {
-                    src: busDirection === 'left' ? './images/bus-left.svg' : './images/bus-right.svg',
+                    src: './images/bus-right.svg',
                     alt: 'En gul buss med gröna dekaler som åker som en oljad blixt!',
                 };
             case 'slow':
@@ -37,19 +37,63 @@ const Bus: React.FC<Props> = ({ x, y }) => {
                 };
             default:
                 return {
-                    src: busDirection === 'left' ? './images/bus-left.svg' : './images/bus-right.svg',
+                    src: './images/bus-right.svg',
                     alt: 'En gul buss med gröna dekaler som åker mot sin hållplats.',
                 };
         }
     };
 
+    const leftVariant = {
+        hidden: { opacity: 0, left: x, top: y, scaleX: -1, rotate: 0 },
+        show: { opacity: 1, left: x, top: y, scaleX: -1, rotate: 0 },
+    };
+    const rightVariant = {
+        hidden: { opacity: 0, left: x, top: y, scaleX: 1, rotate: 0 },
+        show: { opacity: 1, left: x, top: y, scaleX: 1, rotate: 0 },
+    };
+    const downVariant = {
+        hidden: {
+            opacity: 0,
+            left: x,
+            top: y,
+            scaleX: leftOrRight === 'right' ? 1 : -1,
+            rotate: -90,
+        },
+        show: {
+            opacity: 1,
+            left: x,
+            top: y,
+            scaleX: leftOrRight === 'right' ? 1 : -1,
+            rotate: -90,
+        },
+    };
+    const upVariant = {
+        hidden: {
+            opacity: 0,
+            left: x,
+            top: y,
+            scaleX: leftOrRight === 'right' ? 1 : -1,
+            rotate: 90,
+        },
+        show: {
+            opacity: 1,
+            left: x,
+            top: y,
+            scaleX: leftOrRight === 'right' ? 1 : -1,
+            rotate: 90,
+        },
+    };
+
+    const horizontalAnimation = leftOrRight === 'left' ? leftVariant : rightVariant;
+    const verticalAnimation = upOrDown === 'up' ? upVariant : downVariant;
+
     return (
         !isPreparationTime && (
             <motion.img
-                initial={{ opacity: 0, left: x, top: y }}
-                animate={{ opacity: 1, left: x, top: y }}
-                exit={{ opacity: 0, left: x, top: y }}
-                transition={{ duration: animationSpeed }}
+                initial={direction === 'horizontal' ? horizontalAnimation.hidden : verticalAnimation.hidden}
+                animate={direction === 'horizontal' ? horizontalAnimation.show : verticalAnimation.show}
+                exit={direction === 'horizontal' ? horizontalAnimation.hidden : verticalAnimation.hidden}
+                transition={{ duration: animationSpeed, ease: 'linear' }}
                 className={`bus`}
                 src={handleStateInfo().src}
                 alt={handleStateInfo().alt}

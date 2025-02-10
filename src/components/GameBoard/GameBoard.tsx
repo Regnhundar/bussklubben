@@ -26,6 +26,9 @@ const GameBoard: React.FC = () => {
 
     const [startingArrowDirection, setStartingArrowDirection] = useState<'down' | 'up' | 'left' | 'right'>('down');
     const [finishArrowDirection, setFinishArrowDirection] = useState<'down' | 'up' | 'left' | 'right'>('down');
+    const [leftOrRight, setleftOrRight] = useState<string | null>(null);
+    const [upOrDown, setUpOrDown] = useState<string | null>(null);
+    const [direction, setDirection] = useState<'horizontal' | 'vertical' | null>(null);
 
     const gameBoardRef = useRef<HTMLElement | null>(null);
 
@@ -58,6 +61,7 @@ const GameBoard: React.FC = () => {
         if (startingIndex !== null) {
             const startEndpoint = endPoints(startingIndex);
             setStartingArrowDirection(startEndpoint.arrowDirection);
+
             setNextSquareToCheckIndex(startingIndex);
             setArrivalIndex(startEndpoint.successConnection);
         }
@@ -72,6 +76,25 @@ const GameBoard: React.FC = () => {
         if (nextSquareToCheckIndex !== null && startingIndex !== null && squareSize > 0) {
             const y = Math.floor(nextSquareToCheckIndex / GRID_ROWS) * squareSize;
             const x = (nextSquareToCheckIndex % GRID_COLUMNS) * squareSize;
+            if (yCoordinate !== null && xCoordinate !== null) {
+                if (y < yCoordinate) {
+                    setUpOrDown('down');
+                    setDirection('vertical');
+                }
+                if (y > yCoordinate) {
+                    setUpOrDown('up');
+                    setDirection('vertical');
+                }
+
+                if (x > xCoordinate) {
+                    setleftOrRight('right');
+                    setDirection('horizontal');
+                }
+                if (x < xCoordinate) {
+                    setleftOrRight('left');
+                    setDirection('horizontal');
+                }
+            }
             setXcoordinate(x);
             setYcoordinate(y);
         }
@@ -87,7 +110,15 @@ const GameBoard: React.FC = () => {
                 exit='hidden'
                 className='game-board'>
                 <AnimatePresence>
-                    {xCoordinate !== null && yCoordinate !== null && <Bus x={xCoordinate} y={yCoordinate} />}
+                    {xCoordinate !== null && yCoordinate !== null && (
+                        <Bus
+                            x={xCoordinate}
+                            y={yCoordinate}
+                            upOrDown={upOrDown}
+                            leftOrRight={leftOrRight}
+                            direction={direction}
+                        />
+                    )}
                     {gameBoardArray.map((squareData, i) => (
                         <GameSquare
                             key={i}
