@@ -49,9 +49,7 @@ const GameLoop: React.FC = () => {
         arrivalIndex,
         startingIndex,
     } = useGameBoardStore();
-    const [triggerArrival, setTriggerArrival] = useState<boolean>(false);
     const [numberOfSquaresChecked, setNumberOfSquaresChecked] = useState<number>(0);
-
     const prepTimerRef = useRef<number | null>(null);
     const gameTimerRef = useRef<number | null>(null);
     const squareTimerRef = useRef<number | null>(null);
@@ -89,7 +87,7 @@ const GameLoop: React.FC = () => {
         };
     }, [isPreparationTime]);
 
-    // Uppdaterar speltiden och sätter game-over om den når 0. Triggas av handleStartSquareControl.
+    // Uppdaterar speltiden och sätter game-over om den når 0.
     useEffect(() => {
         if (!isPreparationTime && !isGameOver) {
             handleGameTimer();
@@ -116,18 +114,18 @@ const GameLoop: React.FC = () => {
         }
     }, [numberOfSquaresChecked]);
 
-    useEffect(() => {
-        if (arrivalIndex !== null && nextSquareToCheckIndex !== null) {
-            const isSquareConnected =
-                gameBoardArray[nextSquareToCheckIndex].isRevealed &&
-                gameBoardArray[nextSquareToCheckIndex].tile.connections[arrivalIndex] === true;
-            if (!isSquareConnected) {
-                gameOver();
-                return;
-            }
-            setPoints((prev) => prev + POINTS_PER_SQUARE);
-        }
-    }, [triggerArrival]);
+    // useEffect(() => {
+    //     if (arrivalIndex !== null && nextSquareToCheckIndex !== null) {
+    //         const isSquareConnected =
+    //             gameBoardArray[nextSquareToCheckIndex].isRevealed &&
+    //             gameBoardArray[nextSquareToCheckIndex].tile.connections[arrivalIndex] === true;
+    //         if (!isSquareConnected) {
+    //             gameOver();
+    //             return;
+    //         }
+    //         setPoints((prev) => prev + POINTS_PER_SQUARE);
+    //     }
+    // }, [triggerArrival]);
 
     useEffect(() => {
         if (level !== 1) {
@@ -210,12 +208,17 @@ const GameLoop: React.FC = () => {
     };
 
     const handleConnectionControl = () => {
+        setPoints((prev) => prev + POINTS_PER_SQUARE);
         if (nextSquareToCheckIndex !== null && arrivalIndex !== null) {
             const direction = determineDirection(nextSquareToCheckIndex, arrivalIndex);
             const willArriveFrom = direction === 0 ? 2 : direction === 2 ? 0 : direction === 1 ? 3 : 1;
             const isOutOfBounds = checkForOutOfBounds(nextSquareToCheckIndex, direction);
             const nextSquare = squareToCheck(nextSquareToCheckIndex, direction);
+            const isSquareConnected =
+                gameBoardArray[nextSquareToCheckIndex].isRevealed &&
+                gameBoardArray[nextSquareToCheckIndex].tile.connections[arrivalIndex] === true;
             if (
+                !isSquareConnected ||
                 (nextSquareToCheckIndex !== endingIndex && isOutOfBounds) ||
                 (nextSquareToCheckIndex === endingIndex && isOutOfBounds && direction !== finishConnectionIndex)
             ) {
@@ -229,7 +232,6 @@ const GameLoop: React.FC = () => {
 
             setNextSquareToCheckIndex(nextSquare);
             setArrivalIndex(willArriveFrom);
-            setTriggerArrival((prev) => !prev);
         }
     };
 
@@ -242,7 +244,7 @@ const GameLoop: React.FC = () => {
             const gameBoard = createGameBoardArray();
             setNextSquareToCheckIndex(null);
             setJokerTile(null);
-            setPoints((prev) => prev + POINTS_PER_LEVEL + POINTS_PER_SQUARE);
+            setPoints((prev) => prev + POINTS_PER_LEVEL);
             setTotalTime((prev) => prev + adjustedBonusTime);
             setArrivalIndex(null);
             setStartingIndex(null);

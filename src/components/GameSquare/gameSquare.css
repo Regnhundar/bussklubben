@@ -15,19 +15,14 @@
     font-weight: 600;
 }
 
-.game-square__image-wrapper {
-    display: flex;
-    aspect-ratio: 1;
-    width: 100%;
-    position: relative;
-}
-
 .game-square__image {
     position: relative;
     background-color: var(--light-gray);
     object-fit: contain;
     box-shadow: var(--3d-shadow);
     transition: scale .1s linear;
+    aspect-ratio: 1;
+    width: 100%;
 }
 
 .game-square__image--selected {
@@ -53,7 +48,6 @@
     20% {
         background-color: rgb(14, 156, 14);
     }
-
 
     10%,
     30%,

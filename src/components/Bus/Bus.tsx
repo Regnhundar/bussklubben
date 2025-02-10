@@ -2,13 +2,26 @@ import useGameBoardStore from '../../stores/gameBoardStore';
 import useGameStore from '../../stores/gameStore';
 import { motion } from 'motion/react';
 import './bus.css';
-import { determineDirection } from '../../utils/utilityFunctions';
-import { useEffect, useState } from 'react';
+
+import { useState } from 'react';
 import { SLOW_MULTIPLIER, SQUARE_TIMER, TURBO_MULTIPLIER } from '../../constants';
-const Bus: React.FC = () => {
+
+interface Props {
+    x: number;
+    y: number;
+}
+
+const Bus: React.FC<Props> = ({ x, y }) => {
     const { isPreparationTime } = useGameStore();
-    const { squareSpeed, nextSquareToCheckIndex, arrivalIndex } = useGameBoardStore();
+    const { squareSpeed } = useGameBoardStore();
     const [busDirection, setBusDirection] = useState<string | null>(null);
+
+    const animationSpeed =
+        squareSpeed === 'turbo'
+            ? SQUARE_TIMER * TURBO_MULTIPLIER
+            : squareSpeed === 'slow'
+            ? SQUARE_TIMER * SLOW_MULTIPLIER
+            : SQUARE_TIMER;
 
     const handleStateInfo = () => {
         switch (squareSpeed) {
@@ -29,56 +42,14 @@ const Bus: React.FC = () => {
                 };
         }
     };
-    useEffect(() => {
-        if (nextSquareToCheckIndex !== null && arrivalIndex !== null) {
-            const direction = determineDirection(nextSquareToCheckIndex, arrivalIndex);
-            const willLeaveFrom =
-                direction === 0
-                    ? 'up'
-                    : direction === 2
-                    ? 'down'
-                    : direction === 1
-                    ? 'right'
-                    : direction === 3
-                    ? 'left'
-                    : null;
-            if (willLeaveFrom !== null) {
-                setBusDirection(willLeaveFrom);
-            }
-        }
-    }, [nextSquareToCheckIndex]);
-    useEffect(() => {
-        if (busDirection !== null) {
-            console.log('busDirection', busDirection);
-        }
-    }, [busDirection]);
-    //Höger till vänster = bra. Vänster till höger fuckar ur.
-    const busLeaveRotationLeft =
-        busDirection === 'down' ? { rotate: -90 } : busDirection === 'up' ? { rotate: 90 } : { rotate: 0 };
-    const busLeaveRotationRight =
-        busDirection === 'down' ? { rotate: 90 } : busDirection === 'up' ? { rotate: -90 } : { rotate: 0 };
 
     return (
         !isPreparationTime && (
             <motion.img
-                initial={busDirection === 'right' ? busLeaveRotationRight : busLeaveRotationLeft}
-                animate={busDirection === 'right' ? busLeaveRotationRight : busLeaveRotationLeft}
-                exit={busDirection === 'right' ? busLeaveRotationRight : busLeaveRotationLeft}
-                // initial={busLeaveRotationRight}
-                // animate={busLeaveRotationRight}
-                // exit={busLeaveRotationRight}
-                transition={{
-                    duration:
-                        squareSpeed === 'turbo'
-                            ? (TURBO_MULTIPLIER * SQUARE_TIMER) / 2
-                            : squareSpeed === 'slow'
-                            ? (SLOW_MULTIPLIER * SQUARE_TIMER) / 2
-                            : SQUARE_TIMER / 2,
-                    ease: 'linear',
-                    delay: 0.05,
-                }}
-                layout='position'
-                layoutId='bus'
+                initial={{ opacity: 0, left: x, top: y }}
+                animate={{ opacity: 1, left: x, top: y }}
+                exit={{ opacity: 0, left: x, top: y }}
+                transition={{ duration: animationSpeed }}
                 className={`bus`}
                 src={handleStateInfo().src}
                 alt={handleStateInfo().alt}
