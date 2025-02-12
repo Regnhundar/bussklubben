@@ -16,17 +16,18 @@
 }
 
 .game-square__image {
-    aspect-ratio: 1;
-    width: 100%;
+    position: relative;
     background-color: var(--light-gray);
     object-fit: contain;
     box-shadow: var(--3d-shadow);
     transition: scale .1s linear;
+    aspect-ratio: 1;
+    width: 100%;
 }
 
 .game-square__image--selected {
     z-index: 2;
-    border: 2px solid var(--accent1);
+    outline: 2px solid var(--accent1);
     background-color: var(--accent2);
     scale: 1.2;
 }
@@ -47,7 +48,6 @@
     20% {
         background-color: rgb(14, 156, 14);
     }
-
 
     10%,
     30%,
