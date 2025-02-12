@@ -1,3 +1,4 @@
+import { IS_REVEALED, SQUARE_TIMER } from '../constants';
 import { RoadTile } from '../interfaces/gameBoard';
 
 //* [upp, höger, ned, vänster]
@@ -49,6 +50,41 @@ export const stop: RoadTile = {
     alt: 'En stoppskylt som saknar öppningar.',
     connections: [false, false, false, false],
 };
+export interface SquareData {
+    isActive: boolean;
+    isPreviousSquare: boolean;
+    isRevealed: boolean;
+    delay: number;
+    tile: RoadTile;
+}
+
+export const testGameBoard1: SquareData[] = [
+    { isActive: false, isPreviousSquare: false, isRevealed: IS_REVEALED, delay: SQUARE_TIMER, tile: rightLeft },
+    { isActive: false, isPreviousSquare: false, isRevealed: IS_REVEALED, delay: SQUARE_TIMER, tile: rightLeft },
+    { isActive: false, isPreviousSquare: false, isRevealed: IS_REVEALED, delay: SQUARE_TIMER, tile: rightLeft },
+    { isActive: false, isPreviousSquare: false, isRevealed: IS_REVEALED, delay: SQUARE_TIMER, tile: rightLeft },
+    { isActive: false, isPreviousSquare: false, isRevealed: IS_REVEALED, delay: SQUARE_TIMER, tile: downLeft },
+    { isActive: false, isPreviousSquare: false, isRevealed: IS_REVEALED, delay: SQUARE_TIMER, tile: rightDown },
+    { isActive: false, isPreviousSquare: false, isRevealed: IS_REVEALED, delay: SQUARE_TIMER, tile: rightLeft },
+    { isActive: false, isPreviousSquare: false, isRevealed: IS_REVEALED, delay: SQUARE_TIMER, tile: rightLeft },
+    { isActive: false, isPreviousSquare: false, isRevealed: IS_REVEALED, delay: SQUARE_TIMER, tile: rightLeft },
+    { isActive: false, isPreviousSquare: false, isRevealed: IS_REVEALED, delay: SQUARE_TIMER, tile: upLeft },
+    { isActive: false, isPreviousSquare: false, isRevealed: IS_REVEALED, delay: SQUARE_TIMER, tile: upRight },
+    { isActive: false, isPreviousSquare: false, isRevealed: IS_REVEALED, delay: SQUARE_TIMER, tile: rightLeft },
+    { isActive: false, isPreviousSquare: false, isRevealed: IS_REVEALED, delay: SQUARE_TIMER, tile: rightLeft },
+    { isActive: false, isPreviousSquare: false, isRevealed: IS_REVEALED, delay: SQUARE_TIMER, tile: rightLeft },
+    { isActive: false, isPreviousSquare: false, isRevealed: IS_REVEALED, delay: SQUARE_TIMER, tile: downLeft },
+    { isActive: false, isPreviousSquare: false, isRevealed: IS_REVEALED, delay: SQUARE_TIMER, tile: rightDown },
+    { isActive: false, isPreviousSquare: false, isRevealed: IS_REVEALED, delay: SQUARE_TIMER, tile: rightLeft },
+    { isActive: false, isPreviousSquare: false, isRevealed: IS_REVEALED, delay: SQUARE_TIMER, tile: rightLeft },
+    { isActive: false, isPreviousSquare: false, isRevealed: IS_REVEALED, delay: SQUARE_TIMER, tile: rightLeft },
+    { isActive: false, isPreviousSquare: false, isRevealed: IS_REVEALED, delay: SQUARE_TIMER, tile: upLeft },
+    { isActive: false, isPreviousSquare: false, isRevealed: IS_REVEALED, delay: SQUARE_TIMER, tile: upRight },
+    { isActive: false, isPreviousSquare: false, isRevealed: IS_REVEALED, delay: SQUARE_TIMER, tile: rightLeft },
+    { isActive: false, isPreviousSquare: false, isRevealed: IS_REVEALED, delay: SQUARE_TIMER, tile: rightLeft },
+    { isActive: false, isPreviousSquare: false, isRevealed: IS_REVEALED, delay: SQUARE_TIMER, tile: rightLeft },
+    { isActive: false, isPreviousSquare: false, isRevealed: IS_REVEALED, delay: SQUARE_TIMER, tile: rightLeft },
+];
 
 export const roadTiles: RoadTile[] = [upDown, upLeft, upRight, rightLeft, rightDown, downLeft, stop];
 export const jokerRoadTiles: RoadTile[] = [...roadTiles].filter((tile) => tile.name !== 'stop');
