@@ -7,9 +7,9 @@ import { SLOW_MULTIPLIER, SQUARE_TIMER, TURBO_MULTIPLIER } from '../../constants
 interface Props {
     x: number;
     y: number;
-    upOrDown: string | null;
-    leftOrRight: string | null;
-    direction: string | null;
+    upOrDown: 'up' | 'down' | null;
+    leftOrRight: 'left' | 'right' | null;
+    direction: 'horizontal' | 'vertical' | null;
     squareSize: number;
 }
 

@@ -123,6 +123,25 @@ export const squareToCheck = (currentSquare: GameBoardIndices, direction: Connec
     return nextSquare as GameBoardIndices;
 };
 
+export const checkForOutOfBounds = (indexOfSquare: number, indexOfDirection: number) => {
+    const noUp = [0, 1, 2, 3, 4];
+    const noRight = [4, 9, 14, 19, 24];
+    const noDown = [20, 21, 22, 23, 24];
+    const noLeft = [0, 5, 10, 15, 20];
+    if (noUp.includes(indexOfSquare) && indexOfDirection === 0) {
+        return true;
+    }
+    if (noRight.includes(indexOfSquare) && indexOfDirection === 1) {
+        return true;
+    }
+    if (noDown.includes(indexOfSquare) && indexOfDirection === 2) {
+        return true;
+    }
+    if (noLeft.includes(indexOfSquare) && indexOfDirection === 3) {
+        return true;
+    }
+    return false;
+};
 // export const checkSquareConnections = (index: GameBoardIndices, gameBoardArray: SquareData[]): boolean => {
 //     gameBoardArray[index].tile.connections;
 //     return true;
