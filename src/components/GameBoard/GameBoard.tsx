@@ -7,7 +7,6 @@ import { AnimatePresence, motion } from 'motion/react';
 import { gameboardVariant } from '../../motionVariants/variants';
 import Bus from '../Bus/Bus';
 import { testGameBoard1 } from '../../data/roadTiles';
-import useGameStore from '../../stores/gameStore';
 
 const GRID_COLUMNS = 5;
 const GRID_ROWS = 5;
@@ -28,8 +27,8 @@ const GameBoard: React.FC = () => {
 
     const [startingArrowDirection, setStartingArrowDirection] = useState<'down' | 'up' | 'left' | 'right'>('down');
     const [finishArrowDirection, setFinishArrowDirection] = useState<'down' | 'up' | 'left' | 'right'>('down');
-    const [leftOrRight, setleftOrRight] = useState<string | null>(null);
-    const [upOrDown, setUpOrDown] = useState<string | null>(null);
+    const [leftOrRight, setleftOrRight] = useState<'left' | 'right' | null>(null);
+    const [upOrDown, setUpOrDown] = useState<'up' | 'down' | null>(null);
     const [direction, setDirection] = useState<'horizontal' | 'vertical' | null>(null);
 
     const gameBoardRef = useRef<HTMLElement | null>(null);
@@ -41,12 +40,12 @@ const GameBoard: React.FC = () => {
     useEffect(() => {
         const startAndFinishIndex = generateStartAndFinishIndex();
         const gameBoard = createGameBoardArray();
-        setStartingIndex(startAndFinishIndex.start);
-        setEndingIndex(startAndFinishIndex.finish);
-        setGameBoardArray(gameBoard);
-        // setStartingIndex(24);
-        // setEndingIndex(0);
-        // setGameBoardArray(testGameBoard1);
+        // setStartingIndex(startAndFinishIndex.start);
+        // setEndingIndex(startAndFinishIndex.finish);
+        // setGameBoardArray(gameBoard);
+        setStartingIndex(24);
+        setEndingIndex(0);
+        setGameBoardArray(testGameBoard1);
 
         const updateSquareSize = () => {
             if (gameBoardRef.current) {
@@ -65,7 +64,6 @@ const GameBoard: React.FC = () => {
     useEffect(() => {
         if (startingIndex !== null) {
             const startEndpoint = endPoints(startingIndex);
-            setStartingArrowDirection(startEndpoint.arrowDirection);
 
             switch (startEndpoint.arrowDirection) {
                 case 'up':
@@ -86,14 +84,17 @@ const GameBoard: React.FC = () => {
             }
 
             setNextSquareToCheckIndex(startingIndex);
-            setArrivalIndex(startEndpoint.successConnection);
-            // setArrivalIndex(1);
+            // setStartingArrowDirection(startEndpoint.arrowDirection);
+            // setArrivalIndex(startEndpoint.successConnection);
+            setStartingArrowDirection('right');
+            setArrivalIndex(1);
         }
         if (endingIndex !== null) {
             const finishEndpoint = endPoints(endingIndex);
-            setFinishArrowDirection(finishEndpoint.arrowDirection);
-            setFinishConnectionIndex(finishEndpoint.successConnection);
-            // setFinishConnectionIndex(3);
+            // setFinishArrowDirection(finishEndpoint.arrowDirection);
+            // setFinishConnectionIndex(finishEndpoint.successConnection);
+            setFinishArrowDirection('left');
+            setFinishConnectionIndex(3);
         }
     }, [startingIndex, endingIndex]);
 
