@@ -48,6 +48,7 @@ const GameLoop: React.FC = () => {
         setNextSquareToCheckIndex,
         setArrivalIndex,
         arrivalIndex,
+        setIsExiting,
     } = useGameBoardStore();
     const [numberOfSquaresChecked, setNumberOfSquaresChecked] = useState<number>(0);
     const prepTimerRef = useRef<number | null>(null);
@@ -62,6 +63,13 @@ const GameLoop: React.FC = () => {
         typeof arrivalIndex === 'number' &&
         gameBoardArray[nextSquareToCheckIndex].isRevealed &&
         gameBoardArray[nextSquareToCheckIndex].tile.connections[arrivalIndex] === true;
+
+    const nextSquareTimer =
+        squareSpeed === 'turbo'
+            ? SQUARE_TIMER * TURBO_MULTIPLIER
+            : squareSpeed === 'slow'
+            ? SQUARE_TIMER * SLOW_MULTIPLIER
+            : SQUARE_TIMER;
 
     const clearTimers = () => {
         if (squareTimerRef.current) {
@@ -165,12 +173,7 @@ const GameLoop: React.FC = () => {
                 if (squaresToSwap.includes(nextSquareToCheckIndex)) {
                     setSquaresToSwap();
                 }
-                const nextSquareTimer =
-                    squareSpeed === 'turbo'
-                        ? SQUARE_TIMER * TURBO_MULTIPLIER
-                        : squareSpeed === 'slow'
-                        ? SQUARE_TIMER * SLOW_MULTIPLIER
-                        : SQUARE_TIMER;
+
                 squareTimerRef.current = window.setTimeout(() => {
                     setNumberOfSquaresChecked((prev) => prev + 1);
                     updateGameSquare(nextSquareToCheckIndex, { isPreviousSquare: true, isActive: false });
@@ -202,13 +205,27 @@ const GameLoop: React.FC = () => {
                 return;
             }
             if (nextSquareToCheckIndex === endingIndex && direction === finishConnectionIndex) {
-                setLevel((prev) => prev + 1);
+                handleCompleteLevel();
                 return;
+            } else {
+                setNextSquareToCheckIndex(nextSquare);
+                setArrivalIndex(willArriveFrom);
             }
-
-            setNextSquareToCheckIndex(nextSquare);
-            setArrivalIndex(willArriveFrom);
         }
+    };
+
+    const handleCompleteLevel = () => {
+        clearTimers();
+
+        setIsExiting(true);
+
+        setTimeout(
+            () => {
+                setIsExiting(false);
+                setLevel((prev) => prev + 1);
+            },
+            nextSquareTimer < SQUARE_TIMER ? (nextSquareTimer + 0.2) * 1000 : (nextSquareTimer / 2) * 1000
+        );
     };
 
     // Hanterar reset vid klarad bana

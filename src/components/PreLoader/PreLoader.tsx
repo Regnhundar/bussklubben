@@ -18,6 +18,9 @@ const PreLoader: React.FC<Props> = ({ isGameLoaded, setIsGameLoaded }) => {
         `${import.meta.env.BASE_URL}images/icons/hour-glass.svg`,
         `${import.meta.env.BASE_URL}images/icons/star.svg`,
         `${import.meta.env.BASE_URL}images/logo.png`,
+        `${import.meta.env.BASE_URL}images/bus.svg`,
+        `${import.meta.env.BASE_URL}images/bus-slow.svg`,
+        `${import.meta.env.BASE_URL}images/bus-turbo.svg`,
     ];
 
     const preloadImages = (imagePaths: string[]) => {
@@ -57,7 +60,7 @@ const PreLoader: React.FC<Props> = ({ isGameLoaded, setIsGameLoaded }) => {
 
     return (
         //För att förhindra att react städar bort bilderna ur minnet läggs de i DOM. Annars måste de hämtas igen när de ska renderas på spelbrädet.
-        <div style={{ display: 'none' }}>
+        <div style={{ display: 'none' }} aria-hidden={'true'}>
             {imagesToPreLoad
                 .filter((src) => src !== `${import.meta.env.BASE_URL}images/logo.png`)
                 .map((src, index) => (

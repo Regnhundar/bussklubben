@@ -6,7 +6,7 @@ import './gameBoard.css';
 import { AnimatePresence, motion } from 'motion/react';
 import { gameboardVariant } from '../../motionVariants/variants';
 import Bus from '../Bus/Bus';
-import { testGameBoard1 } from '../../data/roadTiles';
+// import { testGameBoard1 } from '../../data/roadTiles';
 
 const GRID_COLUMNS = 5;
 const GRID_ROWS = 5;
@@ -19,10 +19,12 @@ const GameBoard: React.FC = () => {
         setEndingIndex,
         startingIndex,
         endingIndex,
+        finishConnectionIndex,
         setFinishConnectionIndex,
         setNextSquareToCheckIndex,
         setArrivalIndex,
         nextSquareToCheckIndex,
+        isExiting,
     } = useGameBoardStore();
 
     const [startingArrowDirection, setStartingArrowDirection] = useState<'down' | 'up' | 'left' | 'right'>('down');
@@ -40,12 +42,12 @@ const GameBoard: React.FC = () => {
     useEffect(() => {
         const startAndFinishIndex = generateStartAndFinishIndex();
         const gameBoard = createGameBoardArray();
-        // setStartingIndex(startAndFinishIndex.start);
-        // setEndingIndex(startAndFinishIndex.finish);
-        // setGameBoardArray(gameBoard);
-        setStartingIndex(24);
-        setEndingIndex(0);
-        setGameBoardArray(testGameBoard1);
+        setStartingIndex(startAndFinishIndex.start);
+        setEndingIndex(startAndFinishIndex.finish);
+        setGameBoardArray(gameBoard);
+        // setStartingIndex(24);
+        // setEndingIndex(0);
+        // setGameBoardArray(testGameBoard1);
 
         const updateSquareSize = () => {
             if (gameBoardRef.current) {
@@ -84,25 +86,30 @@ const GameBoard: React.FC = () => {
             }
 
             setNextSquareToCheckIndex(startingIndex);
-            // setStartingArrowDirection(startEndpoint.arrowDirection);
-            // setArrivalIndex(startEndpoint.successConnection);
-            setStartingArrowDirection('right');
-            setArrivalIndex(1);
+            setStartingArrowDirection(startEndpoint.arrowDirection);
+            setArrivalIndex(startEndpoint.successConnection);
+            // setStartingArrowDirection('right');
+            // setArrivalIndex(1);
         }
         if (endingIndex !== null) {
             const finishEndpoint = endPoints(endingIndex);
-            // setFinishArrowDirection(finishEndpoint.arrowDirection);
-            // setFinishConnectionIndex(finishEndpoint.successConnection);
-            setFinishArrowDirection('left');
-            setFinishConnectionIndex(3);
+            setFinishArrowDirection(finishEndpoint.arrowDirection);
+            setFinishConnectionIndex(finishEndpoint.successConnection);
+            // setFinishArrowDirection('left');
+            // setFinishConnectionIndex(3);
         }
     }, [startingIndex, endingIndex]);
 
     useEffect(() => {
-        if (nextSquareToCheckIndex !== null && startingIndex !== null && squareSize > 0) {
+        if (nextSquareToCheckIndex !== null && startingIndex !== null && endingIndex !== null && squareSize > 0) {
             const y = Math.floor(nextSquareToCheckIndex / GRID_ROWS) * squareSize;
             const x = (nextSquareToCheckIndex % GRID_COLUMNS) * squareSize;
-            if (yCoordinate !== null && xCoordinate !== null && nextSquareToCheckIndex !== startingIndex) {
+            if (
+                yCoordinate !== null &&
+                xCoordinate !== null &&
+                nextSquareToCheckIndex !== startingIndex &&
+                !isExiting
+            ) {
                 if (y < yCoordinate) {
                     setUpOrDown('down');
                     setDirection('vertical');
@@ -121,10 +128,30 @@ const GameBoard: React.FC = () => {
                     setDirection('horizontal');
                 }
             }
+            if (isExiting) {
+                switch (finishConnectionIndex) {
+                    case 0:
+                        setUpOrDown('down');
+                        setDirection('vertical');
+                        break;
+                    case 2:
+                        setUpOrDown('up');
+                        setDirection('vertical');
+                        break;
+                    case 1:
+                        setleftOrRight('right');
+                        setDirection('horizontal');
+                        break;
+                    default:
+                        setleftOrRight('left');
+                        setDirection('horizontal');
+                }
+                console.log('isExiting:');
+            }
             setXcoordinate(x);
             setYcoordinate(y);
         }
-    }, [nextSquareToCheckIndex, squareSize]);
+    }, [nextSquareToCheckIndex, squareSize, isExiting]);
 
     return (
         <>

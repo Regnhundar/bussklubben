@@ -15,7 +15,14 @@ interface Props {
 
 const Bus: React.FC<Props> = ({ x, y, upOrDown, leftOrRight, direction, squareSize }) => {
     const { isPreparationTime } = useGameStore();
-    const { squareSpeed } = useGameBoardStore();
+    const { squareSpeed, startingIndex, arrivalIndex, nextSquareToCheckIndex, gameBoardArray, isExiting } =
+        useGameBoardStore();
+
+    const firstSquareEntrance =
+        nextSquareToCheckIndex !== null &&
+        arrivalIndex !== null &&
+        nextSquareToCheckIndex === startingIndex &&
+        gameBoardArray[nextSquareToCheckIndex].tile.connections[arrivalIndex] === true;
 
     const imageWidth = squareSize * 0.9;
     const imageHeight = (37 / 93) * imageWidth; // 37/93 är aspect ratio.
@@ -51,44 +58,40 @@ const Bus: React.FC<Props> = ({ x, y, upOrDown, leftOrRight, direction, squareSi
 
     const horizontalVariant = {
         hidden: {
-            opacity: 0,
             rotateY: leftOrRight === 'right' ? 0 : 180,
             rotateZ: 0,
-            left: x + offsetX,
+            left: firstSquareEntrance ? x + (leftOrRight === 'right' ? -imageWidth : imageWidth) : x + offsetX,
             top: y + offsetY,
         },
         show: {
-            opacity: 1,
             rotateY: leftOrRight === 'right' ? 0 : 180,
             rotateZ: 0,
-            left: x + offsetX,
+            left: isExiting ? x + offsetX + (leftOrRight === 'right' ? imageWidth : -imageWidth) : x + offsetX,
             top: y + offsetY,
         },
     };
 
     const verticalVariant = {
         hidden: {
-            opacity: 0,
             rotateY: leftOrRight === 'right' ? 0 : 180,
             rotateZ: upOrDown === 'up' ? 90 : -90,
             left: x + offsetX,
-            top: y + offsetY,
+            top: firstSquareEntrance ? y + offsetY + (upOrDown === 'up' ? -imageWidth : imageWidth) : y + offsetY,
         },
         show: {
-            opacity: 1,
             rotateY: leftOrRight === 'right' ? 0 : 180,
             rotateZ: upOrDown === 'up' ? 90 : -90,
             left: x + offsetX,
-            top: y + offsetY,
+            top: isExiting ? y + offsetY + (upOrDown === 'up' ? imageWidth : -imageWidth) : y + offsetY,
         },
     };
 
     return (
         !isPreparationTime && (
             <motion.img
-                initial={direction === 'horizontal' ? horizontalVariant.hidden : verticalVariant.hidden}
-                animate={direction === 'horizontal' ? horizontalVariant.show : verticalVariant.show}
-                exit={direction === 'horizontal' ? horizontalVariant.hidden : verticalVariant.hidden}
+                variants={direction === 'horizontal' ? horizontalVariant : verticalVariant}
+                initial='hidden'
+                animate='show'
                 transition={{
                     duration: squareSpeed !== 'turbo' ? animationSpeed / 2 : animationSpeed,
                     ease: squareSpeed === 'turbo' ? 'linear' : [0.9, -0.55, 0.27, 1.55],

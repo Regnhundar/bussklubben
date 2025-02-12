@@ -18,24 +18,25 @@ const AbilityBar: React.FC = () => {
         setActiveJokerTile,
         squaresToSwap,
         setSquaresToSwap,
+        isExiting,
     } = useGameBoardStore();
     const { isGameOver, isPreparationTime, setIsPreparationTime } = useGameStore();
 
     const bytState = jokerTile
         ? 'ability__button--joker-active'
-        : isPreparationTime || isGameOver
+        : isPreparationTime || isGameOver || isExiting
         ? 'ability__button--disabled'
         : '';
     const lugnState =
         squareSpeed === 'slow'
             ? 'ability__button--speed-active'
-            : squareSpeed === 'turbo' || isPreparationTime || isGameOver
+            : squareSpeed === 'turbo' || isPreparationTime || isGameOver || isExiting
             ? 'ability__button--disabled'
             : '';
     const turboState =
-        squareSpeed === 'turbo'
+        squareSpeed === 'turbo' && !isExiting
             ? 'ability__button--speed-active'
-            : squareSpeed === 'slow' || isGameOver
+            : squareSpeed === 'slow' || isGameOver || isExiting
             ? 'ability__button--disabled'
             : '';
 
@@ -51,6 +52,9 @@ const AbilityBar: React.FC = () => {
             }, 1000);
 
             return () => clearInterval(interval);
+        }
+        if (isPreparationTime) {
+            setActiveJokerTile(0);
         }
     }, [activeJokerTile, isPreparationTime, isGameOver, jokerTile]);
 
@@ -89,7 +93,10 @@ const AbilityBar: React.FC = () => {
             name: 'byt',
             class: 'byt',
             alt: 'Vägbit som du kan byta till.',
-            src: !isGameOver && !isPreparationTime ? jokerRoadTiles[activeJokerTile].src : jokerRoadTiles[0].src,
+            src:
+                !isExiting && !isGameOver && !isPreparationTime
+                    ? jokerRoadTiles[activeJokerTile].src
+                    : jokerRoadTiles[0].src,
             state: bytState,
             func: handleJokerTile,
         },

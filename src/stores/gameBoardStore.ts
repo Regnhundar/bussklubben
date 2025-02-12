@@ -25,6 +25,8 @@ interface GameBoardStore {
     setActiveJokerTile: (value: number | ((prev: number) => number)) => void;
     jokerTile: RoadTile | null;
     setJokerTile: (roadTile: RoadTile | null) => void;
+    isExiting: boolean;
+    setIsExiting: (value: boolean | ((prev: boolean) => boolean)) => void;
 }
 
 const useGameBoardStore = create<GameBoardStore>((set) => ({
@@ -74,6 +76,11 @@ const useGameBoardStore = create<GameBoardStore>((set) => ({
         })),
     jokerTile: null,
     setJokerTile: (roadTile) => set({ jokerTile: roadTile }),
+    isExiting: false,
+    setIsExiting: (value) =>
+        set((state) => ({
+            isExiting: typeof value === 'function' ? value(state.isExiting) : value,
+        })),
 }));
 
 export default useGameBoardStore;
