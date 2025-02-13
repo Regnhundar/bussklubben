@@ -71,42 +71,42 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
     };
 
     return squareData.isRevealed ? (
-        <motion.img
-            variants={squareImgVariant}
-            data-index={index}
-            src={squareData.tile.src}
-            alt={squareData.tile.alt}
-            className={`game-square__image  ${
-                squareData.isPreviousSquare
-                    ? 'game-square__image--is-previous'
-                    : squareData.isActive
-                    ? 'game-square__image--is-active'
-                    : jokerTile !== null
-                    ? 'game-square__image--is-changeable'
-                    : selectedToMove
-                    ? 'game-square__image--selected'
-                    : startingTile && arrivalIndex !== null && squareData.tile.connections[arrivalIndex] === true
-                    ? `game-square__image--starting-square-connected game-square__image--starting-square-${startingIndicator}`
-                    : startingTile && arrivalIndex !== null && squareData.tile.connections[arrivalIndex] === false
-                    ? `game-square__image--starting-square-unconnected game-square__image--starting-square-${startingIndicator}`
-                    : startingTile
-                    ? `game-square__image--starting-square-${startingIndicator}`
-                    : endingTile &&
-                      finishConnectionIndex !== null &&
-                      squareData.tile.connections[finishConnectionIndex] === true
-                    ? `game-square__image--ending-square-connected game-square__image--ending-square-${finishIndicator}`
-                    : endingTile &&
-                      finishConnectionIndex !== null &&
-                      squareData.tile.connections[finishConnectionIndex] === false
-                    ? `game-square__image--ending-square-unconnected game-square__image--ending-square-${finishIndicator}`
-                    : endingTile
-                    ? `game-square__image--ending-square-${finishIndicator}`
-                    : ''
-            }
+        <div className='game-square-wrapper'>
+            <motion.img
+                variants={squareImgVariant}
+                data-index={index}
+                src={squareData.tile.src}
+                alt={squareData.tile.alt}
+                className={`game-square__image  ${
+                    squareData.isPreviousSquare
+                        ? 'game-square__image--is-previous'
+                        : squareData.isActive
+                        ? 'game-square__image--is-active'
+                        : jokerTile !== null
+                        ? 'game-square__image--is-changeable'
+                        : selectedToMove
+                        ? 'game-square__image--selected'
+                        : startingTile && arrivalIndex !== null && squareData.tile.connections[arrivalIndex] === true
+                        ? `game-square__image--starting-square-connected`
+                        : startingTile && arrivalIndex !== null && squareData.tile.connections[arrivalIndex] === false
+                        ? `game-square__image--starting-square-unconnected`
+                        : endingTile &&
+                          finishConnectionIndex !== null &&
+                          squareData.tile.connections[finishConnectionIndex] === true
+                        ? `game-square__image--ending-square-connected`
+                        : endingTile &&
+                          finishConnectionIndex !== null &&
+                          squareData.tile.connections[finishConnectionIndex] === false
+                        ? `game-square__image--ending-square-unconnected`
+                        : ''
+                }
             
             `}
-            onClick={handleJokerTile}
-        />
+                onClick={handleJokerTile}
+            />
+            {startingTile && <StartEndIndicator type='start' direction={startingIndicator} isRevealed={true} />}
+            {endingTile && <StartEndIndicator type='finish' direction={finishIndicator} isRevealed={true} />}
+        </div>
     ) : (
         <motion.button
             variants={squareButtonVariant}
@@ -121,8 +121,8 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
                 !isGameOver && updateGameSquare(index, { isRevealed: true });
                 squaresToSwap.length !== 0 && setSquaresToSwap();
             }}>
-            {startingTile && <StartEndIndicator type='start' direction={startingIndicator} />}
-            {endingTile && <StartEndIndicator type='finish' direction={finishIndicator} />}
+            {startingTile && <StartEndIndicator type='start' direction={startingIndicator} isRevealed={false} />}
+            {endingTile && <StartEndIndicator type='finish' direction={finishIndicator} isRevealed={false} />}
         </motion.button>
     );
 };
