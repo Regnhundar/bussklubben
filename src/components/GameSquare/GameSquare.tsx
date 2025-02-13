@@ -81,6 +81,8 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
                     ? 'game-square__image--is-previous'
                     : squareData.isActive
                     ? 'game-square__image--is-active'
+                    : jokerTile !== null
+                    ? 'game-square__image--is-changeable'
                     : selectedToMove
                     ? 'game-square__image--selected'
                     : startingTile && arrivalIndex !== null && squareData.tile.connections[arrivalIndex] === true
