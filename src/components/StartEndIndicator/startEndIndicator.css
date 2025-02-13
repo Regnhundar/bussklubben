@@ -235,8 +235,8 @@
 .start-and-end__arrow--start {
     transform: rotateZ(225deg);
     animation: moveArrowStart 2s infinite forwards;
-    border-top: var(--border-width) solid rgba(0, 255, 110, 0.5);
-    border-left: var(--border-width) solid rgba(0, 255, 110, 0.5);
+    border-top: var(--border-width) solid rgba(0, 255, 110, 0.7);
+    border-left: var(--border-width) solid rgba(0, 255, 110, 0.7);
 
     /* border-top: var(--border-width) solid rgba(255, 255, 255, 0.5);
     border-left: var(--border-width) solid rgba(255, 255, 255, 0.5); */
