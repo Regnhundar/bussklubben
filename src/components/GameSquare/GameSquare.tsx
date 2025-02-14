@@ -104,8 +104,24 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
             `}
                 onClick={handleJokerTile}
             />
-            {startingTile && <StartEndIndicator type='start' direction={startingIndicator} isRevealed={true} />}
-            {endingTile && <StartEndIndicator type='finish' direction={finishIndicator} isRevealed={true} />}
+            {startingTile && (
+                <StartEndIndicator
+                    type='start'
+                    direction={startingIndicator}
+                    isRevealed={true}
+                    isConnected={arrivalIndex !== null && squareData.tile.connections[arrivalIndex] === true}
+                />
+            )}
+            {endingTile && (
+                <StartEndIndicator
+                    type='finish'
+                    direction={finishIndicator}
+                    isRevealed={true}
+                    isConnected={
+                        finishConnectionIndex !== null && squareData.tile.connections[finishConnectionIndex] === true
+                    }
+                />
+            )}
         </div>
     ) : (
         <motion.button

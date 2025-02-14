@@ -37,7 +37,7 @@
 }
 
 .indicator-sign--yellow {
-    --after-bg-color: var(--accent4);
+    --after-bg-color: var(--bg-primary);
 }
 
 .indicator-sign--down {
@@ -161,7 +161,7 @@
     position: absolute;
     top: -1px;
     left: 0;
-    box-shadow: 4px 4px 16px 0 var(--gray);
+    filter: drop-shadow(2px 2px 8px black);
     object-fit: cover;
 
 }
@@ -235,9 +235,10 @@
 .start-and-end__arrow--start {
     transform: rotateZ(225deg);
     animation: moveArrowStart 2s infinite forwards;
-    border-top: var(--border-width) solid rgba(0, 255, 110, 0.7);
-    border-left: var(--border-width) solid rgba(0, 255, 110, 0.7);
-
+    /* border-top: var(--border-width) solid rgba(0, 255, 110, 0.7);
+    border-left: var(--border-width) solid rgba(0, 255, 110, 0.7); */
+    border-top: var(--border-width) solid red;
+    border-left: var(--border-width) solid red;
     /* border-top: var(--border-width) solid rgba(255, 255, 255, 0.5);
     border-left: var(--border-width) solid rgba(255, 255, 255, 0.5); */
 }
@@ -259,8 +260,10 @@
 .start-and-end__arrow--finish {
     transform: rotateZ(45deg);
     animation: moveArrowEnd 2s infinite forwards;
-    border-top: var(--border-width) solid rgb(253, 204, 0.5);
-    border-left: var(--border-width) solid rgb(253, 204, 0.5);
+    /* border-top: var(--border-width) solid rgb(253, 204, 0.5);
+    border-left: var(--border-width) solid rgb(253, 204, 0.5); */
+    border-top: var(--border-width) solid red;
+    border-left: var(--border-width) solid red;
     /* border-top: var(--border-width) solid rgba(255, 255, 255, 0.5);
     border-left: var(--border-width) solid rgba(255, 255, 255, 0.5); */
 }

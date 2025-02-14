@@ -8,6 +8,7 @@ import ClubHouseGameUI from './components/ClubHouseGameUI/ClubHouseGameUI';
 import PreLoader from './components/PreLoader/PreLoader';
 import { AnimatePresence } from 'motion/react';
 import BackgroundAnimation from './components/BackgroundAnimation/BackgroundAnimation';
+import PathControl from './components/PathControl/PathControl';
 
 function App() {
     const [isGameLoaded, setIsGameLoaded] = useState<boolean>(false);
@@ -25,6 +26,7 @@ function App() {
                         <Jumbotron />
                         <GameBoard />
                         <AbilityBar />
+                        <PathControl />
                         <GameLoop />
                     </main>
                 )}

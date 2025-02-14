@@ -24,6 +24,7 @@ export const createGameBoardArray = () => {
             isActive: false,
             isPreviousSquare: false,
             isRevealed: IS_REVEALED,
+            isLinkedToStart: false,
             delay: Math.random() * 0.3,
             tile: randomRoadTile,
         };
