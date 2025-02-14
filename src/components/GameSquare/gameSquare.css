@@ -36,6 +36,10 @@
     scale: 1.2;
 }
 
+.game-square__image--connected {
+    background-color: hotpink;
+}
+
 .game-square__image--ending-square-connected,
 .game-square__image--starting-square-connected {
     animation: correctConnection 1s linear 1 forwards;

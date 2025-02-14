@@ -20,6 +20,7 @@ const GameBoard: React.FC = () => {
         startingIndex,
         endingIndex,
         finishConnectionIndex,
+        setStartConnectionIndex,
         setFinishConnectionIndex,
         setNextSquareToCheckIndex,
         setArrivalIndex,
@@ -88,6 +89,7 @@ const GameBoard: React.FC = () => {
             setNextSquareToCheckIndex(startingIndex);
             setStartingArrowDirection(startEndpoint.arrowDirection);
             setArrivalIndex(startEndpoint.successConnection);
+            setStartConnectionIndex(startEndpoint.successConnection);
             // setStartingArrowDirection('right');
             // setArrivalIndex(1);
         }

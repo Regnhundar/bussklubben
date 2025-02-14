@@ -15,6 +15,8 @@ interface GameBoardStore {
     setEndingIndex: (index: PossibleStartingIndices | null) => void;
     finishConnectionIndex: Connections | null;
     setFinishConnectionIndex: (index: Connections | null) => void;
+    startConnectionIndex: Connections | null;
+    setStartConnectionIndex: (index: Connections | null) => void;
     updateGameSquare: (index: number, updates: Partial<SquareData>) => void;
     squareSpeed: string;
     setSquareSpeed: (speed: SquareSpeed) => void;
@@ -41,6 +43,8 @@ const useGameBoardStore = create<GameBoardStore>((set) => ({
     setNextSquareToCheckIndex: (index) => set({ nextSquareToCheckIndex: index }),
     endingIndex: null,
     setEndingIndex: (index) => set({ endingIndex: index }),
+    startConnectionIndex: null,
+    setStartConnectionIndex: (index) => set({ startConnectionIndex: index }),
     finishConnectionIndex: null,
     setFinishConnectionIndex: (index) => set({ finishConnectionIndex: index }),
     arrivalIndex: null,
