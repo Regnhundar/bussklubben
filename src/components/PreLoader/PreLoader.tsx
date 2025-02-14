@@ -21,6 +21,8 @@ const PreLoader: React.FC<Props> = ({ isGameLoaded, setIsGameLoaded }) => {
         `${import.meta.env.BASE_URL}images/bus.svg`,
         `${import.meta.env.BASE_URL}images/bus-slow.svg`,
         `${import.meta.env.BASE_URL}images/bus-turbo.svg`,
+        `${import.meta.env.BASE_URL}images/tunnel-green.svg`,
+        `${import.meta.env.BASE_URL}images/tunnel-yellow.svg`,
     ];
 
     const preloadImages = (imagePaths: string[]) => {
