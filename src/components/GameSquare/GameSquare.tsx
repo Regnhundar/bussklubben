@@ -36,8 +36,8 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
     const startingTile = index === startingIndex;
     const endingTile = index === endingIndex;
     const isFinalSquareLinked =
-        endingIndex &&
-        finishConnectionIndex &&
+        endingIndex !== null &&
+        finishConnectionIndex !== null &&
         gameBoardArray[endingIndex].isLinkedToStart === true &&
         gameBoardArray[endingIndex].tile.connections[finishConnectionIndex] === true;
 

@@ -25,8 +25,8 @@ const AbilityBar: React.FC = () => {
     } = useGameBoardStore();
     const { isGameOver, isPreparationTime, setIsPreparationTime } = useGameStore();
     const isFinalSquareLinked =
-        endingIndex &&
-        finishConnectionIndex &&
+        endingIndex !== null &&
+        finishConnectionIndex !== null &&
         gameBoardArray[endingIndex].isLinkedToStart === true &&
         gameBoardArray[endingIndex].tile.connections[finishConnectionIndex] === true;
 

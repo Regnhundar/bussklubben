@@ -14,7 +14,7 @@
     padding: var(--spacing-xs) var(--spacing-s);
     font-weight: bold;
     width: fit-content;
-    filter: drop-shadow(1px 1px 2px var(--gray));
+
     border-radius: 2px;
 }
 
@@ -33,10 +33,12 @@
 }
 
 .indicator-sign--green {
+    filter: drop-shadow(1px 1px 2px var(--gray)) drop-shadow(-1px -1px 0 #a18203) drop-shadow(1px 1px 0 #a18203);
     --after-bg-color: var(--accent1);
 }
 
 .indicator-sign--yellow {
+    filter: drop-shadow(1px 1px 2px var(--gray)) drop-shadow(-1px -1px 0 #0a8035) drop-shadow(1px 1px 0 #0a8035);
     --after-bg-color: #13A347;
 }
 
