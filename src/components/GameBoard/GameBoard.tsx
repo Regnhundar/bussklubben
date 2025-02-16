@@ -33,7 +33,6 @@ const GameBoard: React.FC = () => {
     const [leftOrRight, setleftOrRight] = useState<'left' | 'right' | null>(null);
     const [upOrDown, setUpOrDown] = useState<'up' | 'down' | null>(null);
     const [direction, setDirection] = useState<'horizontal' | 'vertical' | null>(null);
-
     const gameBoardRef = useRef<HTMLElement | null>(null);
 
     const [squareSize, setSquareSize] = useState(0);

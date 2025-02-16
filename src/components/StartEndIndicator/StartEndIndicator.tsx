@@ -4,12 +4,16 @@ interface Props {
     direction: 'up' | 'down' | 'left' | 'right';
     isRevealed: boolean;
     isConnected?: boolean;
+    isActive?: boolean;
+    isPrevious?: boolean;
 }
 const StartEndIndicator: React.FC<Props> = ({
     type = 'start',
     direction = 'down',
     isRevealed = false,
     isConnected,
+    isActive = false,
+    isPrevious = false,
 }) => {
     return isRevealed ? (
         <figure className={`start-and-end start-and-end--${direction}`}>
@@ -17,7 +21,7 @@ const StartEndIndicator: React.FC<Props> = ({
                 className={`start-and-end__arch start-and-end__arch--${type}`}
                 src={type === 'start' ? './images/tunnel-green.svg' : './images/tunnel-yellow.svg'}
             />
-            {!isConnected && (
+            {!isConnected && !isActive && !isPrevious && (
                 <>
                     <span
                         className={`start-and-end__arrow start-and-end__arrow--${type} 

@@ -28,11 +28,18 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
         setActiveJokerTile,
         arrivalIndex,
         finishConnectionIndex,
+        setTriggerPath,
+        gameBoardArray,
     } = useGameBoardStore();
     const { isGameOver, isPreparationTime } = useGameStore();
     const [selectedToMove, setSelectedToMove] = useState(false);
     const startingTile = index === startingIndex;
     const endingTile = index === endingIndex;
+    const isFinalSquareLinked =
+        endingIndex &&
+        finishConnectionIndex &&
+        gameBoardArray[endingIndex].isLinkedToStart === true &&
+        gameBoardArray[endingIndex].tile.connections[finishConnectionIndex] === true;
 
     //* Hanterar logik för att byta plats på spelrutor. Klickat index sparas i array.
     //* Anropas setSquaresToSwap utan 2 index positioner töms array.
@@ -44,9 +51,12 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
     const handleSwapSquarePositions = () => {
         if (squaresToSwap.length === 2) {
             if (squaresToSwap[0] === squaresToSwap[1]) {
-                return setSquaresToSwap();
+                setSquaresToSwap();
+                return;
             }
             swapGameSquares(squaresToSwap[0], squaresToSwap[1]);
+            console.log('Ändras. BEHÖVER FLYTTA UPP DENNA LOGIK!');
+            setTriggerPath((prev) => prev + 1); // Triggar pathcontrol, dvs vilka rutor som är kopplade från start.
             setSquaresToSwap();
         }
         if (squaresToSwap[0] === index) {
@@ -67,43 +77,45 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
                 ? setActiveJokerTile(0)
                 : setActiveJokerTile((prev) => prev + 1);
             setJokerTile(null);
+            setTriggerPath((prev) => prev + 1); // Triggar pathcontrol, dvs vilka rutor som är kopplade från start.
         }
     };
 
     return squareData.isRevealed ? (
-        <div className='game-square-wrapper'>
+        <div
+            className={`game-square-wrapper  ${
+                squareData.isPreviousSquare
+                    ? 'game-square-wrapper--is-previous'
+                    : squareData.isActive
+                    ? 'game-square-wrapper--is-active'
+                    : jokerTile !== null
+                    ? 'game-square-wrapper--is-changeable'
+                    : selectedToMove
+                    ? 'game-square-wrapper--selected'
+                    : isFinalSquareLinked && squareData.isLinkedToStart
+                    ? 'game-square-wrapper--clear-path'
+                    : squareData.isLinkedToStart
+                    ? 'game-square-wrapper--connected'
+                    : startingTile && arrivalIndex !== null && squareData.tile.connections[arrivalIndex] === true
+                    ? `game-square-wrapper--starting-square-connected`
+                    : startingTile && arrivalIndex !== null && squareData.tile.connections[arrivalIndex] === false
+                    ? `game-square-wrapper--starting-square-unconnected`
+                    : endingTile &&
+                      finishConnectionIndex !== null &&
+                      squareData.tile.connections[finishConnectionIndex] === true
+                    ? `game-square-wrapper--ending-square-connected`
+                    : endingTile &&
+                      finishConnectionIndex !== null &&
+                      squareData.tile.connections[finishConnectionIndex] === false
+                    ? `game-square-wrapper--ending-square-unconnected`
+                    : ''
+            }`}>
             <motion.img
                 variants={squareImgVariant}
                 data-index={index}
                 src={squareData.tile.src}
                 alt={squareData.tile.alt}
-                className={`game-square__image  ${
-                    squareData.isPreviousSquare
-                        ? 'game-square__image--is-previous'
-                        : squareData.isActive
-                        ? 'game-square__image--is-active'
-                        : jokerTile !== null
-                        ? 'game-square__image--is-changeable'
-                        : selectedToMove
-                        ? 'game-square__image--selected'
-                        : squareData.isLinkedToStart
-                        ? 'game-square__image--connected'
-                        : startingTile && arrivalIndex !== null && squareData.tile.connections[arrivalIndex] === true
-                        ? `game-square__image--starting-square-connected`
-                        : startingTile && arrivalIndex !== null && squareData.tile.connections[arrivalIndex] === false
-                        ? `game-square__image--starting-square-unconnected`
-                        : endingTile &&
-                          finishConnectionIndex !== null &&
-                          squareData.tile.connections[finishConnectionIndex] === true
-                        ? `game-square__image--ending-square-connected`
-                        : endingTile &&
-                          finishConnectionIndex !== null &&
-                          squareData.tile.connections[finishConnectionIndex] === false
-                        ? `game-square__image--ending-square-unconnected`
-                        : ''
-                }
-            
-            `}
+                className={'game-square__image'}
                 onClick={handleJokerTile}
             />
             {startingTile && (
@@ -112,6 +124,8 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
                     direction={startingIndicator}
                     isRevealed={true}
                     isConnected={arrivalIndex !== null && squareData.tile.connections[arrivalIndex] === true}
+                    isPrevious={squareData.isPreviousSquare}
+                    isActive={squareData.isActive}
                 />
             )}
             {endingTile && (
@@ -122,6 +136,8 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
                     isConnected={
                         finishConnectionIndex !== null && squareData.tile.connections[finishConnectionIndex] === true
                     }
+                    isPrevious={squareData.isPreviousSquare}
+                    isActive={squareData.isActive}
                 />
             )}
         </div>

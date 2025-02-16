@@ -18,7 +18,7 @@ interface GameBoardStore {
     startConnectionIndex: Connections | null;
     setStartConnectionIndex: (index: Connections | null) => void;
     updateGameSquare: (index: number, updates: Partial<SquareData>) => void;
-    squareSpeed: string;
+    squareSpeed: 'normal' | 'turbo' | 'slow';
     setSquareSpeed: (speed: SquareSpeed) => void;
     squaresToSwap: number[];
     setSquaresToSwap: (index?: number) => void;
@@ -29,6 +29,8 @@ interface GameBoardStore {
     setJokerTile: (roadTile: RoadTile | null) => void;
     isExiting: boolean;
     setIsExiting: (value: boolean | ((prev: boolean) => boolean)) => void;
+    triggerPath: number;
+    setTriggerPath: (value: number | ((prev: number) => number)) => void;
 }
 
 const useGameBoardStore = create<GameBoardStore>((set) => ({
@@ -80,10 +82,16 @@ const useGameBoardStore = create<GameBoardStore>((set) => ({
         })),
     jokerTile: null,
     setJokerTile: (roadTile) => set({ jokerTile: roadTile }),
+
     isExiting: false,
     setIsExiting: (value) =>
         set((state) => ({
             isExiting: typeof value === 'function' ? value(state.isExiting) : value,
+        })),
+    triggerPath: 0,
+    setTriggerPath: (value) =>
+        set((state) => ({
+            triggerPath: typeof value === 'function' ? value(state.triggerPath) : value,
         })),
 }));
 
