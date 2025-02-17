@@ -2,7 +2,6 @@
     display: grid;
     place-items: center;
     transform-origin: left;
-
 }
 
 .level-info__message {
@@ -10,22 +9,19 @@
     font-size: var(--font-size-m);
     padding: var(--spacing-m);
     border-radius: var(--spacing-m);
+    box-shadow: var(--3d-shadow), 2px 2px 4px 0 rgba(0, 0, 0, 0.4);
+    border: 2px solid black;
 }
 
 .level-info__message--running {
     background-color: var(--accent1);
     color: var(--bg-primary);
-    box-shadow: var(--3d-shadow);
-    border: 2px solid black;
     text-shadow: var(--text-outline--accent-2);
-
 }
 
 .level-info__message--preparing {
     background-color: var(--accent4);
     color: var(--white);
-    box-shadow: var(--3d-shadow);
-    border: 2px solid black;
     text-shadow: var(--text-outline--black);
 }
 
@@ -38,7 +34,6 @@
     width: 2rem;
     font-size: var(--font-size-s);
     font-weight: 700;
-    /* border: 2px solid var(--white); */
     transform: translateY(calc(-1 * var(--spacing-m)));
 }
 

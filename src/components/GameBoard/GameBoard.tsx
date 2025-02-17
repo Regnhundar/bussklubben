@@ -150,7 +150,6 @@ const GameBoard: React.FC = () => {
                         setleftOrRight('left');
                         setDirection('horizontal');
                 }
-                console.log('isExiting:');
             }
             if (isMounted) {
                 setXcoordinate(x);
