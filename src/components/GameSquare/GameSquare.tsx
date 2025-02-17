@@ -92,9 +92,9 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
                     ? 'game-square-wrapper--is-changeable'
                     : selectedToMove
                     ? 'game-square-wrapper--selected'
-                    : isFinalSquareLinked && squareData.isLinkedToStart
+                    : squareData.isRevealed && isFinalSquareLinked && squareData.isLinkedToStart
                     ? 'game-square-wrapper--clear-path'
-                    : squareData.isLinkedToStart
+                    : squareData.isRevealed && squareData.isLinkedToStart
                     ? 'game-square-wrapper--connected'
                     : startingTile && arrivalIndex !== null && squareData.tile.connections[arrivalIndex] === true
                     ? `game-square-wrapper--starting-square-connected`
