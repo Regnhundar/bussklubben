@@ -3,12 +3,10 @@
     grid-template-columns: auto 1fr;
     grid-template-rows: repeat(2, 1fr);
     column-gap: var(--spacing-l);
-
 }
 
 .jumbotron-info-field--preparing {
     filter: grayscale(1);
-
 }
 
 .jumbotron-info-field__icon {
@@ -16,11 +14,11 @@
     place-self: center;
     background-color: var(--accent1);
     aspect-ratio: 1;
-    width: 2rem;
+    width: 2.2rem;
     border-radius: 50%;
     padding: var(--spacing-xs);
-    box-shadow: 0 0 0 4px var(--accent2), 0 0 0 5px rgba(0, 0, 0, 0.3);
-    filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.5));
+    box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.2), 0 0 0 4px var(--accent2), inset 0 0 0 1px rgba(0, 0, 0, 0.3), 0 0 0 5px rgba(0, 0, 0, 1), var(--3d-shadow);
+    filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.5));
 
 }
 
@@ -36,6 +34,7 @@
 
 .jumbotron-info-field__data {
     font-size: var(--font-size-l);
+
 }
 
 .jumbotron-info-field__data--final-seconds {

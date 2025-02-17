@@ -11,4 +11,5 @@
     border-radius: var(--spacing-s);
     border: 2px solid var(--black);
     overflow: hidden;
+    box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.4);
 }
