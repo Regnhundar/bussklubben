@@ -101,6 +101,22 @@
     object-fit: contain;
 }
 
+.ability__button--turbo-suggestion {
+    animation: goSpeedGo .5s linear .1s infinite;
+}
+
+@keyframes goSpeedGo {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
 /* .ability--byt .ability-button__image {
     background-color: var(--light-gray);
     border: 2px solid var(--gray);
