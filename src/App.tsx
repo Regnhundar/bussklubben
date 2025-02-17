@@ -6,7 +6,7 @@ import Jumbotron from './components/Jumbotron/Jumbotron';
 import useGameStore from './stores/gameStore';
 import ClubHouseGameUI from './components/ClubHouseGameUI/ClubHouseGameUI';
 import PreLoader from './components/PreLoader/PreLoader';
-import { AnimatePresence } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import BackgroundAnimation from './components/BackgroundAnimation/BackgroundAnimation';
 import PathControl from './components/PathControl/PathControl';
 
@@ -20,15 +20,15 @@ function App() {
             <PreLoader isGameLoaded={isGameLoaded} setIsGameLoaded={setIsGameLoaded} />
             <ClubHouseGameUI />
             {(isGameOver || !isGameRunning) && <BackgroundAnimation />}
-            <AnimatePresence>
+            <AnimatePresence mode='wait'>
                 {isGameRunning && isGameLoaded && !isGameOver && (
-                    <main className='game'>
+                    <motion.main exit={{ opacity: 0 }} className='game'>
                         <Jumbotron />
                         <GameBoard />
                         <AbilityBar />
                         <PathControl />
                         <GameLoop />
-                    </main>
+                    </motion.main>
                 )}
             </AnimatePresence>
         </>

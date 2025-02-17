@@ -6,6 +6,7 @@ import './gameBoard.css';
 import { AnimatePresence, motion } from 'motion/react';
 import { gameboardVariant } from '../../motionVariants/variants';
 import Bus from '../Bus/Bus';
+import useGameStore from '../../stores/gameStore';
 // import { testGameBoard1 } from '../../data/roadTiles';
 
 const GRID_COLUMNS = 5;
@@ -20,19 +21,20 @@ const GameBoard: React.FC = () => {
         startingIndex,
         endingIndex,
         finishConnectionIndex,
+        setStartConnectionIndex,
         setFinishConnectionIndex,
         setNextSquareToCheckIndex,
         setArrivalIndex,
         nextSquareToCheckIndex,
         isExiting,
     } = useGameBoardStore();
+    const { level } = useGameStore();
 
     const [startingArrowDirection, setStartingArrowDirection] = useState<'down' | 'up' | 'left' | 'right'>('down');
     const [finishArrowDirection, setFinishArrowDirection] = useState<'down' | 'up' | 'left' | 'right'>('down');
     const [leftOrRight, setleftOrRight] = useState<'left' | 'right' | null>(null);
     const [upOrDown, setUpOrDown] = useState<'up' | 'down' | null>(null);
     const [direction, setDirection] = useState<'horizontal' | 'vertical' | null>(null);
-
     const gameBoardRef = useRef<HTMLElement | null>(null);
 
     const [squareSize, setSquareSize] = useState(0);
@@ -88,6 +90,7 @@ const GameBoard: React.FC = () => {
             setNextSquareToCheckIndex(startingIndex);
             setStartingArrowDirection(startEndpoint.arrowDirection);
             setArrivalIndex(startEndpoint.successConnection);
+            setStartConnectionIndex(startEndpoint.successConnection);
             // setStartingArrowDirection('right');
             // setArrivalIndex(1);
         }
@@ -101,6 +104,7 @@ const GameBoard: React.FC = () => {
     }, [startingIndex, endingIndex]);
 
     useEffect(() => {
+        let isMounted = true;
         if (nextSquareToCheckIndex !== null && startingIndex !== null && endingIndex !== null && squareSize > 0) {
             const y = Math.floor(nextSquareToCheckIndex / GRID_ROWS) * squareSize;
             const x = (nextSquareToCheckIndex % GRID_COLUMNS) * squareSize;
@@ -148,19 +152,26 @@ const GameBoard: React.FC = () => {
                 }
                 console.log('isExiting:');
             }
-            setXcoordinate(x);
-            setYcoordinate(y);
+            if (isMounted) {
+                setXcoordinate(x);
+                setYcoordinate(y);
+            }
         }
+
+        return () => {
+            isMounted = false;
+        };
     }, [nextSquareToCheckIndex, squareSize, isExiting]);
 
     return (
         <>
             <motion.section
-                ref={gameBoardRef}
+                ref={(el) => (gameBoardRef.current = el)}
                 variants={gameboardVariant}
                 initial='hidden'
                 animate='show'
                 exit='hidden'
+                key={level}
                 className='game-board'>
                 <AnimatePresence>
                     {xCoordinate !== null && yCoordinate !== null && (

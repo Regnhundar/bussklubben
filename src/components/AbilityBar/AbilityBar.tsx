@@ -19,8 +19,17 @@ const AbilityBar: React.FC = () => {
         squaresToSwap,
         setSquaresToSwap,
         isExiting,
+        endingIndex,
+        finishConnectionIndex,
+        gameBoardArray,
     } = useGameBoardStore();
     const { isGameOver, isPreparationTime, setIsPreparationTime } = useGameStore();
+    const isFinalSquareLinked =
+        endingIndex !== null &&
+        finishConnectionIndex !== null &&
+        gameBoardArray[endingIndex].isRevealed &&
+        gameBoardArray[endingIndex].isLinkedToStart === true &&
+        gameBoardArray[endingIndex].tile.connections[finishConnectionIndex] === true;
 
     const bytState = jokerTile
         ? 'ability__button--joker-active'
@@ -38,6 +47,8 @@ const AbilityBar: React.FC = () => {
             ? 'ability__button--speed-active'
             : squareSpeed === 'slow' || isGameOver || isExiting
             ? 'ability__button--disabled'
+            : squareSpeed === 'normal' && isFinalSquareLinked
+            ? 'ability__button--turbo-suggestion'
             : '';
 
     // Skiftar vilken "byt/jokerTile" som visas i ability bar.
@@ -79,13 +90,18 @@ const AbilityBar: React.FC = () => {
         }
     };
     const handleTurboBus = () => {
-        if (!isGameOver) {
+        if (!isGameOver && !isPreparationTime) {
             if (squareSpeed === 'normal') {
                 setSquareSpeed('turbo');
             }
-            if (isPreparationTime) {
+        }
+        if (isPreparationTime) {
+            if (isFinalSquareLinked) {
                 setIsPreparationTime(false);
+                setSquareSpeed('turbo');
+                return;
             }
+            setIsPreparationTime(false);
         }
     };
     const abilities: Ability[] = [
@@ -103,7 +119,7 @@ const AbilityBar: React.FC = () => {
         {
             name: 'lugn',
             class: 'lugn',
-            alt: 'Paus ikon. Bussen saktar in.',
+            alt: 'En snigel.Bussen förvandlas till en långsam snigel.',
             src: `${import.meta.env.BASE_URL}images/abilities/paus.svg`,
             state: lugnState,
             func: handleSlowBus,
