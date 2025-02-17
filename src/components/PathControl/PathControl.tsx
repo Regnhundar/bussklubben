@@ -119,7 +119,10 @@ const PathControl: React.FC = () => {
                     visited.add(currentIndex);
 
                     // If `isLinkedToStart` is false, update it and mark it as modified
-                    if (!updatedGameBoardArray[currentIndex].isLinkedToStart) {
+                    if (
+                        !updatedGameBoardArray[currentIndex].isLinkedToStart &&
+                        updatedGameBoardArray[currentIndex].isRevealed
+                    ) {
                         updatedGameBoardArray[currentIndex].isLinkedToStart = true;
                         updated = true;
                     }
@@ -135,7 +138,10 @@ const PathControl: React.FC = () => {
 
                         const oppositeDirection = (direction + 2) % 4; // Get opposite direction (0 ↔ 2, 1 ↔ 3)
 
-                        if (updatedGameBoardArray[adjacentIndex].tile.connections[oppositeDirection]) {
+                        if (
+                            updatedGameBoardArray[adjacentIndex].isRevealed &&
+                            updatedGameBoardArray[adjacentIndex].tile.connections[oppositeDirection]
+                        ) {
                             queue.push(adjacentIndex);
                         }
                     });

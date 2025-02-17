@@ -27,6 +27,7 @@ const AbilityBar: React.FC = () => {
     const isFinalSquareLinked =
         endingIndex !== null &&
         finishConnectionIndex !== null &&
+        gameBoardArray[endingIndex].isRevealed &&
         gameBoardArray[endingIndex].isLinkedToStart === true &&
         gameBoardArray[endingIndex].tile.connections[finishConnectionIndex] === true;
 
@@ -95,6 +96,11 @@ const AbilityBar: React.FC = () => {
             }
         }
         if (isPreparationTime) {
+            if (isFinalSquareLinked) {
+                setIsPreparationTime(false);
+                setSquareSpeed('turbo');
+                return;
+            }
             setIsPreparationTime(false);
         }
     };

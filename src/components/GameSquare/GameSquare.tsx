@@ -1,7 +1,7 @@
 import './gameSquare.css';
 import { SquareData } from '../../interfaces/gameBoard';
 import useGameBoardStore from '../../stores/gameBoardStore';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import StartEndIndicator from '../StartEndIndicator/StartEndIndicator';
 import useGameStore from '../../stores/gameStore';
 import { jokerRoadTiles } from '../../data/roadTiles';
@@ -33,13 +33,19 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
     } = useGameBoardStore();
     const { isGameOver, isPreparationTime } = useGameStore();
     const [selectedToMove, setSelectedToMove] = useState(false);
+
     const startingTile = index === startingIndex;
     const endingTile = index === endingIndex;
-    const isFinalSquareLinked =
-        endingIndex !== null &&
-        finishConnectionIndex !== null &&
-        gameBoardArray[endingIndex].isLinkedToStart === true &&
-        gameBoardArray[endingIndex].tile.connections[finishConnectionIndex] === true;
+
+    const isFinalSquareLinked = useCallback(() => {
+        if (endingIndex === null || finishConnectionIndex === null) return false;
+        const endingTileData = gameBoardArray[endingIndex];
+        return (
+            endingTileData.isRevealed &&
+            endingTileData.isLinkedToStart &&
+            endingTileData.tile.connections[finishConnectionIndex] === true
+        );
+    }, [endingIndex, finishConnectionIndex, gameBoardArray]);
 
     //* Hanterar logik för att byta plats på spelrutor. Klickat index sparas i array.
     //* Anropas setSquaresToSwap utan 2 index positioner töms array.
@@ -48,23 +54,19 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
         handleSwapSquarePositions();
     }, [squaresToSwap]);
 
-    const handleSwapSquarePositions = () => {
+    const handleSwapSquarePositions = useCallback(() => {
         if (squaresToSwap.length === 2) {
-            if (squaresToSwap[0] === squaresToSwap[1]) {
+            const [first, second] = squaresToSwap;
+            if (first === second) {
                 setSquaresToSwap();
                 return;
             }
-            swapGameSquares(squaresToSwap[0], squaresToSwap[1]);
-            console.log('Ändras. BEHÖVER FLYTTA UPP DENNA LOGIK!');
+            swapGameSquares(first, second);
             setTriggerPath((prev) => prev + 1); // Triggar pathcontrol, dvs vilka rutor som är kopplade från start.
             setSquaresToSwap();
         }
-        if (squaresToSwap[0] === index) {
-            setSelectedToMove(true);
-        } else {
-            setSelectedToMove(false);
-        }
-    };
+        setSelectedToMove(squaresToSwap[0] === index);
+    }, [squaresToSwap, index, swapGameSquares, setSquaresToSwap, setTriggerPath]);
 
     const handleJokerTile = () => {
         if (!jokerTile && !squareData.isPreviousSquare && !squareData.isActive && !isGameOver) {
@@ -80,6 +82,13 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
             setTriggerPath((prev) => prev + 1); // Triggar pathcontrol, dvs vilka rutor som är kopplade från start.
         }
     };
+    const handleSquareReveal = () => {
+        if (!isGameOver) {
+            setTriggerPath((prev) => prev + 1); // Triggar pathcontrol, dvs vilka rutor som är kopplade från start.
+            updateGameSquare(index, { isRevealed: true });
+            squaresToSwap.length !== 0 && setSquaresToSwap();
+        }
+    };
 
     return squareData.isRevealed ? (
         <div
@@ -92,7 +101,7 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
                     ? 'game-square-wrapper--is-changeable'
                     : selectedToMove
                     ? 'game-square-wrapper--selected'
-                    : squareData.isRevealed && isFinalSquareLinked && squareData.isLinkedToStart
+                    : isFinalSquareLinked() && squareData.isLinkedToStart
                     ? 'game-square-wrapper--clear-path'
                     : squareData.isRevealed && squareData.isLinkedToStart
                     ? 'game-square-wrapper--connected'
@@ -112,6 +121,9 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
             }`}>
             <motion.img
                 variants={squareImgVariant}
+                initial={'hidden'}
+                animate={'show'}
+                exit={'hidden'}
                 data-index={index}
                 src={squareData.tile.src}
                 alt={squareData.tile.alt}
@@ -151,10 +163,7 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
             data-index={index}
             aria-label='En knapp som kommer att visa en dold vägbit.'
             className='game-square'
-            onClick={() => {
-                !isGameOver && updateGameSquare(index, { isRevealed: true });
-                squaresToSwap.length !== 0 && setSquaresToSwap();
-            }}>
+            onClick={handleSquareReveal}>
             {startingTile && <StartEndIndicator type='start' direction={startingIndicator} isRevealed={false} />}
             {endingTile && <StartEndIndicator type='finish' direction={finishIndicator} isRevealed={false} />}
         </motion.button>
