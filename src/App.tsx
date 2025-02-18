@@ -9,6 +9,7 @@ import PreLoader from './components/PreLoader/PreLoader';
 import { AnimatePresence, motion } from 'motion/react';
 import BackgroundAnimation from './components/BackgroundAnimation/BackgroundAnimation';
 import PathControl from './components/PathControl/PathControl';
+import MessageOverlay from './components/MessageOverlay/MessageOverlay';
 
 function App() {
     const [isGameLoaded, setIsGameLoaded] = useState<boolean>(false);
@@ -24,6 +25,7 @@ function App() {
                 {isGameRunning && isGameLoaded && !isGameOver && (
                     <motion.main exit={{ opacity: 0 }} className='game'>
                         <Jumbotron />
+                        {/* <MessageOverlay /> */}
                         <GameBoard />
                         <AbilityBar />
                         <PathControl />

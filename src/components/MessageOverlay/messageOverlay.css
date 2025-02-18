@@ -1,0 +1,35 @@
+.message-overlay {
+    --image-max-width: 6rem;
+    display: grid;
+    color: var(--black);
+    background-color: var(--off-white);
+    width: calc(100% - var(--image-max-width) / 2);
+    max-width: calc(var(--max-width) - var(--image-max-width) / 2);
+    align-self: end;
+    padding: var(--spacing-l);
+    border-radius: var(--spacing-m);
+    position: relative;
+    box-shadow: var(--3d-shadow), 2px 2px 4px 0 rgba(0, 0, 0, 0.4);
+    border: 2px solid black;
+    z-index: 999;
+
+}
+
+.message-overlay__title {
+    justify-self: center;
+    font-size: var(--font-size-m);
+}
+
+.message-overlay__driver-image {
+    aspect-ratio: 1;
+    width: 100%;
+    max-width: var(--image-max-width);
+    padding: var(--spacing-s);
+    border-radius: 50%;
+    background-color: var(--accent1);
+    box-shadow: var(--3d-shadow-reverse);
+    border: 2px solid black;
+    position: absolute;
+    transform: translateX(calc(-1 * var(--image-max-width) / 2)) translateY(-50%);
+    top: 50%;
+}
