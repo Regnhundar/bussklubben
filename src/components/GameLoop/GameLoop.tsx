@@ -174,7 +174,7 @@ const GameLoop: React.FC = () => {
 
                 squareTimerRef.current = window.setTimeout(() => {
                     setNumberOfSquaresChecked((prev) => prev + 1);
-                    updateGameSquare(nextSquareToCheckIndex, { isPreviousSquare: true, isActive: false });
+                    // updateGameSquare(nextSquareToCheckIndex, { isPreviousSquare: true, isActive: false });
                 }, nextSquareTimer * 1000);
                 return () => {
                     if (squareTimerRef.current) {

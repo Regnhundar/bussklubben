@@ -19,7 +19,6 @@
     padding: var(--spacing-xs);
     box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.2), 0 0 0 4px var(--accent2), inset 0 0 0 1px rgba(0, 0, 0, 0.3), 0 0 0 5px rgba(0, 0, 0, 1), var(--3d-shadow);
     filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.5));
-
 }
 
 .jumbotron-info-field__wrapper {

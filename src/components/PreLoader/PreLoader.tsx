@@ -15,6 +15,7 @@ const PreLoader: React.FC<Props> = ({ isGameLoaded, setIsGameLoaded }) => {
         `${import.meta.env.BASE_URL}images/roadTiles/upRight.svg`,
         `${import.meta.env.BASE_URL}images/abilities/flash.svg`,
         `${import.meta.env.BASE_URL}images/abilities/paus.svg`,
+        `${import.meta.env.BASE_URL}images/abilities/play.svg`,
         `${import.meta.env.BASE_URL}images/icons/hour-glass.svg`,
         `${import.meta.env.BASE_URL}images/icons/star.svg`,
         `${import.meta.env.BASE_URL}images/logo.png`,
