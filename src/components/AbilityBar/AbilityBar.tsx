@@ -25,7 +25,7 @@ const AbilityBar: React.FC = () => {
         finishConnectionIndex,
         gameBoardArray,
     } = useGameBoardStore();
-    const { isGameOver, isPreparationTime, setIsPreparationTime } = useGameStore();
+    const { isGameOverConfirmation, isGameOver, isPreparationTime, setIsPreparationTime } = useGameStore();
     const isFinalSquareLinked = useCallback(() => {
         if (endingIndex === null || finishConnectionIndex === null) return false;
         const endingTileData = gameBoardArray[endingIndex];
@@ -70,7 +70,7 @@ const AbilityBar: React.FC = () => {
 
     // Skiftar vilken "byt/jokerTile" som visas i ability bar.
     useEffect(() => {
-        if (!isGameOver && !isPreparationTime && !jokerTile) {
+        if (!isGameOver && !isPreparationTime && !jokerTile && !isGameOverConfirmation) {
             const interval = setInterval(() => {
                 if (activeJokerTile === jokerRoadTiles.length - 1 && !isGameOver) {
                     setActiveJokerTile(0);
@@ -81,10 +81,10 @@ const AbilityBar: React.FC = () => {
 
             return () => clearInterval(interval);
         }
-        if (isPreparationTime) {
+        if (isPreparationTime || isGameOverConfirmation) {
             setActiveJokerTile(0);
         }
-    }, [activeJokerTile, isPreparationTime, isGameOver, jokerTile]);
+    }, [activeJokerTile, isPreparationTime, isGameOver, jokerTile, isGameOverConfirmation]);
 
     const handleJokerTile = () => {
         if (!isPreparationTime && !isGameOver) {

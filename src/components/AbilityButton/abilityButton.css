@@ -4,6 +4,12 @@
     aspect-ratio: 1;
 }
 
+.ability--disabled {
+    filter: grayscale(1);
+    opacity: .5;
+    pointer-events: none;
+}
+
 .ability__button {
     appearance: unset;
     background-color: var(--off-white);
@@ -85,6 +91,7 @@
 .ability__button--disabled {
     opacity: .5;
     filter: grayscale(1);
+    pointer-events: none;
 }
 
 .ability-button__image {

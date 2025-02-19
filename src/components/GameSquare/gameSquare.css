@@ -20,6 +20,12 @@
     background-color: var(--light-gray);
 }
 
+.game-square-wrapper--disabled,
+.game-square--disabled {
+    opacity: .7;
+    pointer-events: none;
+}
+
 .game-square__image {
     object-fit: cover;
     transition: scale .1s linear;

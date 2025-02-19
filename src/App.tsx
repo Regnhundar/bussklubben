@@ -14,7 +14,7 @@ import MessageOverlay from './components/MessageOverlay/MessageOverlay';
 function App() {
     const [isGameLoaded, setIsGameLoaded] = useState<boolean>(false);
 
-    const { isGameRunning, isGameOver } = useGameStore();
+    const { isGameRunning, isGameOver, isGameOverConfirmation } = useGameStore();
 
     return (
         <>
@@ -24,8 +24,7 @@ function App() {
             <AnimatePresence mode='wait'>
                 {isGameRunning && isGameLoaded && !isGameOver && (
                     <motion.main exit={{ opacity: 0 }} className='game'>
-                        {/* <Jumbotron /> */}
-                        <MessageOverlay />
+                        {isGameOverConfirmation ? <MessageOverlay /> : <Jumbotron />}
                         <GameBoard />
                         <AbilityBar />
                         <PathControl />

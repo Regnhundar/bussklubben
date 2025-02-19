@@ -6,13 +6,14 @@ import useGameStore from '../../stores/gameStore';
 const PathControl: React.FC = () => {
     const { gameBoardArray, setGameBoardArray, arrivalIndex, startingIndex, startConnectionIndex, triggerPath } =
         useGameBoardStore();
-    const { isGameOver, isGameRunning } = useGameStore();
+    const { isGameOverConfirmation, isGameOver, isGameRunning } = useGameStore();
     // const [nextArrivedFromIndex, setNextArrivedFromIndex] = useState<Connections>();
     // const [nextSquareInLine, setNextSquareInLine] = useState<GameBoardIndices>();
 
     const isGameStarted =
         isGameRunning &&
         !isGameOver &&
+        !isGameOverConfirmation &&
         startingIndex !== null &&
         startConnectionIndex !== null &&
         arrivalIndex !== null;

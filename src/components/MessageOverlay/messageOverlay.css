@@ -8,25 +8,21 @@
     max-width: calc(var(--max-width) - var(--image-max-width) / 2);
     align-self: end;
     padding: var(--spacing-l);
-    padding-left: var(--image-max-width);
+    padding-left: calc((var(--image-max-width) / 2) + var(--spacing-l));
     border-radius: var(--spacing-m);
     position: relative;
     box-shadow: var(--3d-shadow);
     filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.4));
     border: 2px solid black;
     z-index: 999;
-
-
 }
 
 .toast-message__title {
-
     font-size: var(--font-size-m);
     grid-column: 1/2;
 }
 
 .toast-message__subtitle {
-
     font-size: var(--font-size-m);
     grid-column: 1/2;
 }
@@ -73,11 +69,35 @@
     text-shadow: var(--text-outline--black);
     filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.2));
     border: 1px solid black;
+    animation: lookAtMe 3s linear 3s infinite;
+}
 
+@keyframes lookAtMe {
+
+    0%,
+    100% {
+
+        transform: skewY(0deg);
+    }
+
+    10% {
+        transform: skewY(10deg);
+        scale: 1.10;
+    }
+
+    15% {
+        transform: skewY(-10deg);
+        scale: 1.10;
+    }
+
+    20% {
+        transform: skewY(0deg);
+        scale: 1;
+    }
 }
 
 .toast-message__confirmation-button--pressed {
-    animation: confirmation .3s ease-in-out;
+    animation: confirmation .2s ease-in-out;
 }
 
 @keyframes confirmation {

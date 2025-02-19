@@ -19,6 +19,7 @@ const PreLoader: React.FC<Props> = ({ isGameLoaded, setIsGameLoaded }) => {
         `${import.meta.env.BASE_URL}images/icons/hour-glass.svg`,
         `${import.meta.env.BASE_URL}images/icons/star.svg`,
         `${import.meta.env.BASE_URL}images/logo.png`,
+        `${import.meta.env.BASE_URL}images/busdriver-head.png`,
         `${import.meta.env.BASE_URL}images/bus.svg`,
         `${import.meta.env.BASE_URL}images/bus-slow.svg`,
         `${import.meta.env.BASE_URL}images/bus-turbo.svg`,
@@ -26,17 +27,24 @@ const PreLoader: React.FC<Props> = ({ isGameLoaded, setIsGameLoaded }) => {
         `${import.meta.env.BASE_URL}images/tunnel-yellow.svg`,
     ];
 
-    const preloadImages = (imagePaths: string[]) => {
-        return Promise.all(
-            imagePaths.map((src) => {
-                return new Promise<void>((resolve, reject) => {
-                    const img = new Image();
-                    img.src = src;
-                    img.onload = () => resolve();
-                    img.onerror = reject;
-                });
-            })
-        );
+    const preloadImages = async (imagePaths: string[]) => {
+        try {
+            await Promise.all(
+                imagePaths.map((src) => {
+                    return new Promise<void>((resolve, reject) => {
+                        const img = new Image();
+                        img.src = src;
+                        img.onload = () => resolve();
+                        img.onerror = () => {
+                            console.error(`Kunde inte ladda in bild: ${src}`);
+                            resolve();
+                        };
+                    });
+                })
+            );
+        } catch (error) {
+            console.error('Fel i preloadImages:', error);
+        }
     };
 
     const loadFonts = async () => {
@@ -49,6 +57,7 @@ const PreLoader: React.FC<Props> = ({ isGameLoaded, setIsGameLoaded }) => {
                 setIsGameLoaded(true);
             });
         }
+
         if (isGameLoaded) {
             const checkLoader = setInterval(() => {
                 if (document.getElementById('loader')) {
