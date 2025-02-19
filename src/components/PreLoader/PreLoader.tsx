@@ -31,7 +31,7 @@ const PreLoader: React.FC<Props> = ({ isGameLoaded, setIsGameLoaded }) => {
         try {
             await Promise.all(
                 imagePaths.map((src) => {
-                    return new Promise<void>((resolve, reject) => {
+                    return new Promise<void>((resolve) => {
                         const img = new Image();
                         img.src = src;
                         img.onload = () => resolve();
