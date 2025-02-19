@@ -24,8 +24,8 @@ function App() {
             <AnimatePresence mode='wait'>
                 {isGameRunning && isGameLoaded && !isGameOver && (
                     <motion.main exit={{ opacity: 0 }} className='game'>
-                        <Jumbotron />
-                        {/* <MessageOverlay /> */}
+                        {/* <Jumbotron /> */}
+                        <MessageOverlay />
                         <GameBoard />
                         <AbilityBar />
                         <PathControl />

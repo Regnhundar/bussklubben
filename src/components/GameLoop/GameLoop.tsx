@@ -104,6 +104,9 @@ const GameLoop: React.FC = () => {
                 }
             };
         }
+        if (isGameOver) {
+            gameOver();
+        }
     }, [isPreparationTime, isGameOver]);
 
     // Startar timer för när nästa ruta.
@@ -155,7 +158,7 @@ const GameLoop: React.FC = () => {
                     if (prev > 1) {
                         return prev - 1;
                     } else {
-                        gameOver();
+                        setIsGameOver(true);
                         return 0;
                     }
                 });
@@ -182,7 +185,7 @@ const GameLoop: React.FC = () => {
                     }
                 };
             }
-            gameOver();
+            setIsGameOver(true);
             return;
         }
     };
@@ -199,7 +202,7 @@ const GameLoop: React.FC = () => {
                 (nextSquareToCheckIndex !== endingIndex && isOutOfBounds) ||
                 (nextSquareToCheckIndex === endingIndex && isOutOfBounds && direction !== finishConnectionIndex)
             ) {
-                gameOver();
+                setIsGameOver(true);
                 return;
             }
             if (nextSquareToCheckIndex === endingIndex && direction === finishConnectionIndex) {
