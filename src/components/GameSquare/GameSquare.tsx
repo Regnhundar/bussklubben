@@ -31,7 +31,7 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
         setTriggerPath,
         gameBoardArray,
     } = useGameBoardStore();
-    const { isGameOver, isPreparationTime } = useGameStore();
+    const { isGameOverConfirmation, isGameOver, isPreparationTime } = useGameStore();
     const [selectedToMove, setSelectedToMove] = useState(false);
 
     const startingTile = index === startingIndex;
@@ -92,33 +92,41 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
 
     return squareData.isRevealed ? (
         <div
-            className={`game-square-wrapper  ${
-                squareData.isPreviousSquare
-                    ? 'game-square-wrapper--is-previous'
-                    : squareData.isActive
-                    ? 'game-square-wrapper--is-active'
-                    : jokerTile !== null
-                    ? 'game-square-wrapper--is-changeable'
-                    : selectedToMove
-                    ? 'game-square-wrapper--selected'
-                    : isFinalSquareLinked() && squareData.isLinkedToStart
-                    ? 'game-square-wrapper--clear-path'
-                    : squareData.isRevealed && squareData.isLinkedToStart
-                    ? 'game-square-wrapper--connected'
-                    : startingTile && arrivalIndex !== null && squareData.tile.connections[arrivalIndex] === true
-                    ? `game-square-wrapper--starting-square-connected`
-                    : startingTile && arrivalIndex !== null && squareData.tile.connections[arrivalIndex] === false
-                    ? `game-square-wrapper--starting-square-unconnected`
-                    : endingTile &&
-                      finishConnectionIndex !== null &&
-                      squareData.tile.connections[finishConnectionIndex] === true
-                    ? `game-square-wrapper--ending-square-connected`
-                    : endingTile &&
-                      finishConnectionIndex !== null &&
-                      squareData.tile.connections[finishConnectionIndex] === false
-                    ? `game-square-wrapper--ending-square-unconnected`
-                    : ''
-            }`}>
+            className={
+                isGameOverConfirmation
+                    ? 'game-square-wrapper game-square-wrapper--disabled'
+                    : `game-square-wrapper  ${
+                          squareData.isPreviousSquare
+                              ? 'game-square-wrapper--is-previous'
+                              : squareData.isActive
+                              ? 'game-square-wrapper--is-active'
+                              : jokerTile !== null
+                              ? 'game-square-wrapper--is-changeable'
+                              : selectedToMove
+                              ? 'game-square-wrapper--selected'
+                              : isFinalSquareLinked() && squareData.isLinkedToStart
+                              ? 'game-square-wrapper--clear-path'
+                              : squareData.isRevealed && squareData.isLinkedToStart
+                              ? 'game-square-wrapper--connected'
+                              : startingTile &&
+                                arrivalIndex !== null &&
+                                squareData.tile.connections[arrivalIndex] === true
+                              ? `game-square-wrapper--starting-square-connected`
+                              : startingTile &&
+                                arrivalIndex !== null &&
+                                squareData.tile.connections[arrivalIndex] === false
+                              ? `game-square-wrapper--starting-square-unconnected`
+                              : endingTile &&
+                                finishConnectionIndex !== null &&
+                                squareData.tile.connections[finishConnectionIndex] === true
+                              ? `game-square-wrapper--ending-square-connected`
+                              : endingTile &&
+                                finishConnectionIndex !== null &&
+                                squareData.tile.connections[finishConnectionIndex] === false
+                              ? `game-square-wrapper--ending-square-unconnected`
+                              : ''
+                      }`
+            }>
             <motion.img
                 variants={squareImgVariant}
                 initial={'hidden'}
@@ -162,8 +170,9 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
             custom={squareData.delay}
             data-index={index}
             aria-label='En knapp som kommer att visa en dold vägbit.'
-            className='game-square'
-            onClick={handleSquareReveal}>
+            className={isGameOverConfirmation ? 'game-square game-square--disabled' : 'game-square'}
+            onClick={handleSquareReveal}
+            disabled={isGameOverConfirmation}>
             {startingTile && <StartEndIndicator type='start' direction={startingIndicator} isRevealed={false} />}
             {endingTile && <StartEndIndicator type='finish' direction={finishIndicator} isRevealed={false} />}
         </motion.button>

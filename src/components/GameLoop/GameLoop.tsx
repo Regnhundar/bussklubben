@@ -21,12 +21,11 @@ import { validGameBoardIndices } from '../../data/gameBoard';
 
 const GameLoop: React.FC = () => {
     const {
-        isGameOver,
-        setIsGameOver,
+        setIsGameOverConfirmation,
+        isGameOverConfirmation,
         setTotalTime,
         level,
         setLevel,
-        points,
         setPoints,
         isPreparationTime,
         setIsPreparationTime,
@@ -83,7 +82,7 @@ const GameLoop: React.FC = () => {
 
     // Uppdaterar tidsnedräkningen för avgång.
     useEffect(() => {
-        if (isPreparationTime && !isGameOver) {
+        if (isPreparationTime && !isGameOverConfirmation) {
             handleDepartureTimer();
         }
         return () => {
@@ -95,7 +94,7 @@ const GameLoop: React.FC = () => {
 
     // Uppdaterar speltiden och sätter game-over om den når 0. Startar också timer på första rutan.
     useEffect(() => {
-        if (!isPreparationTime && !isGameOver) {
+        if (!isPreparationTime && !isGameOverConfirmation) {
             handleGameTimer();
             handleNextSquareTimer();
             return () => {
@@ -104,18 +103,21 @@ const GameLoop: React.FC = () => {
                 }
             };
         }
-    }, [isPreparationTime, isGameOver]);
+        if (isGameOverConfirmation) {
+            handleGameOverConfirmationTrigger();
+        }
+    }, [isPreparationTime, isGameOverConfirmation]);
 
     // Startar timer för när nästa ruta.
     useEffect(() => {
-        if (!isPreparationTime && !isGameOver) {
+        if (!isPreparationTime && !isGameOverConfirmation) {
             handleNextSquareTimer();
         }
     }, [nextSquareToCheckIndex]);
 
     // Hanterar vad som händer när nästa ruta aktiveras. Triggas av handleNextSquareTimer.
     useEffect(() => {
-        if (!isPreparationTime && !isGameOver) {
+        if (!isPreparationTime && !isGameOverConfirmation) {
             handleNextSquare();
         }
     }, [numberOfSquaresChecked]);
@@ -149,13 +151,13 @@ const GameLoop: React.FC = () => {
     };
 
     const handleGameTimer = () => {
-        if (!isPreparationTime && !isGameOver) {
+        if (!isPreparationTime && !isGameOverConfirmation) {
             gameTimerRef.current = window.setInterval(() => {
                 setTotalTime((prev) => {
                     if (prev > 1) {
                         return prev - 1;
                     } else {
-                        gameOver();
+                        setIsGameOverConfirmation(true);
                         return 0;
                     }
                 });
@@ -169,12 +171,12 @@ const GameLoop: React.FC = () => {
             if (nextSquareToCheckIndex >= 0 && isSquareConnected) {
                 updateGameSquare(nextSquareToCheckIndex, { isActive: true });
                 if (squaresToSwap.includes(nextSquareToCheckIndex)) {
+                    // Om du håller på att byta bricka som buss hamnat på avbryts det.
                     setSquaresToSwap();
                 }
 
                 squareTimerRef.current = window.setTimeout(() => {
                     setNumberOfSquaresChecked((prev) => prev + 1);
-                    updateGameSquare(nextSquareToCheckIndex, { isPreviousSquare: true, isActive: false });
                 }, nextSquareTimer * 1000);
                 return () => {
                     if (squareTimerRef.current) {
@@ -182,7 +184,7 @@ const GameLoop: React.FC = () => {
                     }
                 };
             }
-            gameOver();
+            setIsGameOverConfirmation(true);
             return;
         }
     };
@@ -199,7 +201,7 @@ const GameLoop: React.FC = () => {
                 (nextSquareToCheckIndex !== endingIndex && isOutOfBounds) ||
                 (nextSquareToCheckIndex === endingIndex && isOutOfBounds && direction !== finishConnectionIndex)
             ) {
-                gameOver();
+                setIsGameOverConfirmation(true);
                 return;
             }
             if (nextSquareToCheckIndex === endingIndex && direction === finishConnectionIndex) {
@@ -252,17 +254,12 @@ const GameLoop: React.FC = () => {
         }
     };
 
-    const gameOver = () => {
+    const handleGameOverConfirmationTrigger = () => {
         setSquareSpeed('normal');
         setJokerTile(null);
-        window.ClubHouseGame.setScore(points);
-        setIsGameOver(true);
         clearTimers();
-        window.ClubHouseGame.gameDone();
         setIsPreparationTime(false);
         setPreparationTime(PREPARATION_TIME);
-        setStartingIndex(null);
-        setEndingIndex(null);
         setNextSquareToCheckIndex(null);
         setNumberOfSquaresChecked(0);
         setArrivalIndex(null);

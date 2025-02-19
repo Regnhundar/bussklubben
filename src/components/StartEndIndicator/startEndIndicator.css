@@ -239,9 +239,10 @@
     animation: moveArrowStart 2s infinite forwards;
     /* border-top: var(--border-width) solid rgba(0, 255, 110, 0.7);
     border-left: var(--border-width) solid rgba(0, 255, 110, 0.7); */
-    border-top: var(--border-width) solid #13A347;
-    border-left: var(--border-width) solid #13A347;
-    ;
+    /* border-top: var(--border-width) solid #13A347;
+    border-left: var(--border-width) solid #13A347; */
+    border-top: var(--border-width) solid rgba(255, 255, 255, 0.8);
+    border-left: var(--border-width) solid rgba(255, 255, 255, 0.8);
     /* border-top: var(--border-width) solid rgba(255, 255, 255, 0.5);
     border-left: var(--border-width) solid rgba(255, 255, 255, 0.5); */
 }
@@ -264,11 +265,11 @@
     transform: rotateZ(45deg);
     animation: moveArrowEnd 2s infinite forwards;
     /* border-top: var(--border-width) solid rgb(253, 204, 0.5);
-    border-left: var(--border-width) solid rgb(253, 204, 0.5); */
+    border-left: var(--border-width) solid rgb(253, 204, 0.5); 
     border-top: var(--border-width) solid #D1AB0E;
-    border-left: var(--border-width) solid #D1AB0E;
-    /* border-top: var(--border-width) solid rgba(255, 255, 255, 0.5);
-    border-left: var(--border-width) solid rgba(255, 255, 255, 0.5); */
+    border-left: var(--border-width) solid #D1AB0E;*/
+    border-top: var(--border-width) solid rgba(255, 255, 255, 0.8);
+    border-left: var(--border-width) solid rgba(255, 255, 255, 0.8);
 }
 
 .start-and-end__arrow--finish:nth-of-type(1) {

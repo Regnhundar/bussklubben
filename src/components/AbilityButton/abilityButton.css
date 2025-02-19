@@ -4,6 +4,12 @@
     aspect-ratio: 1;
 }
 
+.ability--disabled {
+    filter: grayscale(1);
+    opacity: .5;
+    pointer-events: none;
+}
+
 .ability__button {
     appearance: unset;
     background-color: var(--off-white);
@@ -85,6 +91,7 @@
 .ability__button--disabled {
     opacity: .5;
     filter: grayscale(1);
+    pointer-events: none;
 }
 
 .ability-button__image {
@@ -101,7 +108,7 @@
     object-fit: contain;
 }
 
-.ability__button--turbo-suggestion {
+.ability__button--turbo-suggestion .ability-button__image {
     animation: goSpeedGo .5s linear .1s infinite;
 }
 
@@ -166,6 +173,31 @@
 
 .ability-button__name--disabled {
     background-color: gray;
+}
+
+.ability-button__name--warning {
+    background-color: var(--accent4);
+}
+
+.ability-button__name--turbo-suggestion {
+    animation: victoryRoad 2s linear infinite;
+    background-color: var(--accent1);
+    background: linear-gradient(90deg, rgba(255, 229, 119, 1) 0%, rgba(253, 204, 0, 1) 50%, rgba(253, 156, 0, 1) 100%);
+    background-size: 200% 100%;
+}
+
+@keyframes victoryRoad {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 @media (hover: hover) and (pointer: fine) {

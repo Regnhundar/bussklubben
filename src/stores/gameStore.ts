@@ -14,6 +14,8 @@ interface GameStore {
     setLevel: (value: number | ((prev: number) => number)) => void;
     isGameRunning: boolean;
     setIsGameRunning: (value: boolean | ((prev: boolean) => boolean)) => void;
+    isGameOverConfirmation: boolean;
+    setIsGameOverConfirmation: (value: boolean | ((prev: boolean) => boolean)) => void;
     isGameOver: boolean;
     setIsGameOver: (value: boolean | ((prev: boolean) => boolean)) => void;
 }
@@ -48,6 +50,11 @@ const useGameStore = create<GameStore>((set) => ({
     setIsGameRunning: (value) =>
         set((state) => ({
             isGameRunning: typeof value === 'function' ? value(state.isGameRunning) : value,
+        })),
+    isGameOverConfirmation: false,
+    setIsGameOverConfirmation: (value) =>
+        set((state) => ({
+            isGameOverConfirmation: typeof value === 'function' ? value(state.isGameOverConfirmation) : value,
         })),
     isGameOver: false,
     setIsGameOver: (value) =>

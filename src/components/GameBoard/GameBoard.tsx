@@ -16,10 +16,12 @@ const GameBoard: React.FC = () => {
     const {
         gameBoardArray,
         setGameBoardArray,
+        startConnectionIndex,
         setStartingIndex,
         setEndingIndex,
         startingIndex,
         endingIndex,
+        arrivalIndex,
         finishConnectionIndex,
         setStartConnectionIndex,
         setFinishConnectionIndex,
@@ -28,7 +30,7 @@ const GameBoard: React.FC = () => {
         nextSquareToCheckIndex,
         isExiting,
     } = useGameBoardStore();
-    const { level } = useGameStore();
+    const { level, isGameOverConfirmation } = useGameStore();
 
     const [startingArrowDirection, setStartingArrowDirection] = useState<'down' | 'up' | 'left' | 'right'>('down');
     const [finishArrowDirection, setFinishArrowDirection] = useState<'down' | 'up' | 'left' | 'right'>('down');
@@ -40,6 +42,18 @@ const GameBoard: React.FC = () => {
     const [squareSize, setSquareSize] = useState(0);
     const [xCoordinate, setXcoordinate] = useState<number | null>(null);
     const [yCoordinate, setYcoordinate] = useState<number | null>(null);
+
+    const isFirstSquareConnected =
+        startingIndex !== null &&
+        startConnectionIndex !== null &&
+        gameBoardArray[startingIndex].isRevealed === true &&
+        gameBoardArray[startingIndex].tile.connections[startConnectionIndex] === true;
+
+    const isSquareConnected =
+        typeof nextSquareToCheckIndex === 'number' &&
+        typeof arrivalIndex === 'number' &&
+        gameBoardArray[nextSquareToCheckIndex].isRevealed &&
+        gameBoardArray[nextSquareToCheckIndex].tile.connections[arrivalIndex] === true;
 
     useEffect(() => {
         const startAndFinishIndex = generateStartAndFinishIndex();
@@ -105,7 +119,13 @@ const GameBoard: React.FC = () => {
 
     useEffect(() => {
         let isMounted = true;
-        if (nextSquareToCheckIndex !== null && startingIndex !== null && endingIndex !== null && squareSize > 0) {
+        if (
+            nextSquareToCheckIndex !== null &&
+            startingIndex !== null &&
+            endingIndex !== null &&
+            squareSize > 0 &&
+            isSquareConnected
+        ) {
             const y = Math.floor(nextSquareToCheckIndex / GRID_ROWS) * squareSize;
             const x = (nextSquareToCheckIndex % GRID_COLUMNS) * squareSize;
             if (
@@ -160,7 +180,7 @@ const GameBoard: React.FC = () => {
         return () => {
             isMounted = false;
         };
-    }, [nextSquareToCheckIndex, squareSize, isExiting]);
+    }, [nextSquareToCheckIndex, squareSize, isExiting, isSquareConnected]);
 
     return (
         <>
@@ -171,9 +191,9 @@ const GameBoard: React.FC = () => {
                 animate='show'
                 exit='hidden'
                 key={level}
-                className='game-board'>
+                className={isGameOverConfirmation ? 'game-board game-board--disabled' : 'game-board'}>
                 <AnimatePresence>
-                    {xCoordinate !== null && yCoordinate !== null && (
+                    {xCoordinate !== null && yCoordinate !== null && isFirstSquareConnected && (
                         <Bus
                             x={xCoordinate}
                             y={yCoordinate}
