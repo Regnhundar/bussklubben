@@ -2,6 +2,7 @@
     position: relative;
     display: grid;
     place-self: center;
+    justify-content: center;
     gap: 1px;
     width: 100%;
     aspect-ratio: 1;
@@ -12,6 +13,17 @@
     border: 2px solid var(--black);
     overflow: hidden;
     box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.4);
+    animation: backgroundShift 2s linear;
+}
+
+@keyframes backgroundShift {
+    0% {
+        background-color: var(--bg-primary--dark);
+    }
+
+    100% {
+        background-color: var(--gray);
+    }
 }
 
 .game-board--disabled {

@@ -15,8 +15,8 @@
 
 .level-info__message--running {
     background-color: var(--accent1);
-    color: var(--bg-primary);
-    text-shadow: var(--text-outline--accent-2);
+    color: var(--white);
+    text-shadow: var(--text-outline--black);
 }
 
 .level-info__message--preparing {
