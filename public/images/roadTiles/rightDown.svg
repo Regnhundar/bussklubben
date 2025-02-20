@@ -1,8 +1,16 @@
-<svg width="68" height="67" viewBox="0 0 68 67" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M67.224 9.99228V55.9983H57.2123V66.03H11.2169V39.9923C11.2169 23.4237 24.6484 9.99228 41.2169 9.99228H67.224Z" fill="#514D4D"/>
-<rect x="67.2241" y="32.4266" width="2" height="4" transform="rotate(90 67.2241 32.4266)" fill="#D9D9D9"/>
-<rect x="56.441" y="32.4266" width="1.99245" height="8" transform="rotate(90 56.441 32.4266)" fill="#D9D9D9"/>
-<rect x="33.615" y="47.172" width="2" height="7.96981" fill="#D9D9D9"/>
-<path d="M33.6306 32.4266L41.658 32.4266V34.4011H35.6306V40.3964H33.6306V32.4266Z" fill="#D9D9D9"/>
-<rect x="33.615" y="62.0451" width="2" height="3.98491" fill="#D9D9D9"/>
+<svg width="67" height="67" viewBox="0 0 67 67" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M66.5994 10.0946V56.1006H56.5876V66.1323H10.5923V40.0946C10.5923 23.5261 24.0237 10.0946 40.5923 10.0946H66.5994Z" fill="url(#paint0_linear_455_938)"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M56.5876 56.1006H66.5994V54.1038H64.5972V54.1006H54.5876V64.1301H54.604V66.1323H56.5876V56.1006ZM12.5962 66.1323V64.1323H12.5923V40.0946C12.5923 24.6306 25.1283 12.0946 40.5923 12.0946H64.5994V12.0959H66.5994V10.0946H40.5923C24.0237 10.0946 10.5923 23.5261 10.5923 40.0946V66.1323H12.5962Z" fill="#767781"/>
+<rect x="66.5994" y="32.5289" width="2" height="4" transform="rotate(90 66.5994 32.5289)" fill="#D9D9D9"/>
+<rect x="55.8162" y="32.5289" width="1.99245" height="8" transform="rotate(90 55.8162 32.5289)" fill="#D9D9D9"/>
+<rect x="32.9902" y="47.2743" width="2" height="7.96981" fill="#D9D9D9"/>
+<path d="M33.0059 32.5289L41.0333 32.5289V34.5035H35.0059V40.4988H33.0059V32.5289Z" fill="#D9D9D9"/>
+<rect x="32.9902" y="62.1475" width="2" height="3.98491" fill="#D9D9D9"/>
+<defs>
+<linearGradient id="paint0_linear_455_938" x1="38.5958" y1="10.0946" x2="38.5958" y2="66.1323" gradientUnits="userSpaceOnUse">
+<stop stop-color="#575157"/>
+<stop offset="0.505" stop-color="#413840"/>
+<stop offset="1" stop-color="#575157"/>
+</linearGradient>
+</defs>
 </svg>

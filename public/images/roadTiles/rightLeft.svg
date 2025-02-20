@@ -1,9 +1,20 @@
-<svg width="68" height="67" viewBox="0 0 68 67" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="67.2847" y="10.1664" width="46" height="66" transform="rotate(90 67.2847 10.1664)" fill="#514D4D"/>
-<rect x="67.2847" y="32.5574" width="2" height="4" transform="rotate(90 67.2847 32.5574)" fill="#D9D9D9"/>
-<rect x="58.0847" y="32.5574" width="2" height="8" transform="rotate(90 58.0847 32.5574)" fill="#D9D9D9"/>
-<rect x="44.8846" y="32.5574" width="2" height="8" transform="rotate(90 44.8846 32.5574)" fill="#D9D9D9"/>
-<rect x="31.6847" y="32.5574" width="2" height="8" transform="rotate(90 31.6847 32.5574)" fill="#D9D9D9"/>
-<rect x="18.4846" y="32.5574" width="2" height="8" transform="rotate(90 18.4846 32.5574)" fill="#D9D9D9"/>
-<rect x="5.28467" y="32.5574" width="2" height="4" transform="rotate(90 5.28467 32.5574)" fill="#D9D9D9"/>
+<svg width="67" height="67" viewBox="0 0 67 67" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="path-1-inside-1_455_963" fill="white">
+<path d="M0.665283 56.4615L0.665283 10.4615L66.6653 10.4615L66.6653 56.4615L0.665283 56.4615Z"/>
+</mask>
+<path d="M0.665283 56.4615L0.665283 10.4615L66.6653 10.4615L66.6653 56.4615L0.665283 56.4615Z" fill="url(#paint0_linear_455_963)"/>
+<path d="M0.665283 12.4615L66.6653 12.4615V8.46155L0.665283 8.46155L0.665283 12.4615ZM66.6653 54.4615L0.665283 54.4615L0.665283 58.4615L66.6653 58.4615V54.4615Z" fill="#767781" mask="url(#path-1-inside-1_455_963)"/>
+<rect x="0.665283" y="34.9615" width="2" height="4" transform="rotate(-90 0.665283 34.9615)" fill="#D9D9D9"/>
+<rect x="9.86523" y="34.9615" width="2" height="8" transform="rotate(-90 9.86523 34.9615)" fill="#D9D9D9"/>
+<rect x="23.0652" y="34.9615" width="2" height="8" transform="rotate(-90 23.0652 34.9615)" fill="#D9D9D9"/>
+<rect x="36.2654" y="34.9615" width="2" height="8" transform="rotate(-90 36.2654 34.9615)" fill="#D9D9D9"/>
+<rect x="49.4653" y="34.9615" width="2" height="8" transform="rotate(-90 49.4653 34.9615)" fill="#D9D9D9"/>
+<rect x="62.6653" y="34.9615" width="2" height="4" transform="rotate(-90 62.6653 34.9615)" fill="#D9D9D9"/>
+<defs>
+<linearGradient id="paint0_linear_455_963" x1="0.665283" y1="33.4615" x2="66.6653" y2="33.4615" gradientUnits="userSpaceOnUse">
+<stop stop-color="#575157"/>
+<stop offset="0.505" stop-color="#413840"/>
+<stop offset="1" stop-color="#575157"/>
+</linearGradient>
+</defs>
 </svg>

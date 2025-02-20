@@ -15,9 +15,8 @@
 .game-square-wrapper {
     transition: scale .1s linear;
     position: relative;
-    /* background-color: var(--light-gray); */
-    background-color: var(--accent2);
     background-color: var(--light-gray);
+
 }
 
 .game-square-wrapper--disabled,
@@ -31,6 +30,7 @@
     transition: scale .1s linear;
     aspect-ratio: 1;
     width: 100%;
+    filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.4))
 }
 
 .game-square-wrapper--is-changeable {
@@ -42,14 +42,14 @@
 .game-square-wrapper--connected {
     animation: victoryRoad 2s linear infinite;
     background: rgb(5, 181, 82);
-    background: linear-gradient(90deg, rgb(12, 226, 105) 0%, rgba(5, 181, 82, 1) 50%, rgb(3, 172, 76) 100%);
+    background: linear-gradient(90deg, rgb(6, 240, 107) 0%, rgb(5, 214, 96) 50%, rgb(3, 172, 76) 100%);
     background-size: 200% 100%;
 }
 
 .game-square-wrapper--clear-path {
     animation: victoryRoad 2s linear infinite;
     background-color: var(--accent1);
-    background: linear-gradient(90deg, rgba(255, 229, 119, 1) 0%, rgba(253, 204, 0, 1) 50%, rgba(253, 156, 0, 1) 100%);
+    background: linear-gradient(90deg, rgba(255, 229, 119, 1) 0%, rgb(253, 211, 42) 50%, rgb(248, 154, 3) 100%);
     background-size: 200% 100%;
 }
 
