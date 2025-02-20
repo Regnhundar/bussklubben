@@ -1,5 +1,5 @@
 .toast-message {
-    --image-max-width: 5rem;
+    --image-max-width: 4.8rem;
     display: grid;
     grid-template-columns: 1fr auto;
     color: var(--black);
@@ -29,6 +29,7 @@
 
 .toast-message__image-wrapper {
     --shadow-width: .3rem;
+    --shadow-border: .0625rem;
     aspect-ratio: 1;
     background-color: var(--off-white);
     box-shadow:
@@ -37,7 +38,7 @@
         0 0 2px 4px #e6e09a,
         0 0 1px var(--shadow-width) #69642e,
         inset var(--shadow-width) var(--shadow-width) 6px rgba(136, 135, 135, 0.5),
-        0 0 0 var(--shadow-width) black;
+        0 0 0 calc(var(--shadow-width) + var(--shadow-border)) black;
     overflow: hidden;
     border-radius: 50%;
     border: 1px solid black;
@@ -45,7 +46,7 @@
     place-items: center;
     max-width: var(--image-max-width);
     padding: var(--spacing-s);
-    transform: translateX(calc(-0.5 * (var(--image-max-width) - var(--shadow-width)))) translateY(-50%);
+    transform: translateX(calc(-0.5 * (var(--image-max-width) - calc(var(--shadow-width) + var(--shadow-border) * 2)))) translateY(-50%);
     top: 50%;
     position: absolute;
 }
@@ -59,7 +60,6 @@
 .toast-message__confirmation-button {
     grid-column: 2/3;
     background-color: var(--bg-primary);
-    border: 1px solid var(--accent3);
     padding: var(--spacing-m);
     color: var(--white);
     border-radius: var(--spacing-s);

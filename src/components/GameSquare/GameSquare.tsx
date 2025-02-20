@@ -92,6 +92,7 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
 
     return squareData.isRevealed ? (
         <div
+            data-index={index}
             className={
                 isGameOverConfirmation
                     ? 'game-square-wrapper game-square-wrapper--disabled'
@@ -132,7 +133,6 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
                 initial={'hidden'}
                 animate={'show'}
                 exit={'hidden'}
-                data-index={index}
                 src={squareData.tile.src}
                 alt={squareData.tile.alt}
                 className={'game-square__image'}
