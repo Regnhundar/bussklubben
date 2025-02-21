@@ -1,4 +1,5 @@
 import './startEndIndicator.css';
+// import { motion } from 'motion/react';
 interface Props {
     type: 'start' | 'finish';
     direction: 'up' | 'down' | 'left' | 'right';
@@ -34,7 +35,7 @@ const StartEndIndicator: React.FC<Props> = ({
     ) : (
         <figure
             className={`indicator-sign indicator-sign--${direction} ${
-                type === 'start' ? 'indicator-sign--yellow' : 'indicator-sign--green'
+                type === 'start' ? 'indicator-sign--green' : 'indicator-sign--yellow'
             }`}>
             {type === 'start' ? 'START' : 'MÅL'}
         </figure>

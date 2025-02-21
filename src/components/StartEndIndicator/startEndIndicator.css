@@ -4,8 +4,8 @@
     --after-offset: calc(var(--after-size) / 2);
     position: absolute;
     z-index: 999;
-    top: 50%;
-    left: 50%;
+
+
     transform: translate(-50%, -50%);
     font-size: .85rem;
     color: var(--white);
@@ -33,53 +33,68 @@
 }
 
 .indicator-sign--green {
-    filter: drop-shadow(1px 1px 2px var(--gray)) drop-shadow(-1px -1px 0 #a18203) drop-shadow(1px 1px 0 #a18203);
-    --after-bg-color: var(--accent1);
+    --after-bg-color: #13A347;
+    filter: drop-shadow(1px 1px 2px var(--gray)) drop-shadow(-1px -1px 0 #0a8035) drop-shadow(1px 1px 0 #0a8035);
 }
 
 .indicator-sign--yellow {
-    filter: drop-shadow(1px 1px 2px var(--gray)) drop-shadow(-1px -1px 0 #0a8035) drop-shadow(1px 1px 0 #0a8035);
-    --after-bg-color: #13A347;
+    --after-bg-color: var(--accent1);
+    filter: drop-shadow(1px 1px 2px var(--gray)) drop-shadow(-1px -1px 0 #a18203) drop-shadow(1px 1px 0 #a18203);
 }
 
 .indicator-sign--down {
     --after-bottom: calc(-1 * var(--after-offset));
     --after-left: 50%;
     --after-transform: translateX(-50%) rotate(45deg);
+
     animation: down 1.5s infinite ease-in-out forwards;
+    left: 50%;
+    bottom: 50%;
+    transform: translateX(-50%);
 }
 
 .indicator-sign--up {
     --after-top: calc(-1 * var(--after-offset));
     --after-left: 50%;
     --after-transform: translateX(-50%) rotate(45deg);
+
     animation: up 1.5s infinite ease-in-out forwards;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%);
 }
 
 .indicator-sign--left {
     --after-left: calc(-1 * var(--after-offset));
     --after-top: 50%;
     --after-transform: translateY(-50%) rotate(45deg);
+
     animation: leftAnimation 1.5s infinite ease-in-out forwards;
+    left: 50%;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .indicator-sign--right {
     --after-right: calc(-1 * var(--after-offset));
     --after-top: 50%;
     --after-transform: translateY(-50%) rotate(45deg);
+
     animation: rightAnimation 1.5s infinite ease-in-out forwards;
+    right: 50%;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 @keyframes up {
 
     0%,
     100% {
-        top:
-            40%
+        top: calc(0% + (var(--after-offset) * 3));
     }
 
     50% {
-        top: 30%
+        top: calc(10% + (var(--after-offset) * 3));
     }
 
 }
@@ -88,11 +103,11 @@
 
     0%,
     100% {
-        top: 60%
+        bottom: calc(0% + (var(--after-offset) * 3));
     }
 
     50% {
-        top: 70%
+        bottom: calc(10% + (var(--after-offset) * 3));
     }
 
 }
@@ -101,11 +116,11 @@
 
     0%,
     100% {
-        left: 60%
+        left: calc(0% + (var(--after-offset) * 3))
     }
 
     50% {
-        left: 50%
+        left: calc(10% + (var(--after-offset) * 3))
     }
 
 }
@@ -114,11 +129,11 @@
 
     0%,
     100% {
-        left: 40%
+        right: calc(0% + (var(--after-offset) * 3));
     }
 
     50% {
-        left: 50%
+        right: calc(10% + (var(--after-offset) * 3));
     }
 }
 

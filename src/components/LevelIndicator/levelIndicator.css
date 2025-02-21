@@ -38,18 +38,31 @@
 }
 
 .level-info__number--preparing {
-    background-color: #333333;
+    background-color: #444;
     text-shadow: var(--text-outline--black);
-    box-shadow: 0 -2px 0 0 #BC201C, var(--3d-shadow-reverse--small);
-    border: 1px solid black;
+    /* box-shadow: 0 -2px 0 0 #BC201C, var(--3d-shadow-reverse--small); */
+    box-shadow: 0 -2px 0 0 #921c18,
+        0 -1px 0 1px rgba(0, 0, 0, 0.3),
+        inset 1px 5px 0 0 rgba(0, 0, 0, 1),
+        inset 0 1px 0 0 var(--accent4),
+        inset 0 -1px 0 0 #ffffffb7,
+        inset 0 -2px 0 0 black,
+        inset 0 0 0 2px rgb(0, 0, 0);
+
 
 }
 
 .level-info__number--running {
     background-color: var(--bg-primary);
     text-shadow: var(--text-outline--black);
-    box-shadow: 0 -2px 0 0 #E6BA00, var(--3d-shadow-reverse--small);
-    border: 1px solid black;
+    box-shadow: 0 -2px 0 0 #ad8e01,
+        0 -1px 0 1px rgba(0, 0, 0, 0.3),
+        inset 1px 5px 0 0 rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 0 var(--accent1),
+        inset 0 -1px 0 0 #ffffffb7,
+        inset 0 -2px 0 0 rgba(66, 66, 66, 0.637),
+        inset 0 0 0 2px rgba(0, 0, 0, 0.4);
+
 }
 
 .level-info--soon-to-leave {

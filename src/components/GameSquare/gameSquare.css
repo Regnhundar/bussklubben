@@ -31,11 +31,11 @@
 }
 
 .game-square__image {
-    object-fit: cover;
+    object-fit: contain;
     transition: scale .1s linear;
     aspect-ratio: 1;
     width: 100%;
-    filter: drop-shadow(1px 1px 4px rgba(0, 0, 0, 0.4))
+    filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.4))
 }
 
 .game-square-wrapper--is-changeable {
@@ -54,7 +54,7 @@
 .game-square-wrapper--clear-path {
     animation: victoryRoad 2s linear infinite;
     background-color: var(--accent1);
-    background: linear-gradient(90deg, rgba(255, 229, 119, 1) 0%, rgb(253, 211, 42) 50%, rgb(248, 154, 3) 100%);
+    background: linear-gradient(90deg, rgb(253, 211, 42) 0%, rgb(253, 211, 42) 50%, rgb(219, 125, 1) 100%);
     background-size: 200% 100%;
 }
 
