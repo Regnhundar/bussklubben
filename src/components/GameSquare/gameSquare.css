@@ -93,10 +93,10 @@
 
 .game-square-wrapper--starting-square-unconnected,
 .game-square-wrapper--ending-square-unconnected {
-    animation: incorrectConnection 1s linear 1 forwards;
+    animation: incorrectConnection 3s linear infinite;
 }
 
-/* @keyframes correctConnection {
+@keyframes correctConnection {
 
     0%,
     20% {
@@ -108,9 +108,9 @@
     100% {
         background-color: var(--light-gray)
     }
-} */
+}
 
-/* @keyframes incorrectConnection {
+@keyframes incorrectConnection {
 
     0%,
     20% {
@@ -122,13 +122,13 @@
     100% {
         background-color: var(--light-gray)
     }
-} 
+}
 
 .game-square-wrapper--is-previous {
     background-color: lawngreen;
 }
-*/
-.game-square-wrapper--is-active {
+
+*/ .game-square-wrapper--is-active {
     animation: victoryRoad 2s linear infinite;
     background: rgb(255, 255, 255);
     background: linear-gradient(90deg, rgb(218, 213, 213) 0%, rgb(147, 153, 150) 50%, rgb(129, 126, 126) 100%);
@@ -167,100 +167,3 @@
 .game-square[data-index="24"] {
     border-radius: 0 0 var(--spacing-s) 0;
 }
-
-/* .game-square__image--is-changeable {
-    z-index: 2;
-    outline: 2px solid var(--accent1);
-    background-color: var(--accent2);
-}
-
-.game-square__image--selected {
-    z-index: 2;
-    outline: 2px solid var(--accent1);
-    background-color: var(--accent2);
-    scale: 1.2;
-}
-
-.game-square__image--connected {
-    background-color: hotpink;
-}
-
-.game-square__image--ending-square-connected,
-.game-square__image--starting-square-connected {
-    animation: correctConnection 1s linear 1 forwards;
-}
-
-.game-square__image--starting-square-unconnected,
-.game-square__image--ending-square-unconnected {
-    animation: incorrectConnection 1s linear 1 forwards;
-}
-
-@keyframes correctConnection {
-
-    0%,
-    20% {
-        background-color: rgb(14, 156, 14);
-    }
-
-    10%,
-    30%,
-    100% {
-        background-color: var(--light-gray)
-    }
-}
-
-@keyframes incorrectConnection {
-
-    0%,
-    20% {
-        background-color: var(--accent4);
-    }
-
-    10%,
-    30%,
-    100% {
-        background-color: var(--light-gray)
-    }
-}
-
-.game-square__image--is-previous {
-    background-color: lawngreen;
-}
-
-.game-square__image--is-active {
-    animation: active .5s linear infinite forwards;
-}
-
-@keyframes active {
-
-    0%,
-    100% {
-        background-color: #ff5e00;
-
-    }
-
-    50% {
-        background-color: var(--light-gray);
-
-    }
-}
-
-.game-square__image[data-index="0"],
-.game-square[data-index="0"] {
-    border-radius: var(--spacing-s) 0 0 0;
-}
-
-.game-square__image[data-index="4"],
-.game-square[data-index="4"] {
-    border-radius: 0 var(--spacing-s) 0 0;
-}
-
-.game-square__image[data-index="20"],
-.game-square[data-index="20"] {
-    border-radius: 0 0 0 var(--spacing-s);
-}
-
-.game-square__image[data-index="24"],
-.game-square[data-index="24"] {
-    border-radius: 0 0 var(--spacing-s) 0;
-} */

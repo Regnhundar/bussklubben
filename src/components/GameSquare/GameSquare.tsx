@@ -107,6 +107,10 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
                               ? 'game-square-wrapper--selected'
                               : isFinalSquareLinked() && squareData.isLinkedToStart
                               ? 'game-square-wrapper--clear-path'
+                              : endingTile &&
+                                finishConnectionIndex !== null &&
+                                squareData.tile.connections[finishConnectionIndex] === false
+                              ? `game-square-wrapper--ending-square-unconnected`
                               : squareData.isRevealed && squareData.isLinkedToStart
                               ? 'game-square-wrapper--connected'
                               : startingTile &&
@@ -121,10 +125,6 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
                                 finishConnectionIndex !== null &&
                                 squareData.tile.connections[finishConnectionIndex] === true
                               ? `game-square-wrapper--ending-square-connected`
-                              : endingTile &&
-                                finishConnectionIndex !== null &&
-                                squareData.tile.connections[finishConnectionIndex] === false
-                              ? `game-square-wrapper--ending-square-unconnected`
                               : ''
                       }`
             }>
