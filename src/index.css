@@ -103,6 +103,7 @@
   --black: #120C03;
 
   --3d-shadow: inset 2px 2px 0 0 rgba(255, 255, 255, 0.2), inset -3px -3px 0 0 rgba(0, 0, 0, 0.15);
+  --3d-shadow-big: inset 3px 3px 0 0 rgba(255, 255, 255, 0.2), inset -4px -4px 0 0 rgba(0, 0, 0, 0.15);
   --3d-shadow-reverse: inset -3px -3px 0 0 rgba(255, 255, 255, 0.2), inset 2px 2px 0 0 rgba(0, 0, 0, 0.35);
   --3d-shadow-reverse--small: inset -1px -1px 0 0 rgba(255, 255, 255, 0.2), inset 2px 2px 0 0 rgba(0, 0, 0, 0.35);
 

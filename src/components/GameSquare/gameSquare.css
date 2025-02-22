@@ -4,16 +4,21 @@
     position: relative;
     display: grid;
     place-self: center;
+    place-items: center;
+
     appearance: none;
-    border: none;
-    background-color: var(--accent3);
-    box-shadow: var(--3d-shadow);
-    color: var(--light-gray);
-    text-shadow: var(--text-outline--black);
-    font-size: var(--font-size-m);
-    font-weight: 600;
+    border: .5px solid var(--gray);
+
+    box-shadow: var(--3d-shadow-big);
+    border-radius: 4px;
+    background: var(--accent3);
+    background-image: url(/images/questionmark.svg), linear-gradient(135deg, #00c555 0%, #009641 100%);
+    background-repeat: no-repeat, repeat;
+    background-position: center;
+    background-size: 40%, 100%;
 }
 
+/* linear-gradient(135deg, rgba(115, 210, 148, 1) 0%, rgb(46, 179, 92) 100%) */
 .game-square-wrapper {
     display: grid;
     place-self: center;
@@ -22,6 +27,8 @@
     background-color: var(--light-gray);
     aspect-ratio: 1;
     width: 100%;
+    border: .5px solid var(--gray);
+    border-radius: 4px;
 }
 
 .game-square-wrapper--disabled,
