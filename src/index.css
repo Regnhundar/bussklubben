@@ -176,3 +176,9 @@ body {
   -webkit-user-drag: none;
   -webkit-user-select: none;
 }
+
+@media screen and (max-width: 330px) {
+  html {
+    font-size: 14px;
+  }
+}

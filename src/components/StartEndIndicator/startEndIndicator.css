@@ -4,8 +4,6 @@
     --after-offset: calc(var(--after-size) / 2);
     position: absolute;
     z-index: 999;
-    top: 50%;
-    left: 50%;
     transform: translate(-50%, -50%);
     font-size: .85rem;
     color: var(--white);
@@ -14,8 +12,14 @@
     padding: var(--spacing-xs) var(--spacing-s);
     font-weight: bold;
     width: fit-content;
-
     border-radius: 2px;
+    transition: all 0.4s cubic-bezier(0.9, -0.55, 0.27, 1.55) .3s;
+    transform-origin: left;
+}
+
+.indicator-sign--initial {
+    opacity: 0;
+    scale: 0;
 }
 
 .indicator-sign::after {
@@ -33,92 +37,127 @@
 }
 
 .indicator-sign--green {
-    filter: drop-shadow(1px 1px 2px var(--gray)) drop-shadow(-1px -1px 0 #a18203) drop-shadow(1px 1px 0 #a18203);
-    --after-bg-color: var(--accent1);
+    --after-bg-color: #13A347;
+    filter: drop-shadow(1px 1px 2px var(--gray)) drop-shadow(-1px -1px 0 #0a8035) drop-shadow(1px 1px 0 #0a8035);
 }
 
 .indicator-sign--yellow {
-    filter: drop-shadow(1px 1px 2px var(--gray)) drop-shadow(-1px -1px 0 #0a8035) drop-shadow(1px 1px 0 #0a8035);
-    --after-bg-color: #13A347;
+    --after-bg-color: var(--accent1);
+    filter: drop-shadow(1px 1px 2px var(--gray)) drop-shadow(-1px -1px 0 #a18203) drop-shadow(1px 1px 0 #a18203);
 }
 
 .indicator-sign--down {
     --after-bottom: calc(-1 * var(--after-offset));
     --after-left: 50%;
     --after-transform: translateX(-50%) rotate(45deg);
+
+    left: 50%;
+    bottom: 50%;
+    transform: translateX(-50%);
+}
+
+.indicator-sign--down-animation {
+    opacity: 1;
+    scale: 1;
     animation: down 1.5s infinite ease-in-out forwards;
-}
-
-.indicator-sign--up {
-    --after-top: calc(-1 * var(--after-offset));
-    --after-left: 50%;
-    --after-transform: translateX(-50%) rotate(45deg);
-    animation: up 1.5s infinite ease-in-out forwards;
-}
-
-.indicator-sign--left {
-    --after-left: calc(-1 * var(--after-offset));
-    --after-top: 50%;
-    --after-transform: translateY(-50%) rotate(45deg);
-    animation: leftAnimation 1.5s infinite ease-in-out forwards;
-}
-
-.indicator-sign--right {
-    --after-right: calc(-1 * var(--after-offset));
-    --after-top: 50%;
-    --after-transform: translateY(-50%) rotate(45deg);
-    animation: rightAnimation 1.5s infinite ease-in-out forwards;
-}
-
-@keyframes up {
-
-    0%,
-    100% {
-        top:
-            40%
-    }
-
-    50% {
-        top: 30%
-    }
-
 }
 
 @keyframes down {
 
     0%,
     100% {
-        top: 60%
+
+        bottom: calc(0% + (var(--after-offset) * 3));
     }
 
     50% {
-        top: 70%
+
+        bottom: calc(10% + (var(--after-offset) * 3));
+    }
+}
+
+.indicator-sign--up {
+    --after-top: calc(-1 * var(--after-offset));
+    --after-left: 50%;
+    --after-transform: translateX(-50%) rotate(45deg);
+
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%);
+}
+
+.indicator-sign--up-animation {
+    opacity: 1;
+    scale: 1;
+    animation: up 1.5s infinite ease-in-out forwards;
+}
+
+@keyframes up {
+
+    0%,
+    100% {
+        top: calc(0% + (var(--after-offset) * 3));
     }
 
+    50% {
+        top: calc(10% + (var(--after-offset) * 3));
+    }
+
+}
+
+.indicator-sign--left {
+    --after-left: calc(-1 * var(--after-offset));
+    --after-top: 50%;
+    --after-transform: translateY(-50%) rotate(45deg);
+
+    left: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.indicator-sign--left-animation {
+    opacity: 1;
+    scale: 1;
+    animation: leftAnimation 1.5s infinite ease-in-out forwards;
 }
 
 @keyframes leftAnimation {
 
     0%,
     100% {
-        left: 60%
+        left: calc(0% + (var(--after-offset) * 3))
     }
 
     50% {
-        left: 50%
+        left: calc(10% + (var(--after-offset) * 3))
     }
+}
 
+.indicator-sign--right {
+    --after-right: calc(-1 * var(--after-offset));
+    --after-top: 50%;
+    --after-transform: translateY(-50%) rotate(45deg);
+
+    right: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.indicator-sign--right-animation {
+    opacity: 1;
+    scale: 1;
+    animation: rightAnimation 1.5s infinite ease-in-out forwards;
 }
 
 @keyframes rightAnimation {
 
     0%,
     100% {
-        left: 40%
+        right: calc(0% + (var(--after-offset) * 3));
     }
 
     50% {
-        left: 50%
+        right: calc(10% + (var(--after-offset) * 3));
     }
 }
 
@@ -134,27 +173,22 @@
     grid-template-rows: 15px 15px 15px 1fr;
     justify-items: center;
     overflow: hidden;
-
 }
 
 .start-and-end--up {
     transform: rotateZ(0);
-
 }
 
 .start-and-end--down {
     transform: rotateZ(180deg);
-
 }
 
 .start-and-end--left {
     transform: rotateZ(270deg);
-
 }
 
 .start-and-end--right {
     transform: rotateZ(90deg);
-
 }
 
 .start-and-end__arch {
@@ -165,7 +199,6 @@
     left: 0;
     filter: drop-shadow(2px 2px 8px black);
     object-fit: cover;
-
 }
 
 .start-and-end__arrow {
@@ -203,8 +236,6 @@
         scale: 1;
     }
 
-
-
 }
 
 @keyframes moveArrowStart {
@@ -237,14 +268,9 @@
 .start-and-end__arrow--start {
     transform: rotateZ(225deg);
     animation: moveArrowStart 2s infinite forwards;
-    /* border-top: var(--border-width) solid rgba(0, 255, 110, 0.7);
-    border-left: var(--border-width) solid rgba(0, 255, 110, 0.7); */
-    /* border-top: var(--border-width) solid #13A347;
-    border-left: var(--border-width) solid #13A347; */
-    border-top: var(--border-width) solid rgba(255, 255, 255, 0.8);
-    border-left: var(--border-width) solid rgba(255, 255, 255, 0.8);
-    /* border-top: var(--border-width) solid rgba(255, 255, 255, 0.5);
-    border-left: var(--border-width) solid rgba(255, 255, 255, 0.5); */
+    border-top: var(--border-width) solid rgba(255, 255, 255, 0.7);
+    border-left: var(--border-width) solid rgba(255, 255, 255, 0.7);
+
 }
 
 .start-and-end__arrow--start:nth-of-type(1) {
@@ -256,20 +282,11 @@
     grid-row: 3/4
 }
 
-/* .start-and-end__arrow--start:nth-of-type(3) {
-    animation-delay: .4s;
-    grid-row: 4/5;
-} */
-
 .start-and-end__arrow--finish {
     transform: rotateZ(45deg);
     animation: moveArrowEnd 2s infinite forwards;
-    /* border-top: var(--border-width) solid rgb(253, 204, 0.5);
-    border-left: var(--border-width) solid rgb(253, 204, 0.5); 
-    border-top: var(--border-width) solid #D1AB0E;
-    border-left: var(--border-width) solid #D1AB0E;*/
-    border-top: var(--border-width) solid rgba(255, 255, 255, 0.8);
-    border-left: var(--border-width) solid rgba(255, 255, 255, 0.8);
+    border-top: var(--border-width) solid rgba(255, 255, 255, 0.7);
+    border-left: var(--border-width) solid rgba(255, 255, 255, 0.7);
 }
 
 .start-and-end__arrow--finish:nth-of-type(1) {
@@ -280,7 +297,3 @@
 .start-and-end__arrow--finish:nth-of-type(2) {
     grid-row: 3/4;
 }
-
-/* .start-and-end__arrow--finish:nth-of-type(3) {
-    grid-row: 4/5;
-} */
