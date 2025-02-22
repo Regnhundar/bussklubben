@@ -137,7 +137,7 @@ const AbilityBar: React.FC = () => {
             func: handleJokerTile,
         },
         {
-            name: 'lugn',
+            name: 'sakta',
             class: 'lugn',
             alt: 'En snigel.Bussen förvandlas till en långsam snigel.',
             src: `${import.meta.env.BASE_URL}images/abilities/paus.svg`,
@@ -145,7 +145,7 @@ const AbilityBar: React.FC = () => {
             func: handleSlowBus,
         },
         {
-            name: isPreparationTime ? 'kör!' : 'turbo',
+            name: isPreparationTime ? 'kör' : 'snabbt',
             class: 'turbo',
             alt: 'Buss som kör fort. Bussen åker snabbare.',
             src:
