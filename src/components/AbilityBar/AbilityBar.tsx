@@ -60,10 +60,11 @@ const AbilityBar: React.FC = () => {
     const turboState =
         squareSpeed === 'turbo' && !isExiting
             ? 'ability__button--speed-active'
-            : squareSpeed === 'slow' || isGameOver || isExiting
+            : squareSpeed === 'slow' ||
+              isGameOver ||
+              isExiting ||
+              (squareSpeed === 'normal' && !isFirstSquareLinked() && isPreparationTime)
             ? 'ability__button--disabled'
-            : squareSpeed === 'normal' && !isFirstSquareLinked() && isPreparationTime
-            ? 'ability__button--warning'
             : squareSpeed === 'normal' && isFinalSquareLinked()
             ? 'ability__button--turbo-suggestion'
             : '';
@@ -118,6 +119,8 @@ const AbilityBar: React.FC = () => {
                 setSquareSpeed('turbo');
                 return;
             }
+        }
+        if (isFirstSquareLinked()) {
             setIsPreparationTime(false);
         }
     };

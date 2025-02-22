@@ -175,10 +175,6 @@
     background-color: gray;
 }
 
-.ability-button__name--warning {
-    background-color: var(--accent4);
-}
-
 .ability-button__name--turbo-suggestion {
     animation: victoryRoad 2s linear infinite;
     background-color: var(--accent1);
