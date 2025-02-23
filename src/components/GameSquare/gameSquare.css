@@ -13,6 +13,7 @@
     border-radius: 4px;
     background: var(--accent3);
     background-image: url(/images/questionmark.svg), linear-gradient(135deg, #00c555 0%, #009641 100%);
+
     background-repeat: no-repeat, repeat;
     background-position: center;
     background-size: 40%, 100%;
@@ -59,7 +60,7 @@
 }
 
 .game-square-wrapper--clear-path {
-    animation: victoryRoad 2s linear infinite;
+    animation: goldenRoad 3s linear infinite;
     background-color: var(--accent1);
     background: linear-gradient(90deg, rgb(253, 211, 42) 0%, rgb(253, 211, 42) 50%, rgb(219, 125, 1) 100%);
     background-size: 200% 100%;
@@ -68,14 +69,44 @@
 @keyframes victoryRoad {
     0% {
         background-position: 0% 50%;
+
     }
 
     50% {
         background-position: 100% 50%;
+
     }
 
     100% {
         background-position: 0% 50%;
+
+    }
+}
+
+@keyframes goldenRoad {
+    0% {
+        background-position: 0% 50%;
+        box-shadow: 2px 2px 8px 0 rgb(253, 211, 42);
+    }
+
+    25% {
+        background-position: 100% 50%;
+        box-shadow: -2px -2px 6px 0 rgb(255, 115, 0);
+    }
+
+    50% {
+        background-position: 100% 50%;
+        box-shadow: -2px 2px 4px 0 rgb(224, 180, 0);
+    }
+
+    75% {
+        background-position: 100% 50%;
+        box-shadow: 2px -2px 6px 0 rgb(255, 129, 11);
+    }
+
+    100% {
+        background-position: 0% 50%;
+        box-shadow: 2px 2px 8px 0 rgb(253, 211, 42)
     }
 }
 
@@ -128,7 +159,7 @@
     background-color: lawngreen;
 }
 
-*/ .game-square-wrapper--is-active {
+.game-square-wrapper--is-active {
     animation: victoryRoad 2s linear infinite;
     background: rgb(255, 255, 255);
     background: linear-gradient(90deg, rgb(218, 213, 213) 0%, rgb(147, 153, 150) 50%, rgb(129, 126, 126) 100%);
@@ -166,4 +197,45 @@
 .game-square-wrapper[data-index="24"],
 .game-square[data-index="24"] {
     border-radius: 0 0 var(--spacing-s) 0;
+}
+
+.game-square-wrapper[data-index="0"] {
+    box-shadow: inset 4px 4px 8px 0 rgba(0, 0, 0, 0.3);
+}
+
+.game-square-wrapper[data-index="1"],
+.game-square-wrapper[data-index="2"],
+.game-square-wrapper[data-index="3"] {
+    box-shadow: inset 0 4px 8px 0 rgba(0, 0, 0, 0.3);
+}
+
+
+.game-square-wrapper[data-index="4"] {
+    box-shadow: inset -4px 4px 8px 0 rgba(0, 0, 0, 0.3);
+}
+
+.game-square-wrapper[data-index="9"],
+.game-square-wrapper[data-index="14"],
+.game-square-wrapper[data-index="19"] {
+    box-shadow: inset -4px 0 8px 0 rgba(0, 0, 0, 0.3);
+}
+
+.game-square-wrapper[data-index="5"],
+.game-square-wrapper[data-index="10"],
+.game-square-wrapper[data-index="15"] {
+    box-shadow: inset 4px 0 8px 0 rgba(0, 0, 0, 0.3);
+}
+
+.game-square-wrapper[data-index="20"] {
+    box-shadow: inset 4px -4px 8px 0 rgba(0, 0, 0, 0.3);
+}
+
+.game-square-wrapper[data-index="21"],
+.game-square-wrapper[data-index="22"],
+.game-square-wrapper[data-index="23"] {
+    box-shadow: inset 0 -4px 8px 0 rgba(0, 0, 0, 0.3);
+}
+
+.game-square-wrapper[data-index="24"] {
+    box-shadow: inset -4px -4px 8px 0 rgba(0, 0, 0, 0.3);
 }

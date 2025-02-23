@@ -7,8 +7,8 @@
 .ability--disabled {
     filter: grayscale(1);
     opacity: .5;
-    pointer-events: none;
 }
+
 
 .ability__button {
     appearance: unset;
@@ -124,34 +124,6 @@
     }
 }
 
-/* .ability--byt .ability-button__image {
-    background-color: var(--light-gray);
-    border: 2px solid var(--gray);
-    border-radius: 4px;
-    aspect-ratio: 1;
-    filter: drop-shadow(2px 2px 0 var(--gray));
-}
-
-.ability--lugn .ability-button__image {
-    max-width: 3.5rem;
-    filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.5));
-} */
-
-/* .ability--turbo .ability-button__image,
-.ability--byt .ability-button__image,
-.ability--lugn .ability-button__image {
-    max-width: 4.5rem;
-    width: 100%;
-    border: 2px solid var(--gray);
-    background-color: var(--off-white);
-    filter: drop-shadow(2px 2px 0 var(--gray));
-    box-shadow: var(--3d-shadow);
-    border-radius: 4px;
-    aspect-ratio: 1;
-    z-index: 999;
-    position: relative;
-} */
-
 .ability-button__name {
     transform: translateY(calc(-1 * var(--spacing-m)));
     width: 80%;
@@ -206,8 +178,7 @@
         cursor: pointer;
     }
 
-    .ability__button--disabled,
-    .ability-button__name--disabled {
+    .ability--disabled * {
         cursor: not-allowed;
     }
 }
