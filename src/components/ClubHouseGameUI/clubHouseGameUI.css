@@ -19,7 +19,7 @@
     font-family: "DosisRegular";
     font-style: normal;
     font-weight: 400;
-    src: url("../../../public/fonts/dosis-v18-latin-regular.eot");
+    src: url("/fonts/dosis-v18-latin-regular.eot");
     /* IE9 Compat Modes */
     src: local(""), url("/fonts/dosis-v18-latin-regular.eot?#iefix") format("embedded-opentype"),
         /* IE6-IE8 */
