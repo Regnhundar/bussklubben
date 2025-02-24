@@ -48,13 +48,9 @@ const PreLoader: React.FC<Props> = ({ isGameLoaded, setIsGameLoaded }) => {
         }
     };
 
-    const loadFonts = async () => {
-        await document.fonts.ready;
-    };
-
     useEffect(() => {
         if (!isGameLoaded) {
-            Promise.all([loadFonts(), preloadImages(imagesToPreLoad)]).then(() => {
+            preloadImages(imagesToPreLoad).then(() => {
                 setIsGameLoaded(true);
             });
         }
