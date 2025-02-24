@@ -4,7 +4,7 @@
 // // Hur mycket tid man får när man klarat en bana
 // export const BONUS_TIME = 10;
 // // Hur mycket tid man har på sig tills bussen åker när bana startar.
-// export const PREPARATION_TIME = 2000;
+// export const PREPARATION_TIME = 9999;
 // // Hur lång tid bussen tar per ruta.
 // export const SQUARE_TIMER = 100;
 // // Multiplier som appliceras på SQUARE_TIMER när man trycker på turbo knappen. //! 2 * 0.25 = varje ruta tar 0.5 sekunder under turbo.

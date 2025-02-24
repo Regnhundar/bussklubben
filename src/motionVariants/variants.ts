@@ -2,7 +2,6 @@ export const gameboardVariant = {
     hidden: { opacity: 0 },
     show: {
         opacity: 1,
-
         transition: { duration: 0.3 },
     },
 };
@@ -15,12 +14,12 @@ export const squareButtonVariant = {
         transition: { duration: 0.5, delay: customDelay },
     }),
     exit: {
-        scale: 0,
-        transition: { duration: 0.5, ease: 'easinOut' },
+        opacity: 0,
+        transition: { duration: 0.5 },
     },
 };
 export const squareImgVariant = {
-    hidden: { opacity: 0.7, scale: 0.9 },
+    hidden: { opacity: 0.7, scale: 0.8 },
     show: {
         opacity: 1,
         scale: 1,
@@ -32,7 +31,7 @@ export const jumbotronVariant = {
     show: {
         opacity: 1,
         y: '0%',
-        transition: { duration: 0.4, type: 'spring', bounce: 0.5 },
+        transition: { duration: 0.4, type: 'spring', bounce: 0.4 },
     },
 };
 export const levelIndicatorVariant = {
@@ -40,7 +39,7 @@ export const levelIndicatorVariant = {
     show: {
         opacity: 1,
         y: '0%',
-        transition: { delay: 0.2, duration: 0.4, type: 'spring', bounce: 0.5 },
+        transition: { delay: 0.3, duration: 0.2, type: 'spring', bounce: 0.4 },
     },
 };
 export const levelIndicatorGameOverVariant = {

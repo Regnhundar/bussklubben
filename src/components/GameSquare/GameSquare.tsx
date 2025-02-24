@@ -97,9 +97,7 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
                 isGameOverConfirmation
                     ? 'game-square-wrapper game-square-wrapper--disabled'
                     : `game-square-wrapper  ${
-                          squareData.isPreviousSquare
-                              ? 'game-square-wrapper--is-previous'
-                              : squareData.isActive
+                          squareData.isActive
                               ? 'game-square-wrapper--is-active'
                               : jokerTile !== null
                               ? 'game-square-wrapper--is-changeable'
@@ -107,6 +105,10 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
                               ? 'game-square-wrapper--selected'
                               : isFinalSquareLinked() && squareData.isLinkedToStart
                               ? 'game-square-wrapper--clear-path'
+                              : endingTile &&
+                                finishConnectionIndex !== null &&
+                                squareData.tile.connections[finishConnectionIndex] === false
+                              ? `game-square-wrapper--ending-square-unconnected`
                               : squareData.isRevealed && squareData.isLinkedToStart
                               ? 'game-square-wrapper--connected'
                               : startingTile &&
@@ -121,10 +123,6 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
                                 finishConnectionIndex !== null &&
                                 squareData.tile.connections[finishConnectionIndex] === true
                               ? `game-square-wrapper--ending-square-connected`
-                              : endingTile &&
-                                finishConnectionIndex !== null &&
-                                squareData.tile.connections[finishConnectionIndex] === false
-                              ? `game-square-wrapper--ending-square-unconnected`
                               : ''
                       }`
             }>

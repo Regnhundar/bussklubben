@@ -8,7 +8,11 @@ const AbilityButton: React.FC<Props> = ({ ability }) => {
     const { isGameOverConfirmation } = useGameStore();
     return (
         <div
-            className={isGameOverConfirmation ? 'ability ability--disabled' : `ability ability--${ability.class}`}
+            className={
+                isGameOverConfirmation || ability.state === 'ability__button--disabled'
+                    ? 'ability ability--disabled'
+                    : `ability ability--${ability.class}`
+            }
             onClick={isGameOverConfirmation ? undefined : ability.func}>
             <button className={`ability__button ${ability.state}`}>
                 <img src={ability.src} alt={ability.alt} className='ability-button__image' />

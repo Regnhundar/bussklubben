@@ -66,8 +66,8 @@
     font-size: var(--font-size-s);
     font-weight: 500;
     box-shadow: var(--3d-shadow), 2px 2px 6px rgba(0, 0, 0, 0.4);
-    text-shadow: var(--text-outline--black);
     filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.2));
+    text-shadow: var(--text-outline--black);
     border: 1px solid black;
     animation: lookAtMe 3s linear 3s infinite;
 }
