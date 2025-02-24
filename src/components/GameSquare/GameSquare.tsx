@@ -97,9 +97,7 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
                 isGameOverConfirmation
                     ? 'game-square-wrapper game-square-wrapper--disabled'
                     : `game-square-wrapper  ${
-                          squareData.isPreviousSquare
-                              ? 'game-square-wrapper--is-previous'
-                              : squareData.isActive
+                          squareData.isActive
                               ? 'game-square-wrapper--is-active'
                               : jokerTile !== null
                               ? 'game-square-wrapper--is-changeable'

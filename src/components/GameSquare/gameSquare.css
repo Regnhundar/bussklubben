@@ -43,6 +43,7 @@
     transition: scale .1s linear;
     aspect-ratio: 1;
     width: 100%;
+
     filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.4))
 }
 
@@ -86,27 +87,26 @@
 @keyframes goldenRoad {
     0% {
         background-position: 0% 50%;
-        box-shadow: 2px 2px 8px 0 rgb(253, 211, 42);
+
     }
 
     25% {
         background-position: 100% 50%;
-        box-shadow: -2px -2px 6px 0 rgb(255, 115, 0);
+
     }
 
     50% {
         background-position: 100% 50%;
-        box-shadow: -2px 2px 4px 0 rgb(224, 180, 0);
+
     }
 
     75% {
         background-position: 100% 50%;
-        box-shadow: 2px -2px 6px 0 rgb(255, 129, 11);
+
     }
 
     100% {
         background-position: 0% 50%;
-        box-shadow: 2px 2px 8px 0 rgb(253, 211, 42)
     }
 }
 
@@ -119,7 +119,7 @@
 
 .game-square-wrapper--ending-square-connected,
 .game-square-wrapper--starting-square-connected {
-    animation: correctConnection 1s linear 1 forwards;
+    animation: correctConnection 2s linear 1 forwards;
 }
 
 .game-square-wrapper--starting-square-unconnected,
@@ -130,7 +130,8 @@
 @keyframes correctConnection {
 
     0%,
-    20% {
+    20%,
+    50% {
         background-color: rgb(14, 156, 14);
     }
 
@@ -155,10 +156,6 @@
     }
 }
 
-.game-square-wrapper--is-previous {
-    background-color: lawngreen;
-}
-
 .game-square-wrapper--is-active {
     animation: victoryRoad 2s linear infinite;
     background: rgb(255, 255, 255);
@@ -181,22 +178,22 @@
 
 .game-square-wrapper[data-index="0"],
 .game-square[data-index="0"] {
-    border-radius: var(--spacing-s) 0 0 0;
+    border-radius: var(--spacing-s) 4px 4px 4px;
 }
 
 .game-square-wrapper[data-index="4"],
 .game-square[data-index="4"] {
-    border-radius: 0 var(--spacing-s) 0 0;
+    border-radius: 4px var(--spacing-s) 4px 4px;
 }
 
 .game-square-wrapper[data-index="20"],
 .game-square[data-index="20"] {
-    border-radius: 0 0 0 var(--spacing-s);
+    border-radius: 4px 4px 4px var(--spacing-s);
 }
 
 .game-square-wrapper[data-index="24"],
 .game-square[data-index="24"] {
-    border-radius: 0 0 var(--spacing-s) 0;
+    border-radius: 4px 4px var(--spacing-s) 4px;
 }
 
 .game-square-wrapper[data-index="0"] {

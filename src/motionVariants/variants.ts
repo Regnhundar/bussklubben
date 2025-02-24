@@ -2,7 +2,6 @@ export const gameboardVariant = {
     hidden: { opacity: 0 },
     show: {
         opacity: 1,
-
         transition: { duration: 0.3 },
     },
 };
@@ -15,8 +14,8 @@ export const squareButtonVariant = {
         transition: { duration: 0.5, delay: customDelay },
     }),
     exit: {
-        scale: 0,
-        transition: { duration: 0.5, ease: 'easinOut' },
+        opacity: 0,
+        transition: { duration: 0.5 },
     },
 };
 export const squareImgVariant = {
