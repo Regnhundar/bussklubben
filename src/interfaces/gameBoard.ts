@@ -2,7 +2,6 @@ import { Connections } from '../types/type';
 
 export interface SquareData {
     isActive: boolean;
-    isPreviousSquare: boolean;
     isRevealed: boolean;
     isLinkedToStart: boolean;
     delay: number;

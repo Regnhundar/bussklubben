@@ -70,11 +70,11 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
     }, [squaresToSwap, index, swapGameSquares, setSquaresToSwap, setTriggerPath]);
 
     const handleJokerTile = () => {
-        if (!jokerTile && !squareData.isPreviousSquare && !squareData.isActive && !isGameOver) {
+        if (!jokerTile && !squareData.isActive && !isGameOver) {
             setSquaresToSwap(index);
             return;
         }
-        if (jokerTile && !squareData.isPreviousSquare && !squareData.isActive && !isGameOver && !isPreparationTime) {
+        if (jokerTile && !squareData.isActive && !isGameOver && !isPreparationTime) {
             updateGameSquare(index, { tile: jokerTile });
             activeJokerTile === jokerRoadTiles.length - 1
                 ? setActiveJokerTile(0)
@@ -90,7 +90,7 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
             squaresToSwap.length !== 0 && setSquaresToSwap();
         }
     };
-    useEffect(() => {}, []);
+
     return squareData.isRevealed ? (
         <div
             data-index={index}
