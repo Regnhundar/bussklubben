@@ -1,5 +1,5 @@
-import { IS_REVEALED, SQUARE_TIMER } from '../constants';
-import { RoadTile, SquareData } from '../interfaces/gameBoard';
+// import { IS_REVEALED, SQUARE_TIMER } from '../constants';
+import { RoadTile } from '../interfaces/gameBoard';
 
 //* [upp, höger, ned, vänster]
 
