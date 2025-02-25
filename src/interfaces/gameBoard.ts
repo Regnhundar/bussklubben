@@ -13,7 +13,7 @@ export interface RoadTile {
     alt: string;
     connections: [boolean, boolean, boolean, boolean];
 }
-export interface endPointInfo {
+export interface EndPointInfo {
     arrowDirection: 'up' | 'down' | 'left' | 'right';
     successConnection: Connections;
 }

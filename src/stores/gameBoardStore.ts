@@ -51,10 +51,15 @@ const useGameBoardStore = create<GameBoardStore>((set) => ({
     setFinishConnectionIndex: (index) => set({ finishConnectionIndex: index }),
     arrivalIndex: null,
     setArrivalIndex: (index) => set({ arrivalIndex: index }),
-    updateGameSquare: (index, updates) =>
-        set((state) => ({
-            gameBoardArray: state.gameBoardArray.map((square, i) => (i === index ? { ...square, ...updates } : square)),
-        })),
+    updateGameSquare: (index: number, updates: Partial<SquareData>) =>
+        set((state) => {
+            const newGameBoardArray = [...state.gameBoardArray];
+            const square = newGameBoardArray[index];
+            if (square) {
+                Object.assign(square, updates);
+            }
+            return { gameBoardArray: newGameBoardArray };
+        }),
     squareSpeed: 'normal',
     setSquareSpeed: (speed) => set({ squareSpeed: speed }),
     squaresToSwap: [],

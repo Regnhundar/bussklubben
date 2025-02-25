@@ -11,18 +11,20 @@
 
     box-shadow: var(--3d-shadow-big);
     border-radius: 4px;
-    background: var(--accent3);
+    background: var(--bg-gamesquare);
 
-    background-image: url(/images/questionmark.svg),
-        linear-gradient(135deg, #00c555 0%, #009641 100%);
-    /* background-image: url(/images/questionmark.svg), linear-gradient(135deg, #00c555 0%, #009641 100%); */
-
-    background-repeat: no-repeat, repeat;
+    /* background-image: url(/images/questionmark.svg),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.418), rgba(20, 20, 20, 0.733)); */
+    background-image: url(/images/questionmark.svg);
+    background-repeat: no-repeat;
     background-position: center;
-    background-size: 40%, 100%;
+    background-size: 40%;
 }
 
-/* linear-gradient(135deg, rgba(115, 210, 148, 1) 0%, rgb(46, 179, 92) 100%) */
+
+/* radial-gradient(circle at -17% 9%, #18d11593 21%, transparent 61.05%),radial-gradient(circle at -59% 76%, #1e70002c 70%, transparent 80.05%),radial-gradient(circle at 265% -341%, #72b77138 1%, transparent 24.05%),linear-gradient(-247deg, #f2ea1816 44%, transparent 89.05%); */
+/* linear-gradient(135deg, #00c555 0%, #009641 100%); */
+/* linear-gradient(135deg, #b8fa9ece 0%, #5f9e52fa 50%, #46ee46 100%); */
 .game-square-wrapper {
     display: grid;
     place-self: center;
@@ -133,8 +135,7 @@
 @keyframes correctConnection {
 
     0%,
-    20%,
-    50% {
+    20% {
         background-color: rgb(14, 156, 14);
     }
 

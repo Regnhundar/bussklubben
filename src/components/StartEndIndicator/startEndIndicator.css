@@ -14,8 +14,8 @@
     font-weight: bold;
     min-width: 7ch;
     width: fit-content;
-    border-radius: 2px;
-    box-shadow: 1px 1px 8px 1px var(--after-shadow-color), 3px 3px 4px 0 rgba(0, 0, 0, 0.5), 0 0 8px 1px rgba(0, 0, 0, 0.6);
+    border-radius: 3px;
+    box-shadow: inset -1px 1px 1px 0 var(--after-shadow-color), 1px 3px 4px 0 rgba(0, 0, 0, 0.4), 0 0 8px 1px rgba(0, 0, 0, 0.2);
     transition: opacity 1s ease, scale 1s ease;
 }
 
@@ -40,15 +40,15 @@
 }
 
 .indicator-sign--green {
-    --after-shadow-color: rgba(0, 255, 13, 0.6);
+    --after-shadow-color: rgba(16, 212, 26, 0.6);
     --after-border-color: rgba(26, 107, 2, 0.6);
-    --after-bg-color: #129b44;
+    --after-bg-color: #119140;
     /* filter: drop-shadow(1px 1px 2px var(--gray)) drop-shadow(-1px -1px 0 #0a8035) drop-shadow(1px 1px 0 #0a8035); */
     border: 1px solid var(--after-border-color);
 }
 
 .indicator-sign--yellow {
-    --after-shadow-color: rgba(255, 251, 0, 0.6);
+    --after-shadow-color: rgba(253, 249, 0, 0.6);
     --after-border-color: rgba(105, 112, 1, 0.6);
     --after-bg-color: var(--accent1);
     /* filter: drop-shadow(1px 1px 2px var(--gray)) drop-shadow(-1px -1px 0 #a18203) drop-shadow(1px 1px 0 #a18203); */
@@ -66,7 +66,8 @@
 
 .indicator-sign--down::after {
     border-right: 1px solid var(--after-border-color);
-    border-bottom: 1px solid var(--after-border-color);
+    border-bottom: 1px solid var(--after-shadow-color);
+    box-shadow: 1px 0 0 0 var(--after-border-color);
 }
 
 .indicator-sign--down-animation {
@@ -98,8 +99,9 @@
 }
 
 .indicator-sign--up::after {
-    border-left: 1px solid var(--after-border-color);
+    border-left: 1px solid var(--after-shadow-color);
     border-top: 1px solid var(--after-border-color);
+    box-shadow: -1px -1px 0 0 var(--after-border-color);
 }
 
 .indicator-sign--up-animation {
@@ -131,7 +133,8 @@
 
 .indicator-sign--left::after {
     border-bottom: 1px solid var(--after-border-color);
-    border-left: 1px solid var(--after-border-color);
+    border-left: 1px solid var(--after-shadow-color);
+    box-shadow: -1px 0 0 0 var(--after-border-color);
 }
 
 .indicator-sign--left-animation {
@@ -163,7 +166,8 @@
 
 .indicator-sign--right::after {
     border-right: 1px solid var(--after-border-color);
-    border-top: 1px solid var(--after-border-color);
+    border-top: 1px solid var(--after-shadow-color);
+    box-shadow: 1px 0 0 0 var(--after-border-color);
 }
 
 .indicator-sign--right-animation {

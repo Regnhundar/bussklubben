@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import useGameBoardStore from '../../stores/gameBoardStore';
 import GameSquare from '../GameSquare/GameSquare';
 import { createGameBoardArray, endPoints, generateStartAndFinishIndex } from '../../utils/utilityFunctions';
@@ -34,26 +34,33 @@ const GameBoard: React.FC = () => {
 
     const [startingArrowDirection, setStartingArrowDirection] = useState<'down' | 'up' | 'left' | 'right'>('down');
     const [finishArrowDirection, setFinishArrowDirection] = useState<'down' | 'up' | 'left' | 'right'>('down');
-    const [leftOrRight, setleftOrRight] = useState<'left' | 'right' | null>(null);
-    const [upOrDown, setUpOrDown] = useState<'up' | 'down' | null>(null);
-    const [direction, setDirection] = useState<'horizontal' | 'vertical' | null>(null);
+
     const gameBoardRef = useRef<HTMLElement | null>(null);
 
     const [squareSize, setSquareSize] = useState(0);
-    const [xCoordinate, setXcoordinate] = useState<number | null>(null);
-    const [yCoordinate, setYcoordinate] = useState<number | null>(null);
+    const [coordinates, setCoordinates] = useState<{ x: number | null; y: number | null }>({ x: null, y: null });
 
-    const isFirstSquareConnected =
-        startingIndex !== null &&
-        startConnectionIndex !== null &&
-        gameBoardArray[startingIndex].isRevealed === true &&
-        gameBoardArray[startingIndex].tile.connections[startConnectionIndex] === true;
+    const upOrDownRef = useRef<string>('');
+    const leftOrRightRef = useRef<string>('');
+    const directionRef = useRef<string>('');
 
-    const isSquareConnected =
-        typeof nextSquareToCheckIndex === 'number' &&
-        typeof arrivalIndex === 'number' &&
-        gameBoardArray[nextSquareToCheckIndex].isRevealed &&
-        gameBoardArray[nextSquareToCheckIndex].tile.connections[arrivalIndex] === true;
+    const isFirstSquareConnected = useMemo(() => {
+        return (
+            startingIndex !== null &&
+            startConnectionIndex !== null &&
+            gameBoardArray[startingIndex].isRevealed === true &&
+            gameBoardArray[startingIndex].tile.connections[startConnectionIndex] === true
+        );
+    }, [startingIndex, startConnectionIndex, gameBoardArray]);
+
+    const isSquareConnected = useMemo(() => {
+        return (
+            typeof nextSquareToCheckIndex === 'number' &&
+            typeof arrivalIndex === 'number' &&
+            gameBoardArray[nextSquareToCheckIndex].isRevealed &&
+            gameBoardArray[nextSquareToCheckIndex].tile.connections[arrivalIndex] === true
+        );
+    }, [gameBoardArray, nextSquareToCheckIndex, arrivalIndex]);
 
     useEffect(() => {
         const startAndFinishIndex = generateStartAndFinishIndex();
@@ -82,20 +89,20 @@ const GameBoard: React.FC = () => {
 
             switch (startEndpoint.arrowDirection) {
                 case 'up':
-                    setUpOrDown('up');
-                    setDirection('vertical');
+                    upOrDownRef.current = 'up';
+                    directionRef.current = 'vertical';
                     break;
                 case 'down':
-                    setUpOrDown('down');
-                    setDirection('vertical');
+                    upOrDownRef.current = 'down';
+                    directionRef.current = 'vertical';
                     break;
                 case 'right':
-                    setleftOrRight('left');
-                    setDirection('horizontal');
+                    leftOrRightRef.current = 'left';
+                    directionRef.current = 'horizontal';
                     break;
                 default:
-                    setleftOrRight('right');
-                    setDirection('horizontal');
+                    leftOrRightRef.current = 'right';
+                    directionRef.current = 'horizontal';
             }
 
             setNextSquareToCheckIndex(startingIndex);
@@ -121,59 +128,59 @@ const GameBoard: React.FC = () => {
         ) {
             const y = Math.floor(nextSquareToCheckIndex / GRID_ROWS) * squareSize;
             const x = (nextSquareToCheckIndex % GRID_COLUMNS) * squareSize;
+
             if (
-                yCoordinate !== null &&
-                xCoordinate !== null &&
+                coordinates.y !== null &&
+                coordinates.x !== null &&
                 nextSquareToCheckIndex !== startingIndex &&
                 !isExiting
             ) {
-                if (y < yCoordinate) {
-                    setUpOrDown('down');
-                    setDirection('vertical');
+                if (y < coordinates.y) {
+                    upOrDownRef.current = 'down';
+                    directionRef.current = 'vertical';
                 }
-                if (y > yCoordinate) {
-                    setUpOrDown('up');
-                    setDirection('vertical');
+                if (y > coordinates.y) {
+                    upOrDownRef.current = 'up';
+                    directionRef.current = 'vertical';
                 }
 
-                if (x > xCoordinate) {
-                    setleftOrRight('right');
-                    setDirection('horizontal');
+                if (x > coordinates.x) {
+                    leftOrRightRef.current = 'right';
+                    directionRef.current = 'horizontal';
                 }
-                if (x < xCoordinate) {
-                    setleftOrRight('left');
-                    setDirection('horizontal');
+                if (x < coordinates.x) {
+                    leftOrRightRef.current = 'left';
+                    directionRef.current = 'horizontal';
                 }
             }
             if (isExiting) {
                 switch (finishConnectionIndex) {
                     case 0:
-                        setUpOrDown('down');
-                        setDirection('vertical');
+                        upOrDownRef.current = 'down';
+                        directionRef.current = 'vertical';
                         break;
                     case 2:
-                        setUpOrDown('up');
-                        setDirection('vertical');
+                        upOrDownRef.current = 'up';
+                        directionRef.current = 'vertical';
                         break;
                     case 1:
-                        setleftOrRight('right');
-                        setDirection('horizontal');
+                        leftOrRightRef.current = 'right';
+                        directionRef.current = 'horizontal';
                         break;
                     default:
-                        setleftOrRight('left');
-                        setDirection('horizontal');
+                        leftOrRightRef.current = 'left';
+                        directionRef.current = 'horizontal';
                 }
             }
             if (isMounted) {
-                setXcoordinate(x);
-                setYcoordinate(y);
+                setCoordinates({ x, y });
             }
         }
 
         return () => {
             isMounted = false;
         };
-    }, [nextSquareToCheckIndex, squareSize, isExiting, isSquareConnected]);
+    }, [nextSquareToCheckIndex, isExiting, isSquareConnected]);
 
     return (
         <>
@@ -185,13 +192,13 @@ const GameBoard: React.FC = () => {
                 exit='hidden'
                 key={level}
                 className={isGameOverConfirmation ? 'game-board game-board--disabled' : 'game-board'}>
-                {xCoordinate !== null && yCoordinate !== null && isFirstSquareConnected && (
+                {coordinates.x !== null && coordinates.y !== null && isFirstSquareConnected && (
                     <Bus
-                        x={xCoordinate}
-                        y={yCoordinate}
-                        upOrDown={upOrDown}
-                        leftOrRight={leftOrRight}
-                        direction={direction}
+                        x={coordinates.x}
+                        y={coordinates.y}
+                        upOrDown={upOrDownRef.current}
+                        leftOrRight={leftOrRightRef.current}
+                        direction={directionRef.current}
                         squareSize={squareSize}
                     />
                 )}

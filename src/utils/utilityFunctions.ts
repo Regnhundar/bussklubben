@@ -1,6 +1,6 @@
 import { IS_REVEALED } from '../constants';
 import { roadTiles } from '../data/roadTiles';
-import { endPointInfo, SquareData } from '../interfaces/gameBoard';
+import { EndPointInfo, SquareData } from '../interfaces/gameBoard';
 import { Connections, GameBoardIndices, PossibleStartingIndices } from '../types/type';
 import useGameBoardStore from '../stores/gameBoardStore';
 
@@ -22,7 +22,6 @@ export const createGameBoardArray = () => {
         const randomRoadTile = returnRandomArrayItem(roadTiles);
         const gameTile: SquareData = {
             isActive: false,
-            isPreviousSquare: false,
             isRevealed: IS_REVEALED,
             isLinkedToStart: false,
             delay: Math.random() * 0.3,
@@ -42,8 +41,8 @@ export const generateStartAndFinishIndex = (): { start: PossibleStartingIndices;
     return { start: shuffledIndices[0], finish: shuffledIndices[1] };
 };
 
-export const endPoints = (index: PossibleStartingIndices): endPointInfo => {
-    const endPoint: endPointInfo = { arrowDirection: 'down', successConnection: 0 };
+export const endPoints = (index: PossibleStartingIndices): EndPointInfo => {
+    const endPoint: EndPointInfo = { arrowDirection: 'down', successConnection: 0 };
 
     if (index === 0) {
         const topLeft = returnRandomArrayItem([3, 0]);
