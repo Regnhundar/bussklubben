@@ -3,13 +3,14 @@ import useGameStore from '../../stores/gameStore';
 import { motion } from 'motion/react';
 import './bus.css';
 import { SLOW_MULTIPLIER, SQUARE_TIMER, TURBO_MULTIPLIER } from '../../constants';
-
+import { useMemo } from 'react';
 interface Props {
     x: number;
     y: number;
-    upOrDown: 'up' | 'down' | null;
-    leftOrRight: 'left' | 'right' | null;
-    direction: 'horizontal' | 'vertical' | null;
+
+    upOrDown: 'up' | 'down' | string;
+    leftOrRight: 'left' | 'right' | string;
+    direction: 'horizontal' | 'vertical' | string;
     squareSize: number;
 }
 
@@ -18,11 +19,14 @@ const Bus: React.FC<Props> = ({ x, y, upOrDown, leftOrRight, direction, squareSi
     const { squareSpeed, startingIndex, arrivalIndex, nextSquareToCheckIndex, gameBoardArray, isExiting } =
         useGameBoardStore();
 
-    const firstSquareEntrance =
-        nextSquareToCheckIndex !== null &&
-        arrivalIndex !== null &&
-        nextSquareToCheckIndex === startingIndex &&
-        gameBoardArray[nextSquareToCheckIndex].tile.connections[arrivalIndex] === true;
+    const firstSquareEntrance = useMemo(() => {
+        return (
+            nextSquareToCheckIndex !== null &&
+            arrivalIndex !== null &&
+            nextSquareToCheckIndex === startingIndex &&
+            gameBoardArray[nextSquareToCheckIndex].tile.connections[arrivalIndex] === true
+        );
+    }, [nextSquareToCheckIndex, arrivalIndex, startingIndex]);
 
     const imageWidth = squareSize * 0.9;
     const imageHeight = (37 / 93) * imageWidth; // 37/93 är aspect ratio.

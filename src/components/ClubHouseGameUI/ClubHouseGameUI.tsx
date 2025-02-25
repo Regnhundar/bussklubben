@@ -18,23 +18,22 @@ const ClubHouseGameUI: React.FC = () => {
     } = useGameStore();
 
     useEffect(() => {
+        const startGame = () => {
+            const startAndFinishIndex = generateStartAndFinishIndex();
+            const gameBoard = createGameBoardArray();
+            setIsGameRunning(true);
+            setIsGameOver(false);
+            setStartingIndex(startAndFinishIndex.start);
+            setEndingIndex(startAndFinishIndex.finish);
+            setGameBoardArray(gameBoard);
+            setPreparationTime(PREPARATION_TIME);
+            setTotalTime(TOTAL_TIME);
+            setIsPreparationTime(true);
+            setPoints(0);
+            setLevel(1);
+        };
         window.ClubHouseGame.registerRestart(startGame);
     }, []);
-
-    const startGame = () => {
-        const startAndFinishIndex = generateStartAndFinishIndex();
-        const gameBoard = createGameBoardArray();
-        setIsGameRunning(true);
-        setIsGameOver(false);
-        setStartingIndex(startAndFinishIndex.start);
-        setEndingIndex(startAndFinishIndex.finish);
-        setGameBoardArray(gameBoard);
-        setPreparationTime(PREPARATION_TIME);
-        setTotalTime(TOTAL_TIME);
-        setIsPreparationTime(true);
-        setPoints(0);
-        setLevel(1);
-    };
 
     return (
         <>

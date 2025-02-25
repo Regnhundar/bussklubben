@@ -1,10 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import useGameStore from '../../stores/gameStore';
 import {
     BONUS_TIME,
+    BONUS_TIME_SUBTRACTION,
+    MIN_BONUS_TIME,
+    MIN_PREPARATION_TIME,
     POINTS_PER_LEVEL,
     POINTS_PER_SQUARE,
     PREPARATION_TIME,
+    PREPARATION_TIME_SUBTRACTION,
     SLOW_MULTIPLIER,
     SQUARE_TIMER,
     TURBO_MULTIPLIER,
@@ -55,11 +59,11 @@ const GameLoop: React.FC = () => {
     const gameTimerRef = useRef<number | null>(null);
     const squareTimerRef = useRef<number | null>(null);
 
-    const isSquareConnected =
-        typeof nextSquareToCheckIndex === 'number' &&
-        typeof arrivalIndex === 'number' &&
-        gameBoardArray[nextSquareToCheckIndex].isRevealed &&
-        gameBoardArray[nextSquareToCheckIndex].tile.connections[arrivalIndex] === true;
+    const isSquareConnected = useMemo(() => {
+        if (typeof nextSquareToCheckIndex !== 'number' || typeof arrivalIndex !== 'number') return false;
+        const square = gameBoardArray[nextSquareToCheckIndex];
+        return square?.isRevealed && square.tile.connections[arrivalIndex] === true;
+    }, [gameBoardArray, nextSquareToCheckIndex, arrivalIndex]);
 
     const nextSquareTimer =
         squareSpeed === 'turbo'
@@ -231,8 +235,14 @@ const GameLoop: React.FC = () => {
     // Hanterar reset vid klarad bana
     const handleNextLevel = () => {
         if (level !== 1) {
-            const adjustedPrepTime = PREPARATION_TIME - (level - 1) > 10 ? PREPARATION_TIME - (level - 1) : 10;
-            const adjustedBonusTime = BONUS_TIME - (level - 2) > 5 ? BONUS_TIME - (level - 2) : 5;
+            const adjustedPrepTime =
+                PREPARATION_TIME - (level - 1) * PREPARATION_TIME_SUBTRACTION > MIN_PREPARATION_TIME
+                    ? PREPARATION_TIME - (level - 1) * PREPARATION_TIME_SUBTRACTION
+                    : MIN_PREPARATION_TIME;
+            const adjustedBonusTime =
+                BONUS_TIME - (level - 1) * BONUS_TIME_SUBTRACTION > MIN_BONUS_TIME
+                    ? BONUS_TIME - (level - 1) * BONUS_TIME_SUBTRACTION
+                    : MIN_BONUS_TIME;
             const startAndFinishIndex = generateStartAndFinishIndex();
             const gameBoard = createGameBoardArray();
             setNextSquareToCheckIndex(null);

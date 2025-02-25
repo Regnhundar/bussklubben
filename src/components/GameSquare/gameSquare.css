@@ -13,9 +13,9 @@
     border-radius: 4px;
     background: var(--accent3);
 
-    background-image: url(/images/questionmark.svg),
-        linear-gradient(135deg, #00c555 0%, #009641 100%);
-    /* background-image: url(/images/questionmark.svg), linear-gradient(135deg, #00c555 0%, #009641 100%); */
+    /* background-image: url(/images/questionmark.svg),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.418), rgba(20, 20, 20, 0.733)); */
+    background-image: url(/images/questionmark.svg), linear-gradient(135deg, #00c555 0%, #009641 100%);
 
     background-repeat: no-repeat, repeat;
     background-position: center;
@@ -133,8 +133,7 @@
 @keyframes correctConnection {
 
     0%,
-    20%,
-    50% {
+    20% {
         background-color: rgb(14, 156, 14);
     }
 
