@@ -7,6 +7,7 @@ import useGameStore from '../../stores/gameStore';
 import { jokerRoadTiles } from '../../data/roadTiles';
 import { motion } from 'motion/react';
 import { squareButtonVariant, squareImgVariant } from '../../motionVariants/variants';
+
 interface Props {
     squareData: SquareData;
     index: number;
@@ -69,11 +70,11 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
     }, [squaresToSwap, index, swapGameSquares, setSquaresToSwap, setTriggerPath]);
 
     const handleJokerTile = () => {
-        if (!jokerTile && !squareData.isPreviousSquare && !squareData.isActive && !isGameOver) {
+        if (!jokerTile && !squareData.isActive && !isGameOver) {
             setSquaresToSwap(index);
             return;
         }
-        if (jokerTile && !squareData.isPreviousSquare && !squareData.isActive && !isGameOver && !isPreparationTime) {
+        if (jokerTile && !squareData.isActive && !isGameOver && !isPreparationTime) {
             updateGameSquare(index, { tile: jokerTile });
             activeJokerTile === jokerRoadTiles.length - 1
                 ? setActiveJokerTile(0)
@@ -142,7 +143,6 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
                     direction={startingIndicator}
                     isRevealed={true}
                     isConnected={arrivalIndex !== null && squareData.tile.connections[arrivalIndex] === true}
-                    isPrevious={squareData.isPreviousSquare}
                     isActive={squareData.isActive}
                 />
             )}
@@ -154,7 +154,6 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
                     isConnected={
                         finishConnectionIndex !== null && squareData.tile.connections[finishConnectionIndex] === true
                     }
-                    isPrevious={squareData.isPreviousSquare}
                     isActive={squareData.isActive}
                 />
             )}

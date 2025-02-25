@@ -3,7 +3,7 @@ import useGameBoardStore from '../../stores/gameBoardStore';
 import GameSquare from '../GameSquare/GameSquare';
 import { createGameBoardArray, endPoints, generateStartAndFinishIndex } from '../../utils/utilityFunctions';
 import './gameBoard.css';
-import { AnimatePresence, motion } from 'motion/react';
+import { motion } from 'motion/react';
 import { gameboardVariant } from '../../motionVariants/variants';
 import Bus from '../Bus/Bus';
 import useGameStore from '../../stores/gameStore';
@@ -61,9 +61,6 @@ const GameBoard: React.FC = () => {
         setStartingIndex(startAndFinishIndex.start);
         setEndingIndex(startAndFinishIndex.finish);
         setGameBoardArray(gameBoard);
-        // setStartingIndex(24);
-        // setEndingIndex(0);
-        // setGameBoardArray(testGameBoard1);
 
         const updateSquareSize = () => {
             if (gameBoardRef.current) {
@@ -105,15 +102,11 @@ const GameBoard: React.FC = () => {
             setStartingArrowDirection(startEndpoint.arrowDirection);
             setArrivalIndex(startEndpoint.successConnection);
             setStartConnectionIndex(startEndpoint.successConnection);
-            // setStartingArrowDirection('right');
-            // setArrivalIndex(1);
         }
         if (endingIndex !== null) {
             const finishEndpoint = endPoints(endingIndex);
             setFinishArrowDirection(finishEndpoint.arrowDirection);
             setFinishConnectionIndex(finishEndpoint.successConnection);
-            // setFinishArrowDirection('left');
-            // setFinishConnectionIndex(3);
         }
     }, [startingIndex, endingIndex]);
 
@@ -192,27 +185,25 @@ const GameBoard: React.FC = () => {
                 exit='hidden'
                 key={level}
                 className={isGameOverConfirmation ? 'game-board game-board--disabled' : 'game-board'}>
-                <AnimatePresence>
-                    {xCoordinate !== null && yCoordinate !== null && isFirstSquareConnected && (
-                        <Bus
-                            x={xCoordinate}
-                            y={yCoordinate}
-                            upOrDown={upOrDown}
-                            leftOrRight={leftOrRight}
-                            direction={direction}
-                            squareSize={squareSize}
-                        />
-                    )}
-                    {gameBoardArray.map((squareData, i) => (
-                        <GameSquare
-                            key={i}
-                            squareData={squareData}
-                            index={i}
-                            startingIndicator={startingArrowDirection}
-                            finishIndicator={finishArrowDirection}
-                        />
-                    ))}
-                </AnimatePresence>
+                {xCoordinate !== null && yCoordinate !== null && isFirstSquareConnected && (
+                    <Bus
+                        x={xCoordinate}
+                        y={yCoordinate}
+                        upOrDown={upOrDown}
+                        leftOrRight={leftOrRight}
+                        direction={direction}
+                        squareSize={squareSize}
+                    />
+                )}
+                {gameBoardArray.map((squareData, i) => (
+                    <GameSquare
+                        key={i}
+                        squareData={squareData}
+                        index={i}
+                        startingIndicator={startingArrowDirection}
+                        finishIndicator={finishArrowDirection}
+                    />
+                ))}
             </motion.section>
         </>
     );

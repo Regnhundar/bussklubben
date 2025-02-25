@@ -12,7 +12,10 @@
     box-shadow: var(--3d-shadow-big);
     border-radius: 4px;
     background: var(--accent3);
-    background-image: url(/images/questionmark.svg), linear-gradient(135deg, #00c555 0%, #009641 100%);
+
+    background-image: url(/images/questionmark.svg),
+        linear-gradient(135deg, #00c555 0%, #009641 100%);
+    /* background-image: url(/images/questionmark.svg), linear-gradient(135deg, #00c555 0%, #009641 100%); */
 
     background-repeat: no-repeat, repeat;
     background-position: center;
@@ -40,7 +43,7 @@
 
 .game-square__image {
     object-fit: contain;
-    transition: scale .1s linear;
+
     aspect-ratio: 1;
     width: 100%;
 

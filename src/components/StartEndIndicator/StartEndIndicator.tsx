@@ -7,7 +7,6 @@ interface Props {
     isRevealed: boolean;
     isConnected?: boolean;
     isActive?: boolean;
-    isPrevious?: boolean;
 }
 const StartEndIndicator: React.FC<Props> = ({
     type = 'start',
@@ -15,7 +14,6 @@ const StartEndIndicator: React.FC<Props> = ({
     isRevealed = false,
     isConnected,
     isActive = false,
-    isPrevious = false,
 }) => {
     const [animationStage, setAnimationStage] = useState('initial');
 
@@ -30,7 +28,7 @@ const StartEndIndicator: React.FC<Props> = ({
                 className={`start-and-end__arch start-and-end__arch--${type}`}
                 src={type === 'start' ? './images/tunnel-green.svg' : './images/tunnel-yellow.svg'}
             />
-            {!isConnected && !isActive && !isPrevious && (
+            {!isConnected && !isActive && (
                 <>
                     <span
                         className={`start-and-end__arrow start-and-end__arrow--${type} 
