@@ -1,0 +1,41 @@
+.confirmation-button {
+    padding: var(--spacing-m);
+    color: var(--white);
+    border-radius: var(--spacing-s);
+    font-size: var(--font-size-s);
+    font-weight: 500;
+    box-shadow: var(--3d-shadow), 2px 2px 6px rgba(0, 0, 0, 0.4);
+    filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.2));
+    text-shadow: var(--text-outline--black);
+    border: 1px solid black;
+}
+
+.confirmation-button--proceed {
+    background-color: var(--bg-primary);
+}
+
+.confirmation-button--cancel {
+    background-color: var(--accent4);
+}
+
+.confirmation-button--attention {
+    background-color: var(--accent1);
+}
+
+.confirmation-button--pressed {
+    animation: confirmation .15s ease-in-out;
+}
+
+@keyframes confirmation {
+
+    0%,
+    100% {
+        box-shadow: var(--3d-shadow), 2px 2px 6px rgba(0, 0, 0, 0.4);
+        scale: 1;
+    }
+
+    50% {
+        box-shadow: var(--3d-shadow-reverse);
+        scale: .9;
+    }
+}

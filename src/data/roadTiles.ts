@@ -1,7 +1,7 @@
 // import { IS_REVEALED, SQUARE_TIMER } from '../constants';
 import { RoadTile } from '../interfaces/gameBoard';
 
-//* [upp, höger, ned, vänster]
+//* "ÖPPNA" connections: [upp, höger, ned, vänster]
 
 export const upDown: RoadTile = {
     name: 'upDown',

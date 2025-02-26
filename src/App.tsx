@@ -1,37 +1,41 @@
-import { useState } from 'react';
-import AbilityBar from './components/AbilityBar/AbilityBar';
-import GameBoard from './components/GameBoard/GameBoard';
-import GameLoop from './components/GameLoop/GameLoop';
-import Jumbotron from './components/Jumbotron/Jumbotron';
+import { useEffect, useState } from 'react';
+
 import useGameStore from './stores/gameStore';
 import ClubHouseGameUI from './components/ClubHouseGameUI/ClubHouseGameUI';
 import PreLoader from './components/PreLoader/PreLoader';
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence } from 'motion/react';
 import BackgroundAnimation from './components/BackgroundAnimation/BackgroundAnimation';
-import PathControl from './components/PathControl/PathControl';
-import MessageOverlay from './components/MessageOverlay/MessageOverlay';
+
+import Tutorial from './components/Tutorial/Tutorial';
+import Game from './components/Game/Game';
 
 function App() {
     const [isGameLoaded, setIsGameLoaded] = useState<boolean>(false);
 
-    const { isGameRunning, isGameOver, isGameOverConfirmation } = useGameStore();
+    const { isGameRunning, isGameOver, isTutorial, setIsTutorial } = useGameStore();
+
+    useEffect(() => {
+        const isFirstTimePlaying = localStorage.getItem('isFirstTimePlaying');
+        const parsedIsFirstTimePlaying = isFirstTimePlaying !== null ? JSON.parse(isFirstTimePlaying) : '';
+        if (parsedIsFirstTimePlaying !== false) {
+            setIsTutorial(true);
+            localStorage.setItem('isFirstTimePlaying', 'false');
+        }
+    }, []);
 
     return (
         <>
             <PreLoader isGameLoaded={isGameLoaded} setIsGameLoaded={setIsGameLoaded} />
             <ClubHouseGameUI />
             {(isGameOver || !isGameRunning) && <BackgroundAnimation />}
-            <AnimatePresence mode='wait'>
-                {isGameRunning && isGameLoaded && !isGameOver && (
-                    <motion.main exit={{ opacity: 0 }} className='game'>
-                        {isGameOverConfirmation ? <MessageOverlay /> : <Jumbotron />}
-                        <GameBoard />
-                        <AbilityBar />
-                        <PathControl />
-                        <GameLoop />
-                    </motion.main>
-                )}
-            </AnimatePresence>
+
+            {isGameRunning && isGameLoaded && !isGameOver && !isTutorial && (
+                <AnimatePresence mode='wait'>
+                    <Game />
+                </AnimatePresence>
+            )}
+
+            {isTutorial && isGameRunning && <Tutorial />}
         </>
     );
 }

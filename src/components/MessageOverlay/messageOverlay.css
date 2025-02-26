@@ -15,15 +15,11 @@
     filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.4));
     border: 2px solid black;
     z-index: 999;
+    min-height: 4.5rem;
 }
 
-.toast-message__title {
-    font-size: var(--font-size-m);
-    grid-column: 1/2;
-}
-
-.toast-message__subtitle {
-    font-size: var(--font-size-m);
+.toast-message__text {
+    font-size: var(--font-size-s);
     grid-column: 1/2;
 }
 
@@ -57,18 +53,11 @@
     object-fit: contain;
 }
 
-.toast-message__confirmation-button {
+.toast-message .confirmation-button {
     grid-column: 2/3;
-    background-color: var(--bg-primary);
-    padding: var(--spacing-m);
-    color: var(--white);
-    border-radius: var(--spacing-s);
-    font-size: var(--font-size-s);
-    font-weight: 500;
-    box-shadow: var(--3d-shadow), 2px 2px 6px rgba(0, 0, 0, 0.4);
-    filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.2));
-    text-shadow: var(--text-outline--black);
-    border: 1px solid black;
+}
+
+.toast-message .confirmation-button:not(.confirmation-button--pressed) {
     animation: lookAtMe 3s linear 3s infinite;
 }
 
@@ -93,23 +82,5 @@
     20% {
         transform: skewY(0deg);
         scale: 1;
-    }
-}
-
-.toast-message__confirmation-button--pressed {
-    animation: confirmation .2s ease-in-out;
-}
-
-@keyframes confirmation {
-
-    0%,
-    100% {
-        box-shadow: var(--3d-shadow), 2px 2px 6px rgba(0, 0, 0, 0.4);
-        scale: 1;
-    }
-
-    50% {
-        box-shadow: var(--3d-shadow-reverse);
-        scale: .9;
     }
 }
