@@ -1,28 +1,47 @@
+import useGameStore from '../../stores/gameStore';
+import ConfirmationButton from '../ConfirmationButton/ConfirmationButton';
 import './backgroundAnimation.css';
+
 const BackgroundAnimation: React.FC = () => {
+    const { isTutorial, setIsTutorial } = useGameStore();
+
     return (
-        <div aria-hidden='true' className='background'>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
+        <>
+            {!isTutorial && (
+                <ConfirmationButton
+                    onClick={() => setIsTutorial(true)}
+                    textContent='?'
+                    type='attention'
+                    extraClass='confirmation-button--tutorial'
+                />
+            )}
+            <div aria-hidden='true' className='background'>
+                {!isTutorial && (
+                    <>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </>
+                )}
+            </div>
+        </>
     );
 };
 

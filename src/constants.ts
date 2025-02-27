@@ -25,6 +25,9 @@ export const POINTS_PER_LEVEL = 10;
 export const POINTS_PER_SQUARE = 1;
 // För att se alla brickor från start ändra till true:
 export const IS_REVEALED = false;
+// Antal kolumner och rader i spelbrädet:
+export const GRID_COLUMNS = 5;
+export const GRID_ROWS = 5;
 
 //! MIN balans...
 // Hur mycket tid man har tills game over när spelet startar.
@@ -53,6 +56,9 @@ export const IS_REVEALED = false;
 // export const POINTS_PER_SQUARE = 1;
 // // För att se alla brickor från start ändra till true:
 // export const IS_REVEALED = false;
+// // Antal kolumner och rader i spelbrädet:
+// export const GRID_COLUMNS = 5;
+// export const GRID_ROWS = 5;
 
 //! LIVE balans...
 // // Hur mycket tid man har tills game over när spelet startar.
@@ -81,3 +87,6 @@ export const IS_REVEALED = false;
 // export const POINTS_PER_SQUARE = 1;
 // // För att se alla brickor från start ändra till true:
 // export const IS_REVEALED = false;
+// // Antal kolumner och rader i spelbrädet:
+// export const GRID_COLUMNS = 5;
+// export const GRID_ROWS = 5;

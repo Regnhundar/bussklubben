@@ -7,10 +7,9 @@ import { motion } from 'motion/react';
 import { gameboardVariant } from '../../motionVariants/variants';
 import Bus from '../Bus/Bus';
 import useGameStore from '../../stores/gameStore';
+import { GRID_COLUMNS, GRID_ROWS } from '../../constants';
 // import { testGameBoard1 } from '../../data/roadTiles';
 
-const GRID_COLUMNS = 5;
-const GRID_ROWS = 5;
 interface Props {
     isFirstSquareConnected: boolean;
     isSquareConnected: boolean;

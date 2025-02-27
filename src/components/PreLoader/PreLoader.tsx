@@ -1,10 +1,13 @@
 import { useEffect } from 'react';
 
+import useGameStore from '../../stores/gameStore';
+
 interface Props {
     isGameLoaded: boolean;
     setIsGameLoaded: (boolean: boolean) => void;
 }
 const PreLoader: React.FC<Props> = ({ isGameLoaded, setIsGameLoaded }) => {
+    const { setIsTutorial } = useGameStore();
     const imagesToPreLoad = [
         `${import.meta.env.BASE_URL}images/roadTiles/downLeft.svg`,
         `${import.meta.env.BASE_URL}images/roadTiles/rightDown.svg`,
@@ -26,6 +29,9 @@ const PreLoader: React.FC<Props> = ({ isGameLoaded, setIsGameLoaded }) => {
         `${import.meta.env.BASE_URL}images/tunnel-green.svg`,
         `${import.meta.env.BASE_URL}images/tunnel-yellow.svg`,
         `${import.meta.env.BASE_URL}images/questionmark.svg`,
+        `${import.meta.env.BASE_URL}images/tutorial/gameboard.png`,
+        `${import.meta.env.BASE_URL}images/tutorial/gameboard-revealed.png`,
+        `${import.meta.env.BASE_URL}images/tutorial/gameboard-solved.png`,
     ];
 
     const preloadImages = async (imagePaths: string[]) => {
@@ -52,6 +58,12 @@ const PreLoader: React.FC<Props> = ({ isGameLoaded, setIsGameLoaded }) => {
         if (!isGameLoaded) {
             preloadImages(imagesToPreLoad).then(() => {
                 setIsGameLoaded(true);
+                const isFirstTimePlaying = localStorage.getItem('isFirstTimePlaying');
+                const parsedIsFirstTimePlaying = isFirstTimePlaying !== null ? JSON.parse(isFirstTimePlaying) : '';
+                if (parsedIsFirstTimePlaying !== false) {
+                    setIsTutorial(true);
+                    localStorage.setItem('isFirstTimePlaying', 'false');
+                }
             });
         }
 
