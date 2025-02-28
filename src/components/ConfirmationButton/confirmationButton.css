@@ -1,9 +1,11 @@
 .confirmation-button {
+    display: grid;
+    place-items: center;
     padding: var(--spacing-m);
     color: var(--white);
     border-radius: var(--spacing-s);
-    font-size: var(--font-size-s);
-    font-weight: 500;
+    font-size: var(--font-size-m);
+    font-weight: 600;
     box-shadow: var(--3d-shadow), 2px 2px 6px rgba(0, 0, 0, 0.4);
     filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.2));
     text-shadow: var(--text-outline--black);
@@ -36,6 +38,6 @@
 
     50% {
         box-shadow: var(--3d-shadow-reverse);
-        scale: .9;
+        scale: .98;
     }
 }

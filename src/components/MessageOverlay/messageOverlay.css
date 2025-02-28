@@ -7,8 +7,7 @@
     width: calc(100% - var(--image-max-width) / 2);
     max-width: calc(var(--max-width) - var(--image-max-width) / 2);
     align-self: end;
-    padding: var(--spacing-l);
-    padding-left: calc((var(--image-max-width) / 2) + var(--spacing-l));
+    padding: var(--spacing-m) var(--spacing-m) var(--spacing-m) calc((var(--image-max-width) / 2) + var(--spacing-l));
     border-radius: var(--spacing-m);
     position: relative;
     box-shadow: var(--3d-shadow);
@@ -19,7 +18,7 @@
 }
 
 .toast-message__text {
-    font-size: var(--font-size-s);
+    font-size: var(--font-size-m);
     grid-column: 1/2;
 }
 

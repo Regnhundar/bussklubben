@@ -5,7 +5,7 @@
   --bg-gamesquare: #d2d6bc;
 
   --white: #fff;
-  --off-white: #fffff0;
+  --off-white: #f0f0f0;
   --light-gray: #E4E4E4;
   --gray: #514D4D;
   --black: #120C03;
@@ -25,6 +25,7 @@
   --font-size-s: 0.875rem;
   --font-size-m: 1rem;
   --font-size-l: 1.25rem;
+  --font-size-xl: 1.5rem;
 
   --text-outline--black: 1px 1px var(--black), -1px -1px var(--black), 1px -1px var(--black),
     -1px 1px var(--black);
@@ -42,11 +43,13 @@
   --spacing-xxxl: 2rem;
   --spacing-xxxxl: 3rem;
 
-  --max-width: 500px;
+  --app-padding-block: var(--spacing-xxxxl) var(--spacing-s);
+  --app-padding-inline: var(--spacing-s);
+  --max-width: 450px;
+  --max-height: 820px;
 }
 
 * {
-
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -54,39 +57,34 @@
 }
 
 body {
-  font-family: var(--bread-font);
+  display: grid;
   background-color: var(--bg-primary);
   background: linear-gradient(to top, var(--bg-primary), var(--bg-primary--dark));
   color: var(--white);
-}
-
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  max-width: var(--max-width);
-  width: 100%;
   height: 100svh;
-  padding-inline: var(--spacing-s);
-  margin: 0 auto;
-  /* outline: 2px solid red; */
 }
 
-.game {
-  padding-block: var(--spacing-xl) var(--spacing-s);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  height: 100%;
-  overflow: hidden;
-}
-
-.game * {
+body * {
+  font-family: var(--bread-font);
   user-select: none;
   -ms-user-select: none;
   -moz-user-select: none;
   -webkit-user-drag: none;
   -webkit-user-select: none;
+
 }
+
+.wrapper {
+  display: grid;
+  place-items: center;
+  max-width: var(--max-width);
+  width: 100%;
+  height: 100%;
+  padding-inline: var(--app-padding-inline);
+  margin: auto;
+  /* outline: 2px solid red; */
+}
+
 
 .d-none {
   display: none !important;
@@ -97,3 +95,17 @@ body {
     font-size: 14px;
   }
 }
+
+/* @media screen and (min-height: 700px) {
+  .wrapper {
+    padding-bottom: 4rem;
+
+  }
+}
+
+@media screen and (min-height: 800px) {
+  .wrapper {
+    padding-block: 2rem 4rem;
+
+  }
+} */

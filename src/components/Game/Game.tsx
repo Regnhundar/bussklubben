@@ -1,3 +1,4 @@
+import './game.css';
 import { motion } from 'motion/react';
 import MessageOverlay from '../MessageOverlay/MessageOverlay';
 import Jumbotron from '../Jumbotron/Jumbotron';

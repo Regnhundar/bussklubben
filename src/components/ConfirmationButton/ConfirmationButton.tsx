@@ -1,12 +1,19 @@
 import { useState } from 'react';
 import './confirmationButton.css';
+
 interface Props {
     onClick: () => void;
-    textContent: string;
+    textContent?: string;
+    icon?: Icon;
     type?: 'proceed' | 'cancel' | 'attention';
     extraClass?: string;
 }
-const ConfirmationButton: React.FC<Props> = ({ onClick, textContent, type = 'proceed', extraClass }) => {
+interface Icon {
+    src: string;
+    alt: string;
+}
+
+const ConfirmationButton: React.FC<Props> = ({ onClick, textContent, type = 'proceed', extraClass, icon }) => {
     const [isPressed, setIsPressed] = useState<boolean>(false);
 
     const handleFunction = () => {
@@ -27,7 +34,13 @@ const ConfirmationButton: React.FC<Props> = ({ onClick, textContent, type = 'pro
             }
             onClick={handleFunction}
             disabled={isPressed}>
-            {textContent}
+            {textContent ? (
+                textContent
+            ) : icon ? (
+                <img className='confirmation-button__icon' src={icon.src} alt={icon.alt} />
+            ) : (
+                ''
+            )}
         </button>
     );
 };

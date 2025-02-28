@@ -1,6 +1,6 @@
 //* Tid i sekunder.
 // Hur mycket tid man har tills game over när spelet startar.
-export const TOTAL_TIME = 20;
+export const TOTAL_TIME = 9999;
 // Hur mycket tid man får när man klarat en bana
 export const BONUS_TIME = 10;
 // För varje avklarad bana blir "BONUS_TIME" "BONUS_TIME_SUBTRACTION" kortare.
