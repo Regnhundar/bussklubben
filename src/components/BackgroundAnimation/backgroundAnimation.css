@@ -14,21 +14,29 @@
 .background {
     position: fixed;
     z-index: -1;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     top: 0;
     left: 0;
     margin: 0;
     padding: 0;
-    background: var(--bg-primary);
-    background: linear-gradient(to top, var(--bg-primary), var(--bg-primary--dark));
     overflow: hidden;
+}
+
+.confirmation-button--tutorial {
+    position: absolute;
+    right: 2rem;
+    top: 2rem;
+    width: fit-content;
+    font-size: var(--font-size-xl);
+    border-radius: 50%;
+    aspect-ratio: 1;
+    width: 3.5rem;
 }
 
 .background div {
     position: absolute;
     display: block;
-
     width: 20px;
     height: 20px;
     border-radius: 6%;
@@ -38,9 +46,6 @@
     background-repeat: no-repeat;
     background-position: center;
 }
-
-
-
 
 .background div:nth-child(0) {
     left: 51%;

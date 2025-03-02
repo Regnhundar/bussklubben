@@ -98,7 +98,7 @@
     width: clamp(3.5rem, 19vw, 4.5rem);
     padding: var(--spacing-xs);
     border: 2px solid var(--gray);
-    background-color: var(--off-white);
+    background-color: var(--white);
     filter: drop-shadow(2px 2px 0 var(--gray));
     box-shadow: var(--3d-shadow);
     border-radius: 4px;
@@ -129,8 +129,7 @@
     width: 80%;
     justify-self: center;
     text-align: center;
-    background-color: var(--bg-primary);
-    border: 1px solid var(--accent3);
+    background-color: var(--bg-primary--light);
     padding: var(--spacing-xs);
     color: var(--white);
     border-radius: var(--spacing-s);

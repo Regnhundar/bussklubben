@@ -1,0 +1,11 @@
+.game {
+    padding-block: var(--app-padding-block);
+    gap: var(--spacing-l);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;
+    width: 100%;
+    max-height: var(--max-height);
+    overflow: hidden;
+}

@@ -38,11 +38,8 @@ export const levelIndicatorVariant = {
     show: {
         opacity: 1,
         y: '0%',
-        transition: { delay: 0.3, duration: 0.2, type: 'spring', bounce: 0.4 },
+        transition: { delay: 0.3, duration: 0.4, type: 'spring', bounce: 0.4 },
     },
-};
-export const levelIndicatorGameOverVariant = {
-    hidden: { transition: { duration: 1.5, type: 'linear' }, y: '150vh', rotateZ: 150 },
 };
 
 export const abilityBarVariant = {

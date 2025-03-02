@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useGameStore from '../../stores/gameStore';
 import {
     BONUS_TIME,
@@ -23,7 +23,10 @@ import {
 } from '../../utils/utilityFunctions';
 import { validGameBoardIndices } from '../../data/gameBoard';
 
-const GameLoop: React.FC = () => {
+interface Props {
+    isSquareConnected: boolean;
+}
+const GameLoop: React.FC<Props> = ({ isSquareConnected }) => {
     const {
         setIsGameOverConfirmation,
         isGameOverConfirmation,
@@ -41,7 +44,6 @@ const GameLoop: React.FC = () => {
         endingIndex,
         setEndingIndex,
         finishConnectionIndex,
-        gameBoardArray,
         setGameBoardArray,
         squaresToSwap,
         setSquaresToSwap,
@@ -58,12 +60,6 @@ const GameLoop: React.FC = () => {
     const prepTimerRef = useRef<number | null>(null);
     const gameTimerRef = useRef<number | null>(null);
     const squareTimerRef = useRef<number | null>(null);
-
-    const isSquareConnected = useMemo(() => {
-        if (typeof nextSquareToCheckIndex !== 'number' || typeof arrivalIndex !== 'number') return false;
-        const square = gameBoardArray[nextSquareToCheckIndex];
-        return square?.isRevealed && square.tile.connections[arrivalIndex] === true;
-    }, [gameBoardArray, nextSquareToCheckIndex, arrivalIndex]);
 
     const nextSquareTimer =
         squareSpeed === 'turbo'

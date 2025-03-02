@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useGameBoardStore from '../../stores/gameBoardStore';
 import GameSquare from '../GameSquare/GameSquare';
 import { createGameBoardArray, endPoints, generateStartAndFinishIndex } from '../../utils/utilityFunctions';
@@ -7,21 +7,21 @@ import { motion } from 'motion/react';
 import { gameboardVariant } from '../../motionVariants/variants';
 import Bus from '../Bus/Bus';
 import useGameStore from '../../stores/gameStore';
+import { GRID_COLUMNS, GRID_ROWS } from '../../constants';
 // import { testGameBoard1 } from '../../data/roadTiles';
 
-const GRID_COLUMNS = 5;
-const GRID_ROWS = 5;
-
-const GameBoard: React.FC = () => {
+interface Props {
+    isFirstSquareConnected: boolean;
+    isSquareConnected: boolean;
+}
+const GameBoard: React.FC<Props> = ({ isFirstSquareConnected, isSquareConnected }) => {
     const {
         gameBoardArray,
         setGameBoardArray,
-        startConnectionIndex,
         setStartingIndex,
         setEndingIndex,
         startingIndex,
         endingIndex,
-        arrivalIndex,
         finishConnectionIndex,
         setStartConnectionIndex,
         setFinishConnectionIndex,
@@ -43,24 +43,6 @@ const GameBoard: React.FC = () => {
     const upOrDownRef = useRef<string>('');
     const leftOrRightRef = useRef<string>('');
     const directionRef = useRef<string>('');
-
-    const isFirstSquareConnected = useMemo(() => {
-        return (
-            startingIndex !== null &&
-            startConnectionIndex !== null &&
-            gameBoardArray[startingIndex].isRevealed === true &&
-            gameBoardArray[startingIndex].tile.connections[startConnectionIndex] === true
-        );
-    }, [startingIndex, startConnectionIndex, gameBoardArray]);
-
-    const isSquareConnected = useMemo(() => {
-        return (
-            typeof nextSquareToCheckIndex === 'number' &&
-            typeof arrivalIndex === 'number' &&
-            gameBoardArray[nextSquareToCheckIndex].isRevealed &&
-            gameBoardArray[nextSquareToCheckIndex].tile.connections[arrivalIndex] === true
-        );
-    }, [gameBoardArray, nextSquareToCheckIndex, arrivalIndex]);
 
     useEffect(() => {
         const startAndFinishIndex = generateStartAndFinishIndex();

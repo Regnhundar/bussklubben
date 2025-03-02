@@ -15,6 +15,8 @@ const ClubHouseGameUI: React.FC = () => {
         setPreparationTime,
         setPoints,
         setLevel,
+        isTutorial,
+        setIsTutorial,
     } = useGameStore();
 
     useEffect(() => {
@@ -31,13 +33,14 @@ const ClubHouseGameUI: React.FC = () => {
             setIsPreparationTime(true);
             setPoints(0);
             setLevel(1);
+            setIsTutorial(false);
         };
         window.ClubHouseGame.registerRestart(startGame);
     }, []);
 
     return (
         <>
-            <div id='ui'></div>
+            <div id='ui' className={isTutorial ? 'd-none' : ''}></div>
             <div className='loader' id='loader'>
                 <p className='loader-text'>Startar</p>
                 <img className='loader-logo' src='/images/logo.png' />

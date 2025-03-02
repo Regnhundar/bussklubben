@@ -18,6 +18,8 @@ interface GameStore {
     setIsGameOverConfirmation: (value: boolean | ((prev: boolean) => boolean)) => void;
     isGameOver: boolean;
     setIsGameOver: (value: boolean | ((prev: boolean) => boolean)) => void;
+    isTutorial: boolean;
+    setIsTutorial: (value: boolean | ((prev: boolean) => boolean)) => void;
 }
 
 const useGameStore = create<GameStore>((set) => ({
@@ -60,6 +62,11 @@ const useGameStore = create<GameStore>((set) => ({
     setIsGameOver: (value) =>
         set((state) => ({
             isGameOver: typeof value === 'function' ? value(state.isGameOver) : value,
+        })),
+    isTutorial: false,
+    setIsTutorial: (value) =>
+        set((state) => ({
+            isTutorial: typeof value === 'function' ? value(state.isTutorial) : value,
         })),
 }));
 
