@@ -3,7 +3,7 @@ import AbilityButton from '../AbilityButton/AbilityButton';
 import { Ability } from '../../interfaces/ability';
 import useGameBoardStore from '../../stores/gameBoardStore';
 import { jokerRoadTiles } from '../../data/roadTiles';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import useGameStore from '../../stores/gameStore';
 import { motion } from 'motion/react';
 import { abilityBarVariant } from '../../motionVariants/variants';
@@ -19,17 +19,32 @@ const AbilityBar: React.FC = () => {
         squaresToSwap,
         setSquaresToSwap,
         isExiting,
+        startingIndex,
+        startConnectionIndex,
         endingIndex,
         finishConnectionIndex,
         gameBoardArray,
     } = useGameBoardStore();
-    const { isGameOver, isPreparationTime, setIsPreparationTime } = useGameStore();
-    const isFinalSquareLinked =
-        endingIndex !== null &&
-        finishConnectionIndex !== null &&
-        gameBoardArray[endingIndex].isRevealed &&
-        gameBoardArray[endingIndex].isLinkedToStart === true &&
-        gameBoardArray[endingIndex].tile.connections[finishConnectionIndex] === true;
+    const { isGameOverConfirmation, isGameOver, isPreparationTime, setIsPreparationTime } = useGameStore();
+    const isFinalSquareLinked = useCallback(() => {
+        if (endingIndex === null || finishConnectionIndex === null) return false;
+        const endingTileData = gameBoardArray[endingIndex];
+        return (
+            endingTileData.isRevealed &&
+            endingTileData.isLinkedToStart &&
+            endingTileData.tile.connections[finishConnectionIndex] === true
+        );
+    }, [endingIndex, finishConnectionIndex, gameBoardArray]);
+
+    const isFirstSquareLinked = useCallback(() => {
+        if (startingIndex === null || startConnectionIndex === null) return false;
+        const startTileData = gameBoardArray[startingIndex];
+        return (
+            startTileData.isRevealed &&
+            startTileData.isLinkedToStart &&
+            startTileData.tile.connections[startConnectionIndex] === true
+        );
+    }, [startingIndex, startConnectionIndex, gameBoardArray]);
 
     const bytState = jokerTile
         ? 'ability__button--joker-active'
@@ -45,15 +60,18 @@ const AbilityBar: React.FC = () => {
     const turboState =
         squareSpeed === 'turbo' && !isExiting
             ? 'ability__button--speed-active'
-            : squareSpeed === 'slow' || isGameOver || isExiting
+            : squareSpeed === 'slow' ||
+              isGameOver ||
+              isExiting ||
+              (squareSpeed === 'normal' && !isFirstSquareLinked() && isPreparationTime)
             ? 'ability__button--disabled'
-            : squareSpeed === 'normal' && isFinalSquareLinked
+            : squareSpeed === 'normal' && isFinalSquareLinked()
             ? 'ability__button--turbo-suggestion'
             : '';
 
     // Skiftar vilken "byt/jokerTile" som visas i ability bar.
     useEffect(() => {
-        if (!isGameOver && !isPreparationTime && !jokerTile) {
+        if (!isGameOver && !isPreparationTime && !jokerTile && !isGameOverConfirmation) {
             const interval = setInterval(() => {
                 if (activeJokerTile === jokerRoadTiles.length - 1 && !isGameOver) {
                     setActiveJokerTile(0);
@@ -64,10 +82,10 @@ const AbilityBar: React.FC = () => {
 
             return () => clearInterval(interval);
         }
-        if (isPreparationTime) {
+        if (isPreparationTime || isGameOverConfirmation) {
             setActiveJokerTile(0);
         }
-    }, [activeJokerTile, isPreparationTime, isGameOver, jokerTile]);
+    }, [activeJokerTile, isPreparationTime, isGameOver, jokerTile, isGameOverConfirmation]);
 
     const handleJokerTile = () => {
         if (!isPreparationTime && !isGameOver) {
@@ -96,11 +114,13 @@ const AbilityBar: React.FC = () => {
             }
         }
         if (isPreparationTime) {
-            if (isFinalSquareLinked) {
+            if (isFinalSquareLinked()) {
                 setIsPreparationTime(false);
                 setSquareSpeed('turbo');
                 return;
             }
+        }
+        if (isFirstSquareLinked()) {
             setIsPreparationTime(false);
         }
     };
@@ -117,7 +137,7 @@ const AbilityBar: React.FC = () => {
             func: handleJokerTile,
         },
         {
-            name: 'lugn',
+            name: 'sakta',
             class: 'lugn',
             alt: 'En snigel.Bussen förvandlas till en långsam snigel.',
             src: `${import.meta.env.BASE_URL}images/abilities/paus.svg`,
@@ -125,10 +145,13 @@ const AbilityBar: React.FC = () => {
             func: handleSlowBus,
         },
         {
-            name: isPreparationTime ? 'kör!' : 'turbo',
+            name: isPreparationTime ? 'kör' : 'snabbt',
             class: 'turbo',
             alt: 'Buss som kör fort. Bussen åker snabbare.',
-            src: `${import.meta.env.BASE_URL}images/abilities/flash.svg`,
+            src:
+                (isFinalSquareLinked() && isPreparationTime) || !isPreparationTime
+                    ? `${import.meta.env.BASE_URL}images/abilities/flash.svg`
+                    : `${import.meta.env.BASE_URL}images/abilities/play.svg`,
             state: turboState,
             func: handleTurboBus,
         },

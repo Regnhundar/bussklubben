@@ -3,16 +3,18 @@ import useGameBoardStore from '../../stores/gameBoardStore';
 import GameSquare from '../GameSquare/GameSquare';
 import { createGameBoardArray, endPoints, generateStartAndFinishIndex } from '../../utils/utilityFunctions';
 import './gameBoard.css';
-import { AnimatePresence, motion } from 'motion/react';
+import { motion } from 'motion/react';
 import { gameboardVariant } from '../../motionVariants/variants';
 import Bus from '../Bus/Bus';
 import useGameStore from '../../stores/gameStore';
+import { GRID_COLUMNS, GRID_ROWS } from '../../constants';
 // import { testGameBoard1 } from '../../data/roadTiles';
 
-const GRID_COLUMNS = 5;
-const GRID_ROWS = 5;
-
-const GameBoard: React.FC = () => {
+interface Props {
+    isFirstSquareConnected: boolean;
+    isSquareConnected: boolean;
+}
+const GameBoard: React.FC<Props> = ({ isFirstSquareConnected, isSquareConnected }) => {
     const {
         gameBoardArray,
         setGameBoardArray,
@@ -28,18 +30,19 @@ const GameBoard: React.FC = () => {
         nextSquareToCheckIndex,
         isExiting,
     } = useGameBoardStore();
-    const { level } = useGameStore();
+    const { level, isGameOverConfirmation } = useGameStore();
 
     const [startingArrowDirection, setStartingArrowDirection] = useState<'down' | 'up' | 'left' | 'right'>('down');
     const [finishArrowDirection, setFinishArrowDirection] = useState<'down' | 'up' | 'left' | 'right'>('down');
-    const [leftOrRight, setleftOrRight] = useState<'left' | 'right' | null>(null);
-    const [upOrDown, setUpOrDown] = useState<'up' | 'down' | null>(null);
-    const [direction, setDirection] = useState<'horizontal' | 'vertical' | null>(null);
+
     const gameBoardRef = useRef<HTMLElement | null>(null);
 
     const [squareSize, setSquareSize] = useState(0);
-    const [xCoordinate, setXcoordinate] = useState<number | null>(null);
-    const [yCoordinate, setYcoordinate] = useState<number | null>(null);
+    const [coordinates, setCoordinates] = useState<{ x: number | null; y: number | null }>({ x: null, y: null });
+
+    const upOrDownRef = useRef<string>('');
+    const leftOrRightRef = useRef<string>('');
+    const directionRef = useRef<string>('');
 
     useEffect(() => {
         const startAndFinishIndex = generateStartAndFinishIndex();
@@ -47,9 +50,6 @@ const GameBoard: React.FC = () => {
         setStartingIndex(startAndFinishIndex.start);
         setEndingIndex(startAndFinishIndex.finish);
         setGameBoardArray(gameBoard);
-        // setStartingIndex(24);
-        // setEndingIndex(0);
-        // setGameBoardArray(testGameBoard1);
 
         const updateSquareSize = () => {
             if (gameBoardRef.current) {
@@ -71,97 +71,98 @@ const GameBoard: React.FC = () => {
 
             switch (startEndpoint.arrowDirection) {
                 case 'up':
-                    setUpOrDown('up');
-                    setDirection('vertical');
+                    upOrDownRef.current = 'up';
+                    directionRef.current = 'vertical';
                     break;
                 case 'down':
-                    setUpOrDown('down');
-                    setDirection('vertical');
+                    upOrDownRef.current = 'down';
+                    directionRef.current = 'vertical';
                     break;
                 case 'right':
-                    setleftOrRight('left');
-                    setDirection('horizontal');
+                    leftOrRightRef.current = 'left';
+                    directionRef.current = 'horizontal';
                     break;
                 default:
-                    setleftOrRight('right');
-                    setDirection('horizontal');
+                    leftOrRightRef.current = 'right';
+                    directionRef.current = 'horizontal';
             }
 
             setNextSquareToCheckIndex(startingIndex);
             setStartingArrowDirection(startEndpoint.arrowDirection);
             setArrivalIndex(startEndpoint.successConnection);
             setStartConnectionIndex(startEndpoint.successConnection);
-            // setStartingArrowDirection('right');
-            // setArrivalIndex(1);
         }
         if (endingIndex !== null) {
             const finishEndpoint = endPoints(endingIndex);
             setFinishArrowDirection(finishEndpoint.arrowDirection);
             setFinishConnectionIndex(finishEndpoint.successConnection);
-            // setFinishArrowDirection('left');
-            // setFinishConnectionIndex(3);
         }
     }, [startingIndex, endingIndex]);
 
     useEffect(() => {
         let isMounted = true;
-        if (nextSquareToCheckIndex !== null && startingIndex !== null && endingIndex !== null && squareSize > 0) {
+        if (
+            nextSquareToCheckIndex !== null &&
+            startingIndex !== null &&
+            endingIndex !== null &&
+            squareSize > 0 &&
+            isSquareConnected
+        ) {
             const y = Math.floor(nextSquareToCheckIndex / GRID_ROWS) * squareSize;
             const x = (nextSquareToCheckIndex % GRID_COLUMNS) * squareSize;
+
             if (
-                yCoordinate !== null &&
-                xCoordinate !== null &&
+                coordinates.y !== null &&
+                coordinates.x !== null &&
                 nextSquareToCheckIndex !== startingIndex &&
                 !isExiting
             ) {
-                if (y < yCoordinate) {
-                    setUpOrDown('down');
-                    setDirection('vertical');
+                if (y < coordinates.y) {
+                    upOrDownRef.current = 'down';
+                    directionRef.current = 'vertical';
                 }
-                if (y > yCoordinate) {
-                    setUpOrDown('up');
-                    setDirection('vertical');
+                if (y > coordinates.y) {
+                    upOrDownRef.current = 'up';
+                    directionRef.current = 'vertical';
                 }
 
-                if (x > xCoordinate) {
-                    setleftOrRight('right');
-                    setDirection('horizontal');
+                if (x > coordinates.x) {
+                    leftOrRightRef.current = 'right';
+                    directionRef.current = 'horizontal';
                 }
-                if (x < xCoordinate) {
-                    setleftOrRight('left');
-                    setDirection('horizontal');
+                if (x < coordinates.x) {
+                    leftOrRightRef.current = 'left';
+                    directionRef.current = 'horizontal';
                 }
             }
             if (isExiting) {
                 switch (finishConnectionIndex) {
                     case 0:
-                        setUpOrDown('down');
-                        setDirection('vertical');
+                        upOrDownRef.current = 'down';
+                        directionRef.current = 'vertical';
                         break;
                     case 2:
-                        setUpOrDown('up');
-                        setDirection('vertical');
+                        upOrDownRef.current = 'up';
+                        directionRef.current = 'vertical';
                         break;
                     case 1:
-                        setleftOrRight('right');
-                        setDirection('horizontal');
+                        leftOrRightRef.current = 'right';
+                        directionRef.current = 'horizontal';
                         break;
                     default:
-                        setleftOrRight('left');
-                        setDirection('horizontal');
+                        leftOrRightRef.current = 'left';
+                        directionRef.current = 'horizontal';
                 }
-                console.log('isExiting:');
             }
             if (isMounted) {
-                setXcoordinate(x);
-                setYcoordinate(y);
+                setCoordinates({ x, y });
             }
         }
 
         return () => {
             isMounted = false;
         };
-    }, [nextSquareToCheckIndex, squareSize, isExiting]);
+    }, [nextSquareToCheckIndex, isExiting, isSquareConnected]);
 
     return (
         <>
@@ -172,28 +173,26 @@ const GameBoard: React.FC = () => {
                 animate='show'
                 exit='hidden'
                 key={level}
-                className='game-board'>
-                <AnimatePresence>
-                    {xCoordinate !== null && yCoordinate !== null && (
-                        <Bus
-                            x={xCoordinate}
-                            y={yCoordinate}
-                            upOrDown={upOrDown}
-                            leftOrRight={leftOrRight}
-                            direction={direction}
-                            squareSize={squareSize}
-                        />
-                    )}
-                    {gameBoardArray.map((squareData, i) => (
-                        <GameSquare
-                            key={i}
-                            squareData={squareData}
-                            index={i}
-                            startingIndicator={startingArrowDirection}
-                            finishIndicator={finishArrowDirection}
-                        />
-                    ))}
-                </AnimatePresence>
+                className={isGameOverConfirmation ? 'game-board game-board--disabled' : 'game-board'}>
+                {coordinates.x !== null && coordinates.y !== null && isFirstSquareConnected && (
+                    <Bus
+                        x={coordinates.x}
+                        y={coordinates.y}
+                        upOrDown={upOrDownRef.current}
+                        leftOrRight={leftOrRightRef.current}
+                        direction={directionRef.current}
+                        squareSize={squareSize}
+                    />
+                )}
+                {gameBoardArray.map((squareData, i) => (
+                    <GameSquare
+                        key={i}
+                        squareData={squareData}
+                        index={i}
+                        startingIndicator={startingArrowDirection}
+                        finishIndicator={finishArrowDirection}
+                    />
+                ))}
             </motion.section>
         </>
     );

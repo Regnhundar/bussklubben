@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from 'motion/react';
+import { motion } from 'motion/react';
 import useGameStore from '../../stores/gameStore';
 import JumbotronInfoField from '../JumbotronInfoField/JumbotronInfoField';
 import LevelIndicator from '../LevelIndicator/LevelIndicator';
@@ -10,25 +10,24 @@ const Jumbotron: React.FC = () => {
 
     return (
         <motion.section variants={jumbotronVariant} initial='hidden' animate='show' exit='hidden' className='jumbotron'>
-            <AnimatePresence>
-                {isPreparationTime ? (
-                    <LevelIndicator
-                        key='preparation'
-                        message='AVGÅNG OM'
-                        infoNumber={preparationTime}
-                        modifier='preparing'
-                        type='departure'
-                    />
-                ) : (
-                    <LevelIndicator
-                        key='running'
-                        message='HÅLLPLATS'
-                        infoNumber={level}
-                        modifier='running'
-                        type='bus-stop'
-                    />
-                )}
-            </AnimatePresence>
+            {isPreparationTime ? (
+                <LevelIndicator
+                    key='preparation'
+                    message='AVGÅNG OM'
+                    infoNumber={preparationTime}
+                    modifier='preparing'
+                    type='departure'
+                />
+            ) : (
+                <LevelIndicator
+                    key='running'
+                    message='HÅLLPLATS'
+                    infoNumber={level}
+                    modifier='running'
+                    type='bus-stop'
+                />
+            )}
+
             <JumbotronInfoField
                 variable={totalTime}
                 unit={'SEKUNDER'}

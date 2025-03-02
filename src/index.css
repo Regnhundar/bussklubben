@@ -1,110 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-
-#img {
-  display: block;
-  margin: auto;
-  height: 128px;
-  width: 128px;
-  padding: 2rem;
-}
-
-#canvas {
-  display: block;
-  margin: 2rem auto;
-  width: 540px;
-  height: 540px;
-}
-
-/* dosis-regular - latin */
-@font-face {
-  font-family: "DosisRegular";
-  font-style: normal;
-  font-weight: 400;
-  src: url("/fonts/dosis-v18-latin-regular.eot");
-  /* IE9 Compat Modes */
-  src: local(""), url("/fonts/dosis-v18-latin-regular.eot?#iefix") format("embedded-opentype"),
-    /* IE6-IE8 */
-    url("/fonts/dosis-v18-latin-regular.woff2") format("woff2"),
-    /* Super Modern Browsers */
-    url("/fonts/dosis-v18-latin-regular.woff") format("woff"),
-    /* Modern Browsers */
-    url("/fonts/dosis-v18-latin-regular.ttf") format("truetype"),
-    /* Safari, Android, iOS */
-    url("/fonts/dosis-v18-latin-regular.svg#Dosis") format("svg");
-  /* Legacy iOS */
-}
-
-/* dosis-600 - latin */
-@font-face {
-  font-family: "DosisSemiBold";
-  font-style: normal;
-  font-weight: 600;
-  src: url("/fonts/dosis-v18-latin-600.eot");
-  /* IE9 Compat Modes */
-  src: local(""), url("/fonts/dosis-v18-latin-600.eot?#iefix") format("embedded-opentype"),
-    /* IE6-IE8 */
-    url("/fonts/dosis-v18-latin-600.woff2") format("woff2"),
-    /* Super Modern Browsers */
-    url("/fonts/dosis-v18-latin-600.woff") format("woff"),
-    /* Modern Browsers */
-    url("/fonts/dosis-v18-latin-600.ttf") format("truetype"),
-    /* Safari, Android, iOS */
-    url("/fonts/dosis-v18-latin-600.svg#Dosis") format("svg");
-  /* Legacy iOS */
-}
-
-/* dosis-700 - latin */
-@font-face {
-  font-family: "DosisBold";
-  font-style: normal;
-  font-weight: 700;
-  src: url("/fonts/dosis-v18-latin-700.eot");
-  /* IE9 Compat Modes */
-  src: local(""), url("/fonts/dosis-v18-latin-700.eot?#iefix") format("embedded-opentype"),
-    /* IE6-IE8 */
-    url("/fonts/dosis-v18-latin-700.woff2") format("woff2"),
-    /* Super Modern Browsers */
-    url("/fonts/dosis-v18-latin-700.woff") format("woff"),
-    /* Modern Browsers */
-    url("/fonts/dosis-v18-latin-700.ttf") format("truetype"),
-    /* Safari, Android, iOS */
-    url("/fonts/dosis-v18-latin-700.svg#Dosis") format("svg");
-  /* Legacy iOS */
-}
-
-/* dosis-800 - latin */
-@font-face {
-  font-family: "DosisExtraBold";
-  font-style: normal;
-  font-weight: 800;
-  src: url("/fonts/dosis-v18-latin-800.eot");
-  /* IE9 Compat Modes */
-  src: local(""), url("/fonts/dosis-v18-latin-800.eot?#iefix") format("embedded-opentype"),
-    /* IE6-IE8 */
-    url("/fonts/dosis-v18-latin-800.woff2") format("woff2"),
-    /* Super Modern Browsers */
-    url("/fonts/dosis-v18-latin-800.woff") format("woff"),
-    /* Modern Browsers */
-    url("/fonts/dosis-v18-latin-800.ttf") format("truetype"),
-    /* Safari, Android, iOS */
-    url("/fonts/dosis-v18-latin-800.svg#Dosis") format("svg");
-  /* Legacy iOS */
-}
-
-
-
 :root {
   --bg-primary: #017A36;
   --bg-primary--light: #01A648;
   --bg-primary--dark: #00622B;
+  --bg-gamesquare: #d2d6bc;
 
   --white: #fff;
-  --off-white: rgb(255, 255, 240);
+  --off-white: #f0f0f0;
   --light-gray: #E4E4E4;
   --gray: #514D4D;
   --black: #120C03;
 
   --3d-shadow: inset 2px 2px 0 0 rgba(255, 255, 255, 0.2), inset -3px -3px 0 0 rgba(0, 0, 0, 0.15);
+  --3d-shadow-big: inset 3px 3px 0 0 rgba(255, 255, 255, 0.2), inset -4px -4px 0 0 rgba(0, 0, 0, 0.15);
   --3d-shadow-reverse: inset -3px -3px 0 0 rgba(255, 255, 255, 0.2), inset 2px 2px 0 0 rgba(0, 0, 0, 0.35);
   --3d-shadow-reverse--small: inset -1px -1px 0 0 rgba(255, 255, 255, 0.2), inset 2px 2px 0 0 rgba(0, 0, 0, 0.35);
 
@@ -113,11 +20,12 @@
   --accent3: #61BC81;
   --accent4: #CF231F;
 
-  --bread-font: Inter, 'Arial Narrow', Arial, sans-serif;
+  --bread-font: Arial, sans-serif;
   --font-size-xs: 0.75rem;
   --font-size-s: 0.875rem;
   --font-size-m: 1rem;
   --font-size-l: 1.25rem;
+  --font-size-xl: 1.5rem;
 
   --text-outline--black: 1px 1px var(--black), -1px -1px var(--black), 1px -1px var(--black),
     -1px 1px var(--black);
@@ -135,46 +43,70 @@
   --spacing-xxxl: 2rem;
   --spacing-xxxxl: 3rem;
 
-  --max-width: 500px;
+  --app-padding-block: var(--spacing-xxxxl) var(--spacing-s);
+  --app-padding-inline: var(--spacing-s);
+  --max-width: 450px;
+  --max-height: 820px;
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  /* outline: 2px solid red; */
+  /* outline: 1px solid red; */
 }
 
 body {
   font-family: var(--bread-font);
-  background: var(--bg-primary);
+  display: grid;
+  background: linear-gradient(to top, var(--bg-primary), var(--bg-primary--dark));
+  background-color: var(--bg-primary);
   color: var(--white);
-}
-
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  max-width: var(--max-width);
-  width: 100%;
   height: 100svh;
-  padding-inline: var(--spacing-s);
-  margin: 0 auto;
-  /* outline: 2px solid red; */
 }
 
-.game {
-  padding-block: var(--spacing-xl) var(--spacing-s);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  height: 100%;
-  overflow: hidden;
-}
+body * {
 
-.game * {
   user-select: none;
   -ms-user-select: none;
   -moz-user-select: none;
   -webkit-user-drag: none;
   -webkit-user-select: none;
+
 }
+
+.wrapper {
+  display: grid;
+  place-items: center;
+  max-width: var(--max-width);
+  width: 100%;
+  height: 100%;
+  padding-inline: var(--app-padding-inline);
+  margin: auto;
+  /* outline: 2px solid red; */
+}
+
+
+.d-none {
+  display: none !important;
+}
+
+@media screen and (max-width: 330px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+/* @media screen and (min-height: 700px) {
+  .wrapper {
+    padding-bottom: 4rem;
+
+  }
+}
+
+@media screen and (min-height: 800px) {
+  .wrapper {
+    padding-block: 2rem 4rem;
+
+  }
+} */

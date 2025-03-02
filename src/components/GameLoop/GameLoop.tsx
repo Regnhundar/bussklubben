@@ -2,9 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import useGameStore from '../../stores/gameStore';
 import {
     BONUS_TIME,
+    BONUS_TIME_SUBTRACTION,
+    MIN_BONUS_TIME,
+    MIN_PREPARATION_TIME,
     POINTS_PER_LEVEL,
     POINTS_PER_SQUARE,
     PREPARATION_TIME,
+    PREPARATION_TIME_SUBTRACTION,
     SLOW_MULTIPLIER,
     SQUARE_TIMER,
     TURBO_MULTIPLIER,
@@ -19,14 +23,16 @@ import {
 } from '../../utils/utilityFunctions';
 import { validGameBoardIndices } from '../../data/gameBoard';
 
-const GameLoop: React.FC = () => {
+interface Props {
+    isSquareConnected: boolean;
+}
+const GameLoop: React.FC<Props> = ({ isSquareConnected }) => {
     const {
-        isGameOver,
-        setIsGameOver,
+        setIsGameOverConfirmation,
+        isGameOverConfirmation,
         setTotalTime,
         level,
         setLevel,
-        points,
         setPoints,
         isPreparationTime,
         setIsPreparationTime,
@@ -38,7 +44,6 @@ const GameLoop: React.FC = () => {
         endingIndex,
         setEndingIndex,
         finishConnectionIndex,
-        gameBoardArray,
         setGameBoardArray,
         squaresToSwap,
         setSquaresToSwap,
@@ -55,12 +60,6 @@ const GameLoop: React.FC = () => {
     const prepTimerRef = useRef<number | null>(null);
     const gameTimerRef = useRef<number | null>(null);
     const squareTimerRef = useRef<number | null>(null);
-
-    const isSquareConnected =
-        typeof nextSquareToCheckIndex === 'number' &&
-        typeof arrivalIndex === 'number' &&
-        gameBoardArray[nextSquareToCheckIndex].isRevealed &&
-        gameBoardArray[nextSquareToCheckIndex].tile.connections[arrivalIndex] === true;
 
     const nextSquareTimer =
         squareSpeed === 'turbo'
@@ -83,7 +82,7 @@ const GameLoop: React.FC = () => {
 
     // Uppdaterar tidsnedräkningen för avgång.
     useEffect(() => {
-        if (isPreparationTime && !isGameOver) {
+        if (isPreparationTime && !isGameOverConfirmation) {
             handleDepartureTimer();
         }
         return () => {
@@ -95,7 +94,7 @@ const GameLoop: React.FC = () => {
 
     // Uppdaterar speltiden och sätter game-over om den når 0. Startar också timer på första rutan.
     useEffect(() => {
-        if (!isPreparationTime && !isGameOver) {
+        if (!isPreparationTime && !isGameOverConfirmation) {
             handleGameTimer();
             handleNextSquareTimer();
             return () => {
@@ -104,18 +103,21 @@ const GameLoop: React.FC = () => {
                 }
             };
         }
-    }, [isPreparationTime, isGameOver]);
+        if (isGameOverConfirmation) {
+            handleGameOverConfirmationTrigger();
+        }
+    }, [isPreparationTime, isGameOverConfirmation]);
 
     // Startar timer för när nästa ruta.
     useEffect(() => {
-        if (!isPreparationTime && !isGameOver) {
+        if (!isPreparationTime && !isGameOverConfirmation) {
             handleNextSquareTimer();
         }
     }, [nextSquareToCheckIndex]);
 
     // Hanterar vad som händer när nästa ruta aktiveras. Triggas av handleNextSquareTimer.
     useEffect(() => {
-        if (!isPreparationTime && !isGameOver) {
+        if (!isPreparationTime && !isGameOverConfirmation) {
             handleNextSquare();
         }
     }, [numberOfSquaresChecked]);
@@ -149,13 +151,13 @@ const GameLoop: React.FC = () => {
     };
 
     const handleGameTimer = () => {
-        if (!isPreparationTime && !isGameOver) {
+        if (!isPreparationTime && !isGameOverConfirmation) {
             gameTimerRef.current = window.setInterval(() => {
                 setTotalTime((prev) => {
                     if (prev > 1) {
                         return prev - 1;
                     } else {
-                        gameOver();
+                        setIsGameOverConfirmation(true);
                         return 0;
                     }
                 });
@@ -169,12 +171,12 @@ const GameLoop: React.FC = () => {
             if (nextSquareToCheckIndex >= 0 && isSquareConnected) {
                 updateGameSquare(nextSquareToCheckIndex, { isActive: true });
                 if (squaresToSwap.includes(nextSquareToCheckIndex)) {
+                    // Om du håller på att byta bricka som buss hamnat på avbryts det.
                     setSquaresToSwap();
                 }
 
                 squareTimerRef.current = window.setTimeout(() => {
                     setNumberOfSquaresChecked((prev) => prev + 1);
-                    updateGameSquare(nextSquareToCheckIndex, { isPreviousSquare: true, isActive: false });
                 }, nextSquareTimer * 1000);
                 return () => {
                     if (squareTimerRef.current) {
@@ -182,7 +184,7 @@ const GameLoop: React.FC = () => {
                     }
                 };
             }
-            gameOver();
+            setIsGameOverConfirmation(true);
             return;
         }
     };
@@ -199,7 +201,7 @@ const GameLoop: React.FC = () => {
                 (nextSquareToCheckIndex !== endingIndex && isOutOfBounds) ||
                 (nextSquareToCheckIndex === endingIndex && isOutOfBounds && direction !== finishConnectionIndex)
             ) {
-                gameOver();
+                setIsGameOverConfirmation(true);
                 return;
             }
             if (nextSquareToCheckIndex === endingIndex && direction === finishConnectionIndex) {
@@ -229,8 +231,14 @@ const GameLoop: React.FC = () => {
     // Hanterar reset vid klarad bana
     const handleNextLevel = () => {
         if (level !== 1) {
-            const adjustedPrepTime = PREPARATION_TIME - (level - 1) > 10 ? PREPARATION_TIME - (level - 1) : 10;
-            const adjustedBonusTime = BONUS_TIME - (level - 2) > 5 ? BONUS_TIME - (level - 2) : 5;
+            const adjustedPrepTime =
+                PREPARATION_TIME - (level - 1) * PREPARATION_TIME_SUBTRACTION > MIN_PREPARATION_TIME
+                    ? PREPARATION_TIME - (level - 1) * PREPARATION_TIME_SUBTRACTION
+                    : MIN_PREPARATION_TIME;
+            const adjustedBonusTime =
+                BONUS_TIME - (level - 1) * BONUS_TIME_SUBTRACTION > MIN_BONUS_TIME
+                    ? BONUS_TIME - (level - 1) * BONUS_TIME_SUBTRACTION
+                    : MIN_BONUS_TIME;
             const startAndFinishIndex = generateStartAndFinishIndex();
             const gameBoard = createGameBoardArray();
             setNextSquareToCheckIndex(null);
@@ -252,17 +260,12 @@ const GameLoop: React.FC = () => {
         }
     };
 
-    const gameOver = () => {
+    const handleGameOverConfirmationTrigger = () => {
         setSquareSpeed('normal');
         setJokerTile(null);
-        window.ClubHouseGame.setScore(points);
-        setIsGameOver(true);
         clearTimers();
-        window.ClubHouseGame.gameDone();
         setIsPreparationTime(false);
         setPreparationTime(PREPARATION_TIME);
-        setStartingIndex(null);
-        setEndingIndex(null);
         setNextSquareToCheckIndex(null);
         setNumberOfSquaresChecked(0);
         setArrivalIndex(null);

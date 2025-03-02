@@ -1,11 +1,13 @@
+import { useEffect, useState } from 'react';
 import './startEndIndicator.css';
+
 interface Props {
     type: 'start' | 'finish';
     direction: 'up' | 'down' | 'left' | 'right';
     isRevealed: boolean;
     isConnected?: boolean;
     isActive?: boolean;
-    isPrevious?: boolean;
+    isAnimated?: boolean;
 }
 const StartEndIndicator: React.FC<Props> = ({
     type = 'start',
@@ -13,15 +15,22 @@ const StartEndIndicator: React.FC<Props> = ({
     isRevealed = false,
     isConnected,
     isActive = false,
-    isPrevious = false,
+    isAnimated,
 }) => {
+    const [animationStage, setAnimationStage] = useState('initial');
+
+    useEffect(() => {
+        const animationTimeout = setTimeout(() => setAnimationStage('repeat'), 100);
+        return () => clearTimeout(animationTimeout);
+    }, []);
+
     return isRevealed ? (
         <figure className={`start-and-end start-and-end--${direction}`}>
             <img
                 className={`start-and-end__arch start-and-end__arch--${type}`}
                 src={type === 'start' ? './images/tunnel-green.svg' : './images/tunnel-yellow.svg'}
             />
-            {!isConnected && !isActive && !isPrevious && (
+            {!isConnected && !isActive && (
                 <>
                     <span
                         className={`start-and-end__arrow start-and-end__arrow--${type} 
@@ -34,8 +43,12 @@ const StartEndIndicator: React.FC<Props> = ({
     ) : (
         <figure
             className={`indicator-sign indicator-sign--${direction} ${
-                type === 'start' ? 'indicator-sign--yellow' : 'indicator-sign--green'
-            }`}>
+                animationStage === 'initial'
+                    ? 'indicator-sign--initial'
+                    : isAnimated === true
+                    ? `indicator-sign--${direction}-animation`
+                    : ''
+            } ${type === 'start' ? 'indicator-sign--green' : 'indicator-sign--yellow'}`}>
             {type === 'start' ? 'START' : 'MÅL'}
         </figure>
     );

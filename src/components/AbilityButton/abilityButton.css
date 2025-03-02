@@ -4,6 +4,12 @@
     aspect-ratio: 1;
 }
 
+.ability--disabled {
+    filter: grayscale(1);
+    opacity: .5;
+}
+
+
 .ability__button {
     appearance: unset;
     background-color: var(--off-white);
@@ -85,13 +91,14 @@
 .ability__button--disabled {
     opacity: .5;
     filter: grayscale(1);
+    pointer-events: none;
 }
 
 .ability-button__image {
     width: clamp(3.5rem, 19vw, 4.5rem);
     padding: var(--spacing-xs);
     border: 2px solid var(--gray);
-    background-color: var(--off-white);
+    background-color: var(--white);
     filter: drop-shadow(2px 2px 0 var(--gray));
     box-shadow: var(--3d-shadow);
     border-radius: 4px;
@@ -101,7 +108,7 @@
     object-fit: contain;
 }
 
-.ability__button--turbo-suggestion {
+.ability__button--turbo-suggestion .ability-button__image {
     animation: goSpeedGo .5s linear .1s infinite;
 }
 
@@ -117,41 +124,12 @@
     }
 }
 
-/* .ability--byt .ability-button__image {
-    background-color: var(--light-gray);
-    border: 2px solid var(--gray);
-    border-radius: 4px;
-    aspect-ratio: 1;
-    filter: drop-shadow(2px 2px 0 var(--gray));
-}
-
-.ability--lugn .ability-button__image {
-    max-width: 3.5rem;
-    filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.5));
-} */
-
-/* .ability--turbo .ability-button__image,
-.ability--byt .ability-button__image,
-.ability--lugn .ability-button__image {
-    max-width: 4.5rem;
-    width: 100%;
-    border: 2px solid var(--gray);
-    background-color: var(--off-white);
-    filter: drop-shadow(2px 2px 0 var(--gray));
-    box-shadow: var(--3d-shadow);
-    border-radius: 4px;
-    aspect-ratio: 1;
-    z-index: 999;
-    position: relative;
-} */
-
 .ability-button__name {
     transform: translateY(calc(-1 * var(--spacing-m)));
     width: 80%;
     justify-self: center;
     text-align: center;
-    background-color: var(--bg-primary);
-    border: 1px solid var(--accent3);
+    background-color: var(--bg-primary--light);
     padding: var(--spacing-xs);
     color: var(--white);
     border-radius: var(--spacing-s);
@@ -168,6 +146,27 @@
     background-color: gray;
 }
 
+.ability-button__name--turbo-suggestion {
+    animation: victoryRoad 2s linear infinite;
+    background-color: var(--accent1);
+    background: linear-gradient(45deg, rgb(245, 182, 66) 0%, rgba(253, 204, 0, 1) 50%, rgb(219, 125, 1) 100%);
+    background-size: 300% 200%;
+}
+
+@keyframes victoryRoad {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 @media (hover: hover) and (pointer: fine) {
     .ability {
         transform: translateY(-2px);
@@ -178,8 +177,7 @@
         cursor: pointer;
     }
 
-    .ability__button--disabled,
-    .ability-button__name--disabled {
+    .ability--disabled * {
         cursor: not-allowed;
     }
 }

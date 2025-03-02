@@ -2,7 +2,6 @@ import { Connections } from '../types/type';
 
 export interface SquareData {
     isActive: boolean;
-    isPreviousSquare: boolean;
     isRevealed: boolean;
     isLinkedToStart: boolean;
     delay: number;
@@ -14,7 +13,7 @@ export interface RoadTile {
     alt: string;
     connections: [boolean, boolean, boolean, boolean];
 }
-export interface endPointInfo {
+export interface EndPointInfo {
     arrowDirection: 'up' | 'down' | 'left' | 'right';
     successConnection: Connections;
 }

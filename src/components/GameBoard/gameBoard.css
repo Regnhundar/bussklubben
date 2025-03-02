@@ -2,13 +2,18 @@
     position: relative;
     display: grid;
     place-self: center;
-    gap: 1px;
+    justify-content: center;
     width: 100%;
     aspect-ratio: 1;
     grid-template-rows: repeat(5, minmax(0, 1fr));
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    background-color: var(--gray);
     border-radius: var(--spacing-s);
     border: 2px solid var(--black);
     overflow: hidden;
+    box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.4);
+}
+
+.game-board--disabled {
+    filter: grayscale(.9);
+
 }
