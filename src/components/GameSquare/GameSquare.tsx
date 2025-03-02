@@ -170,8 +170,22 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
             className={isGameOverConfirmation ? 'game-square game-square--disabled' : 'game-square'}
             onClick={handleSquareReveal}
             disabled={isGameOverConfirmation}>
-            {startingTile && <StartEndIndicator type='start' direction={startingIndicator} isRevealed={false} />}
-            {endingTile && <StartEndIndicator type='finish' direction={finishIndicator} isRevealed={false} />}
+            {startingTile && (
+                <StartEndIndicator
+                    type='start'
+                    direction={startingIndicator}
+                    isRevealed={false}
+                    isAnimated={!isGameOverConfirmation}
+                />
+            )}
+            {endingTile && (
+                <StartEndIndicator
+                    type='finish'
+                    direction={finishIndicator}
+                    isRevealed={false}
+                    isAnimated={!isGameOverConfirmation}
+                />
+            )}
         </motion.button>
     );
 };

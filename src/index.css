@@ -57,15 +57,16 @@
 }
 
 body {
+  font-family: var(--bread-font);
   display: grid;
-  background-color: var(--bg-primary);
   background: linear-gradient(to top, var(--bg-primary), var(--bg-primary--dark));
+  background-color: var(--bg-primary);
   color: var(--white);
   height: 100svh;
 }
 
 body * {
-  font-family: var(--bread-font);
+
   user-select: none;
   -ms-user-select: none;
   -moz-user-select: none;

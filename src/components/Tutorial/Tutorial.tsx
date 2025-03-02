@@ -4,16 +4,31 @@ import MessageOverlay from '../MessageOverlay/MessageOverlay';
 import { useState } from 'react';
 import useGameStore from '../../stores/gameStore';
 import { motion } from 'motion/react';
+import { useSwipeable } from 'react-swipeable';
 
 const Tutorial: React.FC = () => {
     const [slideNumber, setSlideNumber] = useState(0);
     const { setIsTutorial } = useGameStore();
+
+    const handleNextSlide = () => {
+        setSlideNumber((prev) => (prev === tutorialMessages.length - 1 ? 0 : prev + 1));
+    };
+    const handlePreviousSlide = () => {
+        setSlideNumber((prev) => (prev === 0 ? tutorialMessages.length - 1 : prev - 1));
+    };
+
+    const handlers = useSwipeable({
+        onSwipedLeft: handleNextSlide,
+        onSwipedRight: handlePreviousSlide,
+        preventScrollOnSwipe: true,
+        swipeDuration: 500,
+    });
+
     const tutorialMessages = [
-        ['Välkommen till Roadblox!', 'Såhär fungerar spelet:'],
-        ['Det här är spelbrädet.'],
-        ['Bakom rutorna finns en väg...'],
-        ['Byt plats på bitarna tills vägen leder från start till mål.'],
-        ['Såhär fungerar knapparna...', 'Lycka till!'],
+        ['Välkommen till Roadblox!', 'Det här är spelbrädet.'],
+        ['Bakom rutorna finns en väg.', 'En buss ska åka på den.'],
+        ['Byt plats på bitarna så bussen kan åka från start till mål.'],
+        ['Detta gör knapparna:'],
     ];
 
     const tutorialImages = [
@@ -34,26 +49,26 @@ const Tutorial: React.FC = () => {
     const abilities = [
         {
             name: 'kör',
-            description: 'Tryck för att bussen ska åka direkt.',
+            description: 'Bussen åker direkt.',
             src: '/images/abilities/play.svg',
             alt: 'Grön triangel, en play-ikon.',
         },
 
         {
             name: 'snabbt',
-            description: 'Tryck för att bussen ska åka fort.',
+            description: 'Bussen åker fort.',
             src: '/images/abilities/flash.svg',
             alt: 'Gul blixt.',
         },
         {
             name: 'sakta',
-            description: 'Tryck för att bussen ska åka sakta.',
+            description: 'Bussen åker sakta.',
             src: '/images/abilities/paus.svg',
             alt: 'Gul snigel med grönt skal.',
         },
         {
             name: 'byt',
-            description: 'Tryck för att byta in den ruta som visas. Tryck sedan på spelbrädet.',
+            description: 'Byt in den ruta som visas. Tryck sedan på spelbrädet.',
             src: '/images/roadTiles/upDown.svg',
             alt: 'Lodrätt vägbit.',
         },
@@ -62,29 +77,27 @@ const Tutorial: React.FC = () => {
     return (
         <motion.section initial={{ top: '-200%' }} animate={{ top: 0 }} exit={{ top: '-200%' }} className='tutorial'>
             <MessageOverlay textLines={tutorialMessages[slideNumber]} />
-            <div className='tutorial__info-wrapper'>
-                {[1, 2, 3].includes(slideNumber) && (
+            <div {...handlers} className='tutorial__info-wrapper'>
+                {[0, 1, 2].includes(slideNumber) && (
                     <img
-                        key={tutorialImages[slideNumber - 1].src}
-                        src={tutorialImages[slideNumber - 1].src}
-                        alt={tutorialImages[slideNumber - 1].alt}
+                        key={tutorialImages[slideNumber].src}
+                        src={tutorialImages[slideNumber].src}
+                        alt={tutorialImages[slideNumber].alt}
                         className='tutorial__gameboard-image'
                     />
                 )}
 
-                {[0, 4].includes(slideNumber) && (
+                {slideNumber === 3 && (
                     <ul className='tutorial__list'>
-                        {}
-                        {slideNumber === 4 &&
-                            abilities.map((ability, i) => (
-                                <li key={i} className='tutorial__ability-list-item'>
-                                    <img src={ability.src} alt={ability.alt} className='tutorial__ability-image' />
-                                    <div className='tutorial__ability-description-wrapper'>
-                                        <h2 className='tutorial__ability-title'>{ability.name.toUpperCase()}</h2>
-                                        <p className='tutorial__ability-description'>{ability.description}</p>
-                                    </div>
-                                </li>
-                            ))}
+                        {abilities.map((ability, i) => (
+                            <li key={i} className='tutorial__ability-list-item'>
+                                <img src={ability.src} alt={ability.alt} className='tutorial__ability-image' />
+                                <div className='tutorial__ability-description-wrapper'>
+                                    <h2 className='tutorial__ability-title'>{ability.name.toUpperCase()}</h2>
+                                    <p className='tutorial__ability-description'>{ability.description}</p>
+                                </div>
+                            </li>
+                        ))}
                     </ul>
                 )}
 
@@ -93,14 +106,14 @@ const Tutorial: React.FC = () => {
                         type='proceed'
                         icon={{ src: '/images/icons/chevron.svg', alt: 'Vit pil som pekar åt vänster.' }}
                         extraClass='confirmation-button--tutorial-navigation'
-                        onClick={() => setSlideNumber((prev) => (prev === 0 ? tutorialMessages.length - 1 : prev - 1))}
+                        onClick={handlePreviousSlide}
                     />
                     <span className='tutorial__pagination-info'>{`${slideNumber + 1}/${tutorialMessages.length}`}</span>
                     <ConfirmationButton
                         type='proceed'
                         icon={{ src: '/images/icons/chevron.svg', alt: 'Vit pil som pekar åt höger.' }}
                         extraClass='confirmation-button--tutorial-navigation'
-                        onClick={() => setSlideNumber((prev) => (prev === tutorialMessages.length - 1 ? 0 : prev + 1))}
+                        onClick={handleNextSlide}
                     />
                 </div>
             </div>

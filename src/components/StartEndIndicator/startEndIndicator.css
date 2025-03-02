@@ -11,6 +11,7 @@
     text-shadow: var(--text-outline--black);
     background-color: var(--after-bg-color);
     padding: var(--spacing-xs) var(--spacing-s);
+    text-align: center;
     font-weight: bold;
     min-width: 7ch;
     width: fit-content;

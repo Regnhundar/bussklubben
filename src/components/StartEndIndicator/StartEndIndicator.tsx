@@ -7,6 +7,7 @@ interface Props {
     isRevealed: boolean;
     isConnected?: boolean;
     isActive?: boolean;
+    isAnimated?: boolean;
 }
 const StartEndIndicator: React.FC<Props> = ({
     type = 'start',
@@ -14,6 +15,7 @@ const StartEndIndicator: React.FC<Props> = ({
     isRevealed = false,
     isConnected,
     isActive = false,
+    isAnimated,
 }) => {
     const [animationStage, setAnimationStage] = useState('initial');
 
@@ -41,7 +43,11 @@ const StartEndIndicator: React.FC<Props> = ({
     ) : (
         <figure
             className={`indicator-sign indicator-sign--${direction} ${
-                animationStage === 'initial' ? 'indicator-sign--initial' : `indicator-sign--${direction}-animation`
+                animationStage === 'initial'
+                    ? 'indicator-sign--initial'
+                    : isAnimated === true
+                    ? `indicator-sign--${direction}-animation`
+                    : ''
             } ${type === 'start' ? 'indicator-sign--green' : 'indicator-sign--yellow'}`}>
             {type === 'start' ? 'START' : 'MÅL'}
         </figure>

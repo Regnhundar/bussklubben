@@ -32,13 +32,12 @@
 
 .tutorial__info-wrapper {
     height: 100%;
-    max-height: 34rem;
     width: 100%;
     display: grid;
 }
 
 .tutorial__list {
-    max-height: 30rem;
+    max-height: 23rem;
     overflow-y: auto;
     display: grid;
     gap: var(--spacing-m);
@@ -59,6 +58,19 @@
     grid-column: 1/-1;
     gap: var(--spacing-m);
 }
+
+.tutorial__bulletpoint-list-item {
+    height: fit-content;
+    display: grid;
+    grid-column: 1/-1;
+    gap: var(--spacing-m);
+
+}
+
+.tutorial__bulletpoint-paragraph {
+    grid-column: 1/-1;
+}
+
 
 
 .tutorial__ability-image {

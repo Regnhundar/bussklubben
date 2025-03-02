@@ -21,6 +21,14 @@
     filter: drop-shadow(1px 1px 0 rgba(0, 0, 0, 0.5));
 }
 
+.jumbotron-info-field--final-seconds .jumbotron-info-field__icon {
+    animation: leaving .5s linear infinite forwards;
+}
+
+.jumbotron-info-field--final-seconds .jumbotron-info-field__data {
+    animation: finalSeconds 1s linear infinite forwards;
+}
+
 .jumbotron-info-field__wrapper {
     grid-row: 1/-1;
     align-self: center;
@@ -34,13 +42,6 @@
 .jumbotron-info-field__data {
     font-size: var(--font-size-l);
 
-}
-
-.jumbotron-info-field__data--final-seconds {
-    scale: 1.2;
-    transform-origin: left;
-    transition: scale ease-in-out;
-    animation: finalSeconds 1s linear infinite forwards;
 }
 
 .jumbotron-info-field__unit-info {
@@ -64,5 +65,17 @@
     100% {
         filter: drop-shadow(0 0 0 rgba(0, 0, 0, 0)) drop-shadow(0 0 0 rgba(0, 0, 0, 0));
         color: var(--bg-primary);
+    }
+}
+
+@keyframes leaving {
+
+    0%,
+    100% {
+        scale: 1;
+    }
+
+    50% {
+        scale: 1.1;
     }
 }

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import useGameBoardStore from '../../stores/gameBoardStore';
 import { useMemo } from 'react';
 import useGameStore from '../../stores/gameStore';
+import { GRID_COLUMNS, GRID_ROWS } from '../../constants';
 
 const PathControl: React.FC = () => {
     const {
@@ -40,8 +41,6 @@ const PathControl: React.FC = () => {
     useEffect(() => {
         if (!isGameStarted) return;
         if (isFirstSquareConnected && startingIndex !== null) {
-            let gridColumns = 5;
-            let gridRows = 5;
             // To track changes and prevent infinite loop
             const updatedGameBoardArray = [...gameBoardArray];
             let updated = false; // Flag to track if any square has changed
@@ -51,16 +50,16 @@ const PathControl: React.FC = () => {
 
             // Helper function to get the adjacent tile index based on direction
             const getAdjacentIndex = (index: number, direction: number): number | null => {
-                const row = Math.floor(index / gridColumns);
-                const col = index % gridColumns;
+                const row = Math.floor(index / GRID_COLUMNS);
+                const col = index % GRID_COLUMNS;
 
                 switch (direction) {
                     case 0:
-                        return row > 0 ? index - gridColumns : null; // Up
+                        return row > 0 ? index - GRID_COLUMNS : null; // Up
                     case 1:
-                        return col < gridColumns - 1 ? index + 1 : null; // Right
+                        return col < GRID_COLUMNS - 1 ? index + 1 : null; // Right
                     case 2:
-                        return row < gridRows - 1 ? index + gridColumns : null; // Down
+                        return row < GRID_ROWS - 1 ? index + GRID_COLUMNS : null; // Down
                     case 3:
                         return col > 0 ? index - 1 : null; // Left
                     default:
