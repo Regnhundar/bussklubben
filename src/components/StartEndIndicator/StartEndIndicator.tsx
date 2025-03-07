@@ -19,6 +19,7 @@ const StartEndIndicator: React.FC<Props> = ({
 }) => {
     const [animationStage, setAnimationStage] = useState('initial');
 
+    // Jag har en initial animation när de dyker upp som körs en gång och sedan en annan som repeteras infinity. Så denna useEffect togglar klasserna för det.
     useEffect(() => {
         const animationTimeout = setTimeout(() => setAnimationStage('repeat'), 100);
         return () => clearTimeout(animationTimeout);

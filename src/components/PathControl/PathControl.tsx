@@ -77,8 +77,6 @@ const PathControl: React.FC = () => {
                 visited.add(currentIndex);
 
                 if (currentIndex === endingIndex) {
-                    // updatedGameBoardArray[currentIndex].isLinkedToStart = true;
-                    // updated = true;
                     continue; // Stop further expansion beyond this square
                 }
 

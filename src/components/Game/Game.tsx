@@ -50,7 +50,7 @@ const Game: React.FC = () => {
             return messages;
         }
         if (!isFirstSquareConnected) {
-            messages.push('Start felkopplad!');
+            messages.push('Start var fel!');
             return messages;
         }
         messages.push('Där var vägen slut!');

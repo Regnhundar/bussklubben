@@ -18,13 +18,7 @@ export const squareButtonVariant = {
         transition: { duration: 0.2 },
     },
 };
-export const squareImgVariant = {
-    hidden: { opacity: 0.7, scale: 0.8 },
-    show: {
-        opacity: 1,
-        scale: 1,
-    },
-};
+
 export const jumbotronVariant = {
     hidden: { opacity: 0, y: '-200%' },
     show: {
