@@ -6,7 +6,7 @@ import StartEndIndicator from '../StartEndIndicator/StartEndIndicator';
 import useGameStore from '../../stores/gameStore';
 import { jokerRoadTiles } from '../../data/roadTiles';
 import { motion } from 'motion/react';
-import { squareButtonVariant, squareImgVariant } from '../../motionVariants/variants';
+import { squareButtonVariant } from '../../motionVariants/variants';
 
 interface Props {
     squareData: SquareData;
@@ -127,11 +127,7 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
                               : ''
                       }`
             }>
-            <motion.img
-                variants={squareImgVariant}
-                initial={'hidden'}
-                animate={'show'}
-                exit={'hidden'}
+            <img
                 src={squareData.tile.src}
                 alt={squareData.tile.alt}
                 className={'game-square__image'}

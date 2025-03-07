@@ -8,6 +8,7 @@
     position: relative;
     padding-block: var(--spacing-xxl);
     gap: var(--spacing-l);
+    /* Den här animationen ligger i gamesquare. Ett namngivningsmisstag men det ser kul ut så det får vara kvar! */
     animation: fadeIn .5s ease-in 1;
 }
 
@@ -17,10 +18,10 @@
 
 .tutorial__gameboard-image {
     width: 100%;
-    animation: fadeIn .5s ease-in 1;
+    animation: tutorialFadeIn .5s ease-in 1;
 }
 
-@keyframes fadeIn {
+@keyframes tutorialFadeIn {
     0% {
         opacity: .5;
     }
@@ -49,7 +50,7 @@
     box-shadow: var(--3d-shadow);
     filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.4));
     border: 2px solid black;
-    animation: fadeIn .5s linear 1;
+    animation: tutorialFadeIn .5s linear 1;
 }
 
 .tutorial__ability-list-item {
