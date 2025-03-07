@@ -5,26 +5,17 @@
     display: grid;
     place-self: center;
     place-items: center;
-
     appearance: none;
     border: .5px solid var(--gray);
-
     box-shadow: var(--3d-shadow-big);
     border-radius: 4px;
     background: var(--bg-gamesquare);
-
-    /* background-image: url(/images/questionmark.svg),
-        linear-gradient(135deg, rgba(255, 255, 255, 0.418), rgba(20, 20, 20, 0.733)); */
     background-image: url(/images/questionmark.svg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: 40%;
 }
 
-
-/* radial-gradient(circle at -17% 9%, #18d11593 21%, transparent 61.05%),radial-gradient(circle at -59% 76%, #1e70002c 70%, transparent 80.05%),radial-gradient(circle at 265% -341%, #72b77138 1%, transparent 24.05%),linear-gradient(-247deg, #f2ea1816 44%, transparent 89.05%); */
-/* linear-gradient(135deg, #00c555 0%, #009641 100%); */
-/* linear-gradient(135deg, #b8fa9ece 0%, #5f9e52fa 50%, #46ee46 100%); */
 .game-square-wrapper {
     display: grid;
     place-self: center;
@@ -45,11 +36,22 @@
 
 .game-square__image {
     object-fit: contain;
-
     aspect-ratio: 1;
     width: 100%;
+    filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.4));
+    animation: fadeIn .2s cubic-bezier(0.175, 0.885, 0.32, 1.575);
+}
 
-    filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.4))
+@keyframes fadeIn {
+    0% {
+        opacity: 0.5;
+        transform: scale(0.8);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .game-square-wrapper--is-changeable {
