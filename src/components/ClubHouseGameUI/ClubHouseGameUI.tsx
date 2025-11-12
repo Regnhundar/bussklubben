@@ -1,12 +1,19 @@
-import { useEffect } from 'react';
-import './clubHouseGameUI.css';
-import useGameBoardStore from '../../stores/gameBoardStore';
-import useGameStore from '../../stores/gameStore';
-import { createGameBoardArray, generateStartAndFinishIndex } from '../../utils/utilityFunctions';
-import { PREPARATION_TIME, TOTAL_TIME } from '../../constants';
+import { useEffect } from "react";
+import "./clubHouseGameUI.css";
+import useGameBoardStore from "../../stores/gameBoardStore";
+import useGameStore from "../../stores/gameStore";
+import { createGameBoardArray, generateStartAndFinishIndex } from "../../utils/utilityFunctions";
+import { PREPARATION_TIME, TOTAL_TIME } from "../../constants";
+import { useShallow } from "zustand/shallow";
 
 const ClubHouseGameUI: React.FC = () => {
-    const { setGameBoardArray, setStartingIndex, setEndingIndex } = useGameBoardStore();
+    const { setGameBoardArray, setStartingIndex, setEndingIndex } = useGameBoardStore(
+        useShallow((state) => ({
+            setGameBoardArray: state.setGameBoardArray,
+            setStartingIndex: state.setStartingIndex,
+            setEndingIndex: state.setEndingIndex,
+        }))
+    );
     const {
         setIsGameOver,
         setIsGameRunning,
@@ -17,7 +24,19 @@ const ClubHouseGameUI: React.FC = () => {
         setLevel,
         isTutorial,
         setIsTutorial,
-    } = useGameStore();
+    } = useGameStore(
+        useShallow((state) => ({
+            setIsGameOver: state.setIsGameOver,
+            setIsGameRunning: state.setIsGameRunning,
+            setIsPreparationTime: state.setIsPreparationTime,
+            setTotalTime: state.setTotalTime,
+            setPreparationTime: state.setPreparationTime,
+            setPoints: state.setPoints,
+            setLevel: state.setLevel,
+            isTutorial: state.isTutorial,
+            setIsTutorial: state.setIsTutorial,
+        }))
+    );
 
     useEffect(() => {
         const startGame = () => {
@@ -40,11 +59,11 @@ const ClubHouseGameUI: React.FC = () => {
 
     return (
         <>
-            <div id='ui' className={isTutorial ? 'd-none' : ''}></div>
-            <div className='loader' id='loader'>
-                <p className='loader-text'>Startar</p>
-                <img className='loader-logo' src='/images/logo.png' />
-                <img className='spinner' src='/images/spinner.svg' />
+            <div id="ui" className={isTutorial ? "d-none" : ""}></div>
+            <div className="loader" id="loader">
+                <p className="loader-text">Startar</p>
+                <img className="loader-logo" src="/images/logo.png" />
+                <img className="spinner" src="/images/spinner.svg" />
             </div>
         </>
     );

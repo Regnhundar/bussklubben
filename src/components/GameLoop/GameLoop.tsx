@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import useGameStore from '../../stores/gameStore';
+import { useEffect, useRef, useState } from "react";
+import useGameStore from "../../stores/gameStore";
 import {
     BONUS_TIME,
     BONUS_TIME_SUBTRACTION,
@@ -12,16 +12,17 @@ import {
     SLOW_MULTIPLIER,
     SQUARE_TIMER,
     TURBO_MULTIPLIER,
-} from '../../constants';
-import useGameBoardStore from '../../stores/gameBoardStore';
+} from "../../constants";
+import useGameBoardStore from "../../stores/gameBoardStore";
 import {
     checkForOutOfBounds,
     createGameBoardArray,
     determineDirection,
     generateStartAndFinishIndex,
     squareToCheck,
-} from '../../utils/utilityFunctions';
-import { validGameBoardIndices } from '../../data/gameBoard';
+} from "../../utils/utilityFunctions";
+import { validGameBoardIndices } from "../../data/gameBoard";
+import { useShallow } from "zustand/shallow";
 
 interface Props {
     isSquareConnected: boolean;
@@ -37,7 +38,19 @@ const GameLoop: React.FC<Props> = ({ isSquareConnected }) => {
         isPreparationTime,
         setIsPreparationTime,
         setPreparationTime,
-    } = useGameStore();
+    } = useGameStore(
+        useShallow((state) => ({
+            setIsGameOverConfirmation: state.setIsGameOverConfirmation,
+            isGameOverConfirmation: state.isGameOverConfirmation,
+            setTotalTime: state.setTotalTime,
+            level: state.level,
+            setLevel: state.setLevel,
+            setPoints: state.setPoints,
+            isPreparationTime: state.isPreparationTime,
+            setIsPreparationTime: state.setIsPreparationTime,
+            setPreparationTime: state.setPreparationTime,
+        }))
+    );
     const {
         setJokerTile,
         setStartingIndex,
@@ -55,16 +68,35 @@ const GameLoop: React.FC<Props> = ({ isSquareConnected }) => {
         setArrivalIndex,
         arrivalIndex,
         setIsExiting,
-    } = useGameBoardStore();
+    } = useGameBoardStore(
+        useShallow((state) => ({
+            setJokerTile: state.setJokerTile,
+            setStartingIndex: state.setStartingIndex,
+            endingIndex: state.endingIndex,
+            setEndingIndex: state.setEndingIndex,
+            finishConnectionIndex: state.finishConnectionIndex,
+            setGameBoardArray: state.setGameBoardArray,
+            squaresToSwap: state.squaresToSwap,
+            setSquaresToSwap: state.setSquaresToSwap,
+            squareSpeed: state.squareSpeed,
+            setSquareSpeed: state.setSquareSpeed,
+            updateGameSquare: state.updateGameSquare,
+            nextSquareToCheckIndex: state.nextSquareToCheckIndex,
+            setNextSquareToCheckIndex: state.setNextSquareToCheckIndex,
+            setArrivalIndex: state.setArrivalIndex,
+            arrivalIndex: state.arrivalIndex,
+            setIsExiting: state.setIsExiting,
+        }))
+    );
     const [numberOfSquaresChecked, setNumberOfSquaresChecked] = useState<number>(0);
     const prepTimerRef = useRef<number | null>(null);
     const gameTimerRef = useRef<number | null>(null);
     const squareTimerRef = useRef<number | null>(null);
 
     const nextSquareTimer =
-        squareSpeed === 'turbo'
+        squareSpeed === "turbo"
             ? SQUARE_TIMER * TURBO_MULTIPLIER
-            : squareSpeed === 'slow'
+            : squareSpeed === "slow"
             ? SQUARE_TIMER * SLOW_MULTIPLIER
             : SQUARE_TIMER;
 
@@ -256,12 +288,12 @@ const GameLoop: React.FC<Props> = ({ isSquareConnected }) => {
             setGameBoardArray(gameBoard);
             setPreparationTime(adjustedPrepTime);
             setIsPreparationTime(true);
-            setSquareSpeed('normal');
+            setSquareSpeed("normal");
         }
     };
 
     const handleGameOverConfirmationTrigger = () => {
-        setSquareSpeed('normal');
+        setSquareSpeed("normal");
         setJokerTile(null);
         clearTimers();
         setIsPreparationTime(false);

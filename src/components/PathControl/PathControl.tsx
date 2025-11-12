@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
-import useGameBoardStore from '../../stores/gameBoardStore';
-import { useMemo } from 'react';
-import useGameStore from '../../stores/gameStore';
-import { GRID_COLUMNS, GRID_ROWS } from '../../constants';
+import { useEffect } from "react";
+import useGameBoardStore from "../../stores/gameBoardStore";
+import { useMemo } from "react";
+import useGameStore from "../../stores/gameStore";
+import { GRID_COLUMNS, GRID_ROWS } from "../../constants";
+import { useShallow } from "zustand/shallow";
 
 const PathControl: React.FC = () => {
     const {
@@ -13,8 +14,24 @@ const PathControl: React.FC = () => {
         startConnectionIndex,
         triggerPath,
         endingIndex,
-    } = useGameBoardStore();
-    const { isGameOverConfirmation, isGameOver, isGameRunning } = useGameStore();
+    } = useGameBoardStore(
+        useShallow((state) => ({
+            gameBoardArray: state.gameBoardArray,
+            setGameBoardArray: state.setGameBoardArray,
+            arrivalIndex: state.arrivalIndex,
+            startingIndex: state.startingIndex,
+            startConnectionIndex: state.startConnectionIndex,
+            triggerPath: state.triggerPath,
+            endingIndex: state.endingIndex,
+        }))
+    );
+    const { isGameOverConfirmation, isGameOver, isGameRunning } = useGameStore(
+        useShallow((state) => ({
+            isGameOverConfirmation: state.isGameOverConfirmation,
+            isGameOver: state.isGameOver,
+            isGameRunning: state.isGameRunning,
+        }))
+    );
     // const [nextArrivedFromIndex, setNextArrivedFromIndex] = useState<Connections>();
     // const [nextSquareInLine, setNextSquareInLine] = useState<GameBoardIndices>();
 
