@@ -1,17 +1,27 @@
-import './game.css';
-import { motion } from 'motion/react';
-import MessageOverlay from '../MessageOverlay/MessageOverlay';
-import Jumbotron from '../Jumbotron/Jumbotron';
-import GameBoard from '../GameBoard/GameBoard';
-import AbilityBar from '../AbilityBar/AbilityBar';
-import PathControl from '../PathControl/PathControl';
-import GameLoop from '../GameLoop/GameLoop';
+import "./game.css";
+import { motion } from "motion/react";
+import MessageOverlay from "../MessageOverlay/MessageOverlay";
+import Jumbotron from "../Jumbotron/Jumbotron";
+import GameBoard from "../GameBoard/GameBoard";
+import AbilityBar from "../AbilityBar/AbilityBar";
+import PathControl from "../PathControl/PathControl";
+import GameLoop from "../GameLoop/GameLoop";
 
-import useGameStore from '../../stores/gameStore';
-import { useMemo } from 'react';
-import useGameBoardStore from '../../stores/gameBoardStore';
+import useGameStore from "../../stores/gameStore";
+import { useMemo } from "react";
+import useGameBoardStore from "../../stores/gameBoardStore";
+import { useShallow } from "zustand/shallow";
+
 const Game: React.FC = () => {
-    const { isGameOverConfirmation, setIsGameOver, setIsGameOverConfirmation, points, totalTime } = useGameStore();
+    const { isGameOverConfirmation, setIsGameOver, setIsGameOverConfirmation, points, totalTime } = useGameStore(
+        useShallow((state) => ({
+            isGameOverConfirmation: state.isGameOverConfirmation,
+            setIsGameOver: state.setIsGameOver,
+            setIsGameOverConfirmation: state.setIsGameOverConfirmation,
+            points: state.points,
+            totalTime: state.totalTime,
+        }))
+    );
     const {
         startingIndex,
         setStartingIndex,
@@ -20,16 +30,26 @@ const Game: React.FC = () => {
         nextSquareToCheckIndex,
         arrivalIndex,
         gameBoardArray,
-    } = useGameBoardStore();
+    } = useGameBoardStore(
+        useShallow((state) => ({
+            startingIndex: state.startingIndex,
+            setStartingIndex: state.setStartingIndex,
+            startConnectionIndex: state.startConnectionIndex,
+            setEndingIndex: state.setEndingIndex,
+            nextSquareToCheckIndex: state.nextSquareToCheckIndex,
+            arrivalIndex: state.arrivalIndex,
+            gameBoardArray: state.gameBoardArray,
+        }))
+    );
 
     const isFirstSquareConnected = useMemo(() => {
-        if (typeof startingIndex !== 'number' || typeof startConnectionIndex !== 'number') return false;
+        if (typeof startingIndex !== "number" || typeof startConnectionIndex !== "number") return false;
         const square = gameBoardArray[startingIndex];
         return square?.isRevealed && square.tile.connections[startConnectionIndex] === true;
     }, [gameBoardArray, startingIndex, startConnectionIndex]);
 
     const isSquareConnected = useMemo(() => {
-        if (typeof nextSquareToCheckIndex !== 'number' || typeof arrivalIndex !== 'number') return false;
+        if (typeof nextSquareToCheckIndex !== "number" || typeof arrivalIndex !== "number") return false;
         const square = gameBoardArray[nextSquareToCheckIndex];
         return square?.isRevealed && square.tile.connections[arrivalIndex] === true;
     }, [gameBoardArray, nextSquareToCheckIndex, arrivalIndex]);
@@ -44,21 +64,21 @@ const Game: React.FC = () => {
     };
 
     const handleGameOverMessage = (): string[] => {
-        const messages = ['Åh nej...'];
+        const messages = ["Åh nej..."];
         if (totalTime === 0) {
-            messages.push('Tiden tog slut!');
+            messages.push("Tiden tog slut!");
             return messages;
         }
         if (!isFirstSquareConnected) {
-            messages.push('Start var fel!');
+            messages.push("Start var fel!");
             return messages;
         }
-        messages.push('Där var vägen slut!');
+        messages.push("Där var vägen slut!");
         return messages;
     };
 
     return (
-        <motion.main exit={{ opacity: 0 }} className='game'>
+        <motion.main exit={{ opacity: 0 }} className="game">
             {isGameOverConfirmation ? (
                 <MessageOverlay textLines={handleGameOverMessage()} onClick={handleConfirmation} />
             ) : (

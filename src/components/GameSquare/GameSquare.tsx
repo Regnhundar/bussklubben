@@ -1,18 +1,19 @@
-import './gameSquare.css';
-import { SquareData } from '../../interfaces/gameBoard';
-import useGameBoardStore from '../../stores/gameBoardStore';
-import { useEffect, useState, useCallback } from 'react';
-import StartEndIndicator from '../StartEndIndicator/StartEndIndicator';
-import useGameStore from '../../stores/gameStore';
-import { jokerRoadTiles } from '../../data/roadTiles';
-import { motion } from 'motion/react';
-import { squareButtonVariant } from '../../motionVariants/variants';
+import "./gameSquare.css";
+import { SquareData } from "../../interfaces/gameBoard";
+import useGameBoardStore from "../../stores/gameBoardStore";
+import { useEffect, useState, useCallback } from "react";
+import StartEndIndicator from "../StartEndIndicator/StartEndIndicator";
+import useGameStore from "../../stores/gameStore";
+import { jokerRoadTiles } from "../../data/roadTiles";
+import { motion } from "motion/react";
+import { squareButtonVariant } from "../../motionVariants/variants";
+import { useShallow } from "zustand/shallow";
 
 interface Props {
     squareData: SquareData;
     index: number;
-    finishIndicator: 'up' | 'down' | 'left' | 'right';
-    startingIndicator: 'up' | 'down' | 'left' | 'right';
+    finishIndicator: "up" | "down" | "left" | "right";
+    startingIndicator: "up" | "down" | "left" | "right";
 }
 
 const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, startingIndicator }) => {
@@ -31,8 +32,31 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
         finishConnectionIndex,
         setTriggerPath,
         gameBoardArray,
-    } = useGameBoardStore();
-    const { isGameOverConfirmation, isGameOver, isPreparationTime } = useGameStore();
+    } = useGameBoardStore(
+        useShallow((state) => ({
+            updateGameSquare: state.updateGameSquare,
+            squaresToSwap: state.squaresToSwap,
+            setSquaresToSwap: state.setSquaresToSwap,
+            swapGameSquares: state.swapGameSquares,
+            startingIndex: state.startingIndex,
+            endingIndex: state.endingIndex,
+            jokerTile: state.jokerTile,
+            setJokerTile: state.setJokerTile,
+            activeJokerTile: state.activeJokerTile,
+            setActiveJokerTile: state.setActiveJokerTile,
+            arrivalIndex: state.arrivalIndex,
+            finishConnectionIndex: state.finishConnectionIndex,
+            setTriggerPath: state.setTriggerPath,
+            gameBoardArray: state.gameBoardArray,
+        }))
+    );
+    const { isGameOverConfirmation, isGameOver, isPreparationTime } = useGameStore(
+        useShallow((state) => ({
+            isGameOverConfirmation: state.isGameOverConfirmation,
+            isGameOver: state.isGameOver,
+            isPreparationTime: state.isPreparationTime,
+        }))
+    );
     const [selectedToMove, setSelectedToMove] = useState(false);
 
     const startingTile = index === startingIndex;
@@ -96,22 +120,22 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
             data-index={index}
             className={
                 isGameOverConfirmation
-                    ? 'game-square-wrapper game-square-wrapper--disabled'
+                    ? "game-square-wrapper game-square-wrapper--disabled"
                     : `game-square-wrapper  ${
                           squareData.isActive
-                              ? 'game-square-wrapper--is-active'
+                              ? "game-square-wrapper--is-active"
                               : jokerTile !== null
-                              ? 'game-square-wrapper--is-changeable'
+                              ? "game-square-wrapper--is-changeable"
                               : selectedToMove
-                              ? 'game-square-wrapper--selected'
+                              ? "game-square-wrapper--selected"
                               : isFinalSquareLinked() && squareData.isLinkedToStart
-                              ? 'game-square-wrapper--clear-path'
+                              ? "game-square-wrapper--clear-path"
                               : endingTile &&
                                 finishConnectionIndex !== null &&
                                 squareData.tile.connections[finishConnectionIndex] === false
                               ? `game-square-wrapper--ending-square-unconnected`
                               : squareData.isRevealed && squareData.isLinkedToStart
-                              ? 'game-square-wrapper--connected'
+                              ? "game-square-wrapper--connected"
                               : startingTile &&
                                 arrivalIndex !== null &&
                                 squareData.tile.connections[arrivalIndex] === true
@@ -124,18 +148,18 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
                                 finishConnectionIndex !== null &&
                                 squareData.tile.connections[finishConnectionIndex] === true
                               ? `game-square-wrapper--ending-square-connected`
-                              : ''
+                              : ""
                       }`
             }>
             <img
                 src={squareData.tile.src}
                 alt={squareData.tile.alt}
-                className={'game-square__image'}
+                className={"game-square__image"}
                 onClick={handleJokerTile}
             />
             {startingTile && (
                 <StartEndIndicator
-                    type='start'
+                    type="start"
                     direction={startingIndicator}
                     isRevealed={true}
                     isConnected={arrivalIndex !== null && squareData.tile.connections[arrivalIndex] === true}
@@ -144,7 +168,7 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
             )}
             {endingTile && (
                 <StartEndIndicator
-                    type='finish'
+                    type="finish"
                     direction={finishIndicator}
                     isRevealed={true}
                     isConnected={
@@ -157,18 +181,18 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
     ) : (
         <motion.button
             variants={squareButtonVariant}
-            initial='hidden'
-            animate='show'
-            exit='exit'
+            initial="hidden"
+            animate="show"
+            exit="exit"
             custom={squareData.delay}
             data-index={index}
-            aria-label='En knapp som kommer att visa en dold vägbit.'
-            className={isGameOverConfirmation ? 'game-square game-square--disabled' : 'game-square'}
+            aria-label="En knapp som kommer att visa en dold vägbit."
+            className={isGameOverConfirmation ? "game-square game-square--disabled" : "game-square"}
             onClick={handleSquareReveal}
             disabled={isGameOverConfirmation}>
             {startingTile && (
                 <StartEndIndicator
-                    type='start'
+                    type="start"
                     direction={startingIndicator}
                     isRevealed={false}
                     isAnimated={!isGameOverConfirmation}
@@ -176,7 +200,7 @@ const GameSquare: React.FC<Props> = ({ squareData, index, finishIndicator, start
             )}
             {endingTile && (
                 <StartEndIndicator
-                    type='finish'
+                    type="finish"
                     direction={finishIndicator}
                     isRevealed={false}
                     isAnimated={!isGameOverConfirmation}

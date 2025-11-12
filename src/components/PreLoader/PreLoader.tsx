@@ -1,13 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
-import useGameStore from '../../stores/gameStore';
+import useGameStore from "../../stores/gameStore";
 
 interface Props {
     isGameLoaded: boolean;
     setIsGameLoaded: (boolean: boolean) => void;
 }
 const PreLoader: React.FC<Props> = ({ isGameLoaded, setIsGameLoaded }) => {
-    const { setIsTutorial } = useGameStore();
+    const setIsTutorial = useGameStore((state) => state.setIsTutorial);
     const imagesToPreLoad = [
         `${import.meta.env.BASE_URL}images/roadTiles/downLeft.svg`,
         `${import.meta.env.BASE_URL}images/roadTiles/rightDown.svg`,
@@ -50,7 +50,7 @@ const PreLoader: React.FC<Props> = ({ isGameLoaded, setIsGameLoaded }) => {
                 })
             );
         } catch (error) {
-            console.error('Fel i preloadImages:', error);
+            console.error("Fel i preloadImages:", error);
         }
     };
 
@@ -58,18 +58,18 @@ const PreLoader: React.FC<Props> = ({ isGameLoaded, setIsGameLoaded }) => {
         if (!isGameLoaded) {
             preloadImages(imagesToPreLoad).then(() => {
                 setIsGameLoaded(true);
-                const isFirstTimePlaying = localStorage.getItem('isFirstTimePlaying');
-                const parsedIsFirstTimePlaying = isFirstTimePlaying !== null ? JSON.parse(isFirstTimePlaying) : '';
+                const isFirstTimePlaying = localStorage.getItem("isFirstTimePlaying");
+                const parsedIsFirstTimePlaying = isFirstTimePlaying !== null ? JSON.parse(isFirstTimePlaying) : "";
                 if (parsedIsFirstTimePlaying !== false) {
                     setIsTutorial(true);
-                    localStorage.setItem('isFirstTimePlaying', 'false');
+                    localStorage.setItem("isFirstTimePlaying", "false");
                 }
             });
         }
 
         if (isGameLoaded) {
             const checkLoader = setInterval(() => {
-                if (document.getElementById('loader')) {
+                if (document.getElementById("loader")) {
                     clearInterval(checkLoader);
                     window.ClubHouseGame.gameLoaded({ hideInGame: true });
                 }
@@ -81,11 +81,11 @@ const PreLoader: React.FC<Props> = ({ isGameLoaded, setIsGameLoaded }) => {
 
     return (
         //För att förhindra att react städar bort bilderna ur minnet läggs de i DOM. Annars måste de hämtas igen när de ska renderas på spelbrädet.
-        <div style={{ display: 'none' }} aria-hidden={'true'}>
+        <div style={{ display: "none" }} aria-hidden={"true"}>
             {imagesToPreLoad
                 .filter((src) => src !== `${import.meta.env.BASE_URL}images/logo.png`)
                 .map((src, index) => (
-                    <img key={index} src={src} alt='' />
+                    <img key={index} src={src} alt="" />
                 ))}
         </div>
     );
