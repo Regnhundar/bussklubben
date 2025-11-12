@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 import "./bus.css";
 import { SLOW_MULTIPLIER, SQUARE_TIMER, TURBO_MULTIPLIER } from "../../constants";
 import { useMemo } from "react";
-import { useShallow } from "zustand/shallow";
+import { useShallow } from "zustand/react/shallow";
 
 interface Props {
     x: number;

@@ -7,7 +7,7 @@ import useGameStore from "../../stores/gameStore";
 import { jokerRoadTiles } from "../../data/roadTiles";
 import { motion } from "motion/react";
 import { squareButtonVariant } from "../../motionVariants/variants";
-import { useShallow } from "zustand/shallow";
+import { useShallow } from "zustand/react/shallow";
 
 interface Props {
     squareData: SquareData;

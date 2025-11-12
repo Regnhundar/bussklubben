@@ -131,6 +131,12 @@
     color: #ffffff;
 }
 
+.css-k4n45n {
+    max-width: 600px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 @keyframes loading {
     0% {
         transform: rotate(0);

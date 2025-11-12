@@ -4,7 +4,7 @@ import JumbotronInfoField from "../JumbotronInfoField/JumbotronInfoField";
 import LevelIndicator from "../LevelIndicator/LevelIndicator";
 import "./jumbotron.css";
 import { jumbotronVariant } from "../../motionVariants/variants";
-import { useShallow } from "zustand/shallow";
+import { useShallow } from "zustand/react/shallow";
 
 const Jumbotron: React.FC = () => {
     const { totalTime, points, isPreparationTime, preparationTime, level } = useGameStore(

@@ -3,7 +3,7 @@ import useGameBoardStore from "../../stores/gameBoardStore";
 import { useMemo } from "react";
 import useGameStore from "../../stores/gameStore";
 import { GRID_COLUMNS, GRID_ROWS } from "../../constants";
-import { useShallow } from "zustand/shallow";
+import { useShallow } from "zustand/react/shallow";
 
 const PathControl: React.FC = () => {
     const {

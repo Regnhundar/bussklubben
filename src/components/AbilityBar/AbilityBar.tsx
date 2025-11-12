@@ -7,7 +7,7 @@ import { useCallback, useEffect } from "react";
 import useGameStore from "../../stores/gameStore";
 import { motion } from "motion/react";
 import { abilityBarVariant } from "../../motionVariants/variants";
-import { useShallow } from "zustand/shallow";
+import { useShallow } from "zustand/react/shallow";
 
 const AbilityBar: React.FC = () => {
     const {
