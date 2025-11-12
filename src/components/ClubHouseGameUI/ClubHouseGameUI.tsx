@@ -4,7 +4,7 @@ import useGameBoardStore from "../../stores/gameBoardStore";
 import useGameStore from "../../stores/gameStore";
 import { createGameBoardArray, generateStartAndFinishIndex } from "../../utils/utilityFunctions";
 import { PREPARATION_TIME, TOTAL_TIME } from "../../constants";
-import { useShallow } from "zustand/shallow";
+import { useShallow } from "zustand/react/shallow";
 
 const ClubHouseGameUI: React.FC = () => {
     const { setGameBoardArray, setStartingIndex, setEndingIndex } = useGameBoardStore(
@@ -55,6 +55,23 @@ const ClubHouseGameUI: React.FC = () => {
             setIsTutorial(false);
         };
         window.ClubHouseGame.registerRestart(startGame);
+
+        //! TA BORT OM SDK FIXAS! SDK servar felaktigt bilder utan "./" i pathen för logo och spinner.
+        const fixImagePaths = () => {
+            const images = document.querySelectorAll('img[src^="/images/"]');
+            images.forEach((img) => {
+                const src = img.getAttribute("src");
+                if (src?.startsWith("/images/")) {
+                    img.setAttribute("src", `.${src}`);
+                }
+            });
+        };
+
+        fixImagePaths();
+        const observer = new MutationObserver(fixImagePaths);
+        observer.observe(document.body, { childList: true, subtree: true });
+
+        return () => observer.disconnect();
     }, []);
 
     return (
@@ -62,8 +79,8 @@ const ClubHouseGameUI: React.FC = () => {
             <div id="ui" className={isTutorial ? "d-none" : ""}></div>
             <div className="loader" id="loader">
                 <p className="loader-text">Startar</p>
-                <img className="loader-logo" src="/images/logo.png" />
-                <img className="spinner" src="/images/spinner.svg" />
+                <img className="loader-logo" src="./images/logo.png" />
+                <img className="spinner" src="./images/spinner.svg" />
             </div>
         </>
     );
