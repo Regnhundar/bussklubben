@@ -34,15 +34,15 @@ const Tutorial: React.FC = () => {
 
     const tutorialImages = [
         {
-            src: "/images/tutorial/gameboard.png",
+            src: "./images/tutorial/gameboard.png",
             alt: "Ett spelbräde med 25st kuber med frågetecken på.",
         },
         {
-            src: "/images/tutorial/gameboard-revealed.png",
+            src: "./images/tutorial/gameboard-revealed.png",
             alt: "Ett spelbräde vars kuber har tagits bort. Istället syns nu 25st vägbitar.",
         },
         {
-            src: "/images/tutorial/gameboard-solved.png",
+            src: "./images/tutorial/gameboard-solved.png",
             alt: "Ett spelbräde där vägbitar har lagts så att vägen leder från start till mål.",
         },
     ];
@@ -51,26 +51,26 @@ const Tutorial: React.FC = () => {
         {
             name: "kör",
             description: "Bussen åker direkt.",
-            src: "/images/abilities/play.svg",
+            src: "./images/abilities/play.svg",
             alt: "Grön triangel, en play-ikon.",
         },
 
         {
             name: "snabbt",
             description: "Bussen åker fort.",
-            src: "/images/abilities/flash.svg",
+            src: "./images/abilities/flash.svg",
             alt: "Gul blixt.",
         },
         {
             name: "sakta",
             description: "Bussen åker sakta.",
-            src: "/images/abilities/paus.svg",
+            src: "./images/abilities/paus.svg",
             alt: "Gul snigel med grönt skal.",
         },
         {
             name: "byt",
             description: "Byt in den ruta som visas. Tryck sedan på spelbrädet.",
-            src: "/images/roadTiles/upDown.svg",
+            src: "./images/roadTiles/upDown.svg",
             alt: "Lodrätt vägbit.",
         },
     ];
@@ -105,14 +105,14 @@ const Tutorial: React.FC = () => {
                 <div className="tutorial__navigation-wrapper">
                     <ConfirmationButton
                         type="proceed"
-                        icon={{ src: "/images/icons/chevron.svg", alt: "Vit pil som pekar åt vänster." }}
+                        icon={{ src: "./images/icons/chevron.svg", alt: "Vit pil som pekar åt vänster." }}
                         extraClass="confirmation-button--tutorial-navigation"
                         onClick={handlePreviousSlide}
                     />
                     <span className="tutorial__pagination-info">{`${slideNumber + 1}/${tutorialMessages.length}`}</span>
                     <ConfirmationButton
                         type="proceed"
-                        icon={{ src: "/images/icons/chevron.svg", alt: "Vit pil som pekar åt höger." }}
+                        icon={{ src: "./images/icons/chevron.svg", alt: "Vit pil som pekar åt höger." }}
                         extraClass="confirmation-button--tutorial-navigation"
                         onClick={handleNextSlide}
                     />

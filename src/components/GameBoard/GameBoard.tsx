@@ -8,7 +8,7 @@ import { gameboardVariant } from "../../motionVariants/variants";
 import Bus from "../Bus/Bus";
 import useGameStore from "../../stores/gameStore";
 import { GRID_COLUMNS, GRID_ROWS } from "../../constants";
-import { useShallow } from "zustand/shallow";
+import { useShallow } from "zustand/react/shallow";
 // import { testGameBoard1 } from '../../data/roadTiles';
 
 interface Props {

@@ -10,7 +10,7 @@ import GameLoop from "../GameLoop/GameLoop";
 import useGameStore from "../../stores/gameStore";
 import { useMemo } from "react";
 import useGameBoardStore from "../../stores/gameBoardStore";
-import { useShallow } from "zustand/shallow";
+import { useShallow } from "zustand/react/shallow";
 
 const Game: React.FC = () => {
     const { isGameOverConfirmation, setIsGameOver, setIsGameOverConfirmation, points, totalTime } = useGameStore(

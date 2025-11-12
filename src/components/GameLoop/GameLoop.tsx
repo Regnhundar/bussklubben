@@ -22,7 +22,7 @@ import {
     squareToCheck,
 } from "../../utils/utilityFunctions";
 import { validGameBoardIndices } from "../../data/gameBoard";
-import { useShallow } from "zustand/shallow";
+import { useShallow } from "zustand/react/shallow";
 
 interface Props {
     isSquareConnected: boolean;
