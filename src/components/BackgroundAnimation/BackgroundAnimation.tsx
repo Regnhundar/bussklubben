@@ -1,21 +1,27 @@
-import useGameStore from '../../stores/gameStore';
-import ConfirmationButton from '../ConfirmationButton/ConfirmationButton';
-import './backgroundAnimation.css';
+import { useShallow } from "zustand/shallow";
+import useGameStore from "../../stores/gameStore";
+import ConfirmationButton from "../ConfirmationButton/ConfirmationButton";
+import "./backgroundAnimation.css";
 
 const BackgroundAnimation: React.FC = () => {
-    const { isTutorial, setIsTutorial } = useGameStore();
+    const { isTutorial, setIsTutorial } = useGameStore(
+        useShallow((state) => ({
+            isTutorial: state.isTutorial,
+            setIsTutorial: state.setIsTutorial,
+        }))
+    );
 
     return (
         <>
             {!isTutorial && (
                 <ConfirmationButton
                     onClick={() => setIsTutorial(true)}
-                    textContent='?'
-                    type='attention'
-                    extraClass='confirmation-button--tutorial'
+                    textContent="?"
+                    type="attention"
+                    extraClass="confirmation-button--tutorial"
                 />
             )}
-            <div aria-hidden='true' className='background'>
+            <div aria-hidden="true" className="background">
                 {!isTutorial && (
                     <>
                         <div></div>

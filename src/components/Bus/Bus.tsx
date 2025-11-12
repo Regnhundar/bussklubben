@@ -1,23 +1,34 @@
-import useGameBoardStore from '../../stores/gameBoardStore';
-import useGameStore from '../../stores/gameStore';
-import { motion } from 'motion/react';
-import './bus.css';
-import { SLOW_MULTIPLIER, SQUARE_TIMER, TURBO_MULTIPLIER } from '../../constants';
-import { useMemo } from 'react';
+import useGameBoardStore from "../../stores/gameBoardStore";
+import useGameStore from "../../stores/gameStore";
+import { motion } from "motion/react";
+import "./bus.css";
+import { SLOW_MULTIPLIER, SQUARE_TIMER, TURBO_MULTIPLIER } from "../../constants";
+import { useMemo } from "react";
+import { useShallow } from "zustand/shallow";
+
 interface Props {
     x: number;
     y: number;
 
-    upOrDown: 'up' | 'down' | string;
-    leftOrRight: 'left' | 'right' | string;
-    direction: 'horizontal' | 'vertical' | string;
+    upOrDown: "up" | "down" | string;
+    leftOrRight: "left" | "right" | string;
+    direction: "horizontal" | "vertical" | string;
     squareSize: number;
 }
 
 const Bus: React.FC<Props> = ({ x, y, upOrDown, leftOrRight, direction, squareSize }) => {
-    const { isPreparationTime } = useGameStore();
+    const isPreparationTime = useGameStore((state) => state.isPreparationTime);
     const { squareSpeed, startingIndex, arrivalIndex, nextSquareToCheckIndex, gameBoardArray, isExiting } =
-        useGameBoardStore();
+        useGameBoardStore(
+            useShallow((state) => ({
+                squareSpeed: state.squareSpeed,
+                startingIndex: state.startingIndex,
+                arrivalIndex: state.arrivalIndex,
+                nextSquareToCheckIndex: state.nextSquareToCheckIndex,
+                gameBoardArray: state.gameBoardArray,
+                isExiting: state.isExiting,
+            }))
+        );
 
     const firstSquareEntrance = useMemo(() => {
         return (
@@ -34,71 +45,71 @@ const Bus: React.FC<Props> = ({ x, y, upOrDown, leftOrRight, direction, squareSi
     const offsetY = (squareSize - imageHeight) / 2;
 
     const animationSpeed =
-        squareSpeed === 'turbo'
+        squareSpeed === "turbo"
             ? SQUARE_TIMER * TURBO_MULTIPLIER
-            : squareSpeed === 'slow'
+            : squareSpeed === "slow"
             ? SQUARE_TIMER * SLOW_MULTIPLIER
             : SQUARE_TIMER;
 
     const handleStateInfo = () => {
         switch (squareSpeed) {
-            case 'turbo':
+            case "turbo":
                 return {
-                    src: './images/bus-turbo.svg',
-                    alt: 'En gul buss med gröna dekaler som åker som en oljad blixt!',
+                    src: "./images/bus-turbo.svg",
+                    alt: "En gul buss med gröna dekaler som åker som en oljad blixt!",
                 };
-            case 'slow':
+            case "slow":
                 return {
-                    src: './images/bus-slow.svg',
-                    alt: 'En gul buss som förvandlats till en gul snigel med grönt skal som sniglar sig fram riktigt långsamt.',
+                    src: "./images/bus-slow.svg",
+                    alt: "En gul buss som förvandlats till en gul snigel med grönt skal som sniglar sig fram riktigt långsamt.",
                 };
             default:
                 return {
-                    src: './images/bus.svg',
-                    alt: 'En gul buss med gröna dekaler som åker mot sin hållplats.',
+                    src: "./images/bus.svg",
+                    alt: "En gul buss med gröna dekaler som åker mot sin hållplats.",
                 };
         }
     };
 
     const horizontalVariant = {
         hidden: {
-            rotateY: leftOrRight === 'right' ? 0 : 180,
+            rotateY: leftOrRight === "right" ? 0 : 180,
             rotateZ: 0,
-            left: firstSquareEntrance ? x + (leftOrRight === 'right' ? -imageWidth : imageWidth) : x + offsetX,
+            left: firstSquareEntrance ? x + (leftOrRight === "right" ? -imageWidth : imageWidth) : x + offsetX,
             top: y + offsetY,
         },
         show: {
-            rotateY: leftOrRight === 'right' ? 0 : 180,
+            rotateY: leftOrRight === "right" ? 0 : 180,
             rotateZ: 0,
-            left: isExiting ? x + offsetX + (leftOrRight === 'right' ? imageWidth : -imageWidth) : x + offsetX,
+            left: isExiting ? x + offsetX + (leftOrRight === "right" ? imageWidth : -imageWidth) : x + offsetX,
             top: y + offsetY,
         },
     };
 
     const verticalVariant = {
         hidden: {
-            rotateY: leftOrRight === 'right' ? 0 : 180,
-            rotateZ: upOrDown === 'up' ? 90 : -90,
+            rotateY: leftOrRight === "right" ? 0 : 180,
+            rotateZ: upOrDown === "up" ? 90 : -90,
             left: x + offsetX,
-            top: firstSquareEntrance ? y + offsetY + (upOrDown === 'up' ? -imageWidth : imageWidth) : y + offsetY,
+            top: firstSquareEntrance ? y + offsetY + (upOrDown === "up" ? -imageWidth : imageWidth) : y + offsetY,
         },
         show: {
-            rotateY: leftOrRight === 'right' ? 0 : 180,
-            rotateZ: upOrDown === 'up' ? 90 : -90,
+            rotateY: leftOrRight === "right" ? 0 : 180,
+            rotateZ: upOrDown === "up" ? 90 : -90,
             left: x + offsetX,
-            top: isExiting ? y + offsetY + (upOrDown === 'up' ? imageWidth : -imageWidth) : y + offsetY,
+            top: isExiting ? y + offsetY + (upOrDown === "up" ? imageWidth : -imageWidth) : y + offsetY,
         },
     };
 
     return (
         !isPreparationTime && (
             <motion.img
-                variants={direction === 'horizontal' ? horizontalVariant : verticalVariant}
-                initial='hidden'
-                animate='show'
+                variants={direction === "horizontal" ? horizontalVariant : verticalVariant}
+                initial="hidden"
+                animate="show"
                 transition={{
-                    duration: squareSpeed !== 'turbo' ? animationSpeed / 2 : animationSpeed,
-                    ease: squareSpeed === 'turbo' ? 'linear' : [0.9, -0.55, 0.27, 1.55],
+                    duration: squareSpeed !== "turbo" ? animationSpeed / 2 : animationSpeed,
+                    ease: squareSpeed === "turbo" ? "linear" : [0.9, -0.55, 0.27, 1.55],
                 }}
                 className={`bus`}
                 src={handleStateInfo().src}
