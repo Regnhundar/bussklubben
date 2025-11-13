@@ -83,3 +83,11 @@
         scale: 1;
     }
 }
+
+/* Safari klarar inte av drop-shadow. Clippar bilden på busschaffisen. */
+@supports (-webkit-hyphens:none) {
+    .toast-message {
+        filter: none;
+        box-shadow: var(--3d-shadow), 2px 2px 4px rgba(0, 0, 0, 0.4);
+    }
+}
