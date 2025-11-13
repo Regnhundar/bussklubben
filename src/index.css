@@ -43,8 +43,8 @@
   --spacing-xxxl: 2rem;
   --spacing-xxxxl: 3rem;
 
-  --app-padding-block: var(--spacing-xxxxl) var(--spacing-s);
-  --app-padding-inline: var(--spacing-s);
+  --app-padding-block: var(--spacing-xxl) var(--spacing-s);
+  --app-padding-inline: var(--spacing-m);
   --max-width: 450px;
   --max-height: 820px;
 }
@@ -94,6 +94,12 @@ body * {
 @media screen and (max-width: 330px) {
   html {
     font-size: 14px;
+  }
+}
+
+@media screen and (max-height: 830px) {
+  .wrapper {
+    padding-inline: var(--spacing-xxl);
   }
 }
 
